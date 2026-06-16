@@ -105,7 +105,7 @@
 
     <section class="panel">
       <h2>Value vs feasibility</h2>
-      <svg id="scatter" viewBox="0 0 600 260" preserveAspectRatio="none"></svg>
+      <svg id="scatter" preserveAspectRatio="xMidYMid meet"></svg>
       <div class="hint" style="margin-top:8px">
         x = feasibility, y = base savings (log). Top-right green = quick wins.
       </div>
@@ -234,21 +234,31 @@ function render(d){
   $("#gated").innerHTML = d.gated.map(uc=>
     `<div class="g"><b>${uc.title}</b> — ${uc.canonical_description}</div>`).join("");
 
-  // 2x2
-  drawScatter(d.ranked);
+  // 2x2 (store data so we can redraw responsively on resize)
+  LAST_RANKED = d.ranked;
+  drawScatter();
 
-  // function dropdown + interview list
-  if(!$("#fn").dataset.filled){
-    $("#fn").innerHTML = d.function_options.map(f=>
-      `<option value="${f.function_id}">${f.name}</option>`).join("");
-    $("#fn").dataset.filled = "1";
-  }
+  // function dropdown (repopulate each render, preserving current selection)
+  if(d.function_options) fillFunctions(d.function_options);
   $("#ivs").innerHTML = d.interview_list.map(iv=>
     `<div class="g"><b>${iv.interview_id}</b> · ${iv.function} · ${iv.stakeholder}</div>`).join("");
 }
 
-function drawScatter(ranked){
-  const W=600,H=260,pad=34;
+function fillFunctions(opts){
+  const sel = $("#fn");
+  const cur = sel.value;
+  sel.innerHTML = opts.map(f=>`<option value="${f.function_id}">${f.name}</option>`).join("");
+  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value = cur;
+}
+
+let LAST_RANKED = [];
+function drawScatter(){
+  const ranked = LAST_RANKED;
+  const el = $("#scatter");
+  const H = 260, pad = 38;
+  const W = Math.max(320, Math.round(el.clientWidth || el.getBoundingClientRect().width || 600));
+  el.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  if(!ranked.length){ el.innerHTML = ""; return; }
   const max = Math.max(10000, ...ranked.map(u=>u.est_savings_base));
   const ly = v => { // log scale
     const lo=Math.log10(200), hi=Math.log10(max);
@@ -272,9 +282,18 @@ function drawScatter(ranked){
 }
 
 async function load(){
+  // Populate the function dropdown immediately (fast endpoint) so it is
+  // selectable before the heavier portfolio compute (slow in live mode) returns.
+  try{
+    const fr = await fetch("/api/functions");
+    if(fr.ok) fillFunctions(await fr.json());
+  }catch(e){}
   const r = await fetch("/api/portfolio");
   render(await r.json());
 }
+// keep the 2x2 matched to its container width (no stretching) on resize
+let _rT;
+window.addEventListener("resize", ()=>{ clearTimeout(_rT); _rT=setTimeout(drawScatter, 80); });
 async function addInterview(){
   const notes = $("#notes").value.trim();
   if(!notes){ toast("Paste a note first"); return; }

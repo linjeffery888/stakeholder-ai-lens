@@ -144,6 +144,11 @@ class Handler(BaseHTTPRequestHandler):
         if self.path in ("/", "/index.html"):
             html = (STATIC / "index.html").read_text()
             return self._send(200, html, "text/html; charset=utf-8")
+        if self.path == "/api/functions":
+            return self._json(200, [
+                {"function_id": fid, "name": f.name}
+                for fid, f in SESSION.functions.items()
+            ])
         if self.path == "/api/portfolio":
             try:
                 return self._json(200, SESSION.portfolio())
