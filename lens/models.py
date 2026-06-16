@@ -87,6 +87,7 @@ class UseCase:
     est_savings_base: float = 0.0
     est_savings_high: float = 0.0
     p_and_l_line: str = "labor"
+    savings_breakdown: list = field(default_factory=list)  # per-member derivation
     # Stage 7 (scoring)
     feasibility_score: float = 0.5
     confidence: float = 0.3            # low until validated; governs priority

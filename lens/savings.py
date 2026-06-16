@@ -52,17 +52,36 @@ def aggregate_and_size(
             sum(m.addressable_hours_year for m in members), 1
         )
 
-        scenario_totals = {}
-        for name, (saved, adoption) in SCENARIOS.items():
-            total = 0.0
-            for m in members:
-                fn = functions.get(m.function_id)
-                rate = fn.avg_fully_loaded_hourly if fn else 45.0
-                hours_per_task = m.time_cost_per_occurrence_min / 60.0
-                total += saved * hours_per_task * m.est_annual_volume * rate * adoption
-            scenario_totals[name] = round(total)
+        breakdown = []
+        totals = {"low": 0.0, "base": 0.0, "high": 0.0}
+        for m in members:
+            fn = functions.get(m.function_id)
+            rate = fn.avg_fully_loaded_hourly if fn else 45.0
+            hours_per_task = m.time_cost_per_occurrence_min / 60.0
+            scenarios = {}
+            for name, (saved, adoption) in SCENARIOS.items():
+                ann = saved * hours_per_task * m.est_annual_volume * rate * adoption
+                scenarios[name] = {
+                    "time_saved_fraction": saved,
+                    "adoption_rate": adoption,
+                    "annual_savings": round(ann),
+                }
+                totals[name] += ann
+            breakdown.append({
+                "pain_id": m.pain_id,
+                "title": m.title or m.workflow or m.description[:40],
+                "function": fn.name if fn else m.function_id,
+                "minutes_per_task": m.time_cost_per_occurrence_min,
+                "tasks_per_year": m.est_annual_volume,
+                "hours_per_task": round(hours_per_task, 2),
+                "addressable_hours_year": round(hours_per_task * m.est_annual_volume, 1),
+                "fully_loaded_hourly": rate,
+                "scenarios": scenarios,
+                "formula": "time_saved x (min/60) x tasks/yr x $/hr x adoption",
+            })
 
-        uc.est_savings_low = scenario_totals["low"]
-        uc.est_savings_base = scenario_totals["base"]
-        uc.est_savings_high = scenario_totals["high"]
+        uc.savings_breakdown = breakdown
+        uc.est_savings_low = round(totals["low"])
+        uc.est_savings_base = round(totals["base"])
+        uc.est_savings_high = round(totals["high"])
         uc.p_and_l_line = _pnl_line(uc)

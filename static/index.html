@@ -124,6 +124,16 @@ main{min-width:0;display:flex;flex-direction:column;gap:24px}
 .prov .pid{font-family:var(--mono);font-size:11.5px;color:var(--accent-ink);font-weight:600}
 .prov .pmeta{color:var(--muted);font-size:11.5px}
 .prov .pdesc{color:var(--ink-2);font-size:12.5px;margin-top:2px}
+.sav-cap{font-size:11.5px;color:var(--muted);margin:2px 0 8px;line-height:1.5}
+.sav-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:6px}
+.sav-tbl th,.sav-tbl td{text-align:right;padding:7px 8px;border-bottom:1px solid var(--line)}
+.sav-tbl th:first-child,.sav-tbl td:first-child{text-align:left}
+.sav-tbl th{color:var(--faint);font-weight:600;font-size:10px;letter-spacing:.4px;text-transform:uppercase}
+.sav-tbl .num{font-family:var(--mono);white-space:nowrap}
+.sav-tbl .base{color:var(--accent-ink);font-weight:600}
+.sav-tbl tfoot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0;color:var(--ink)}
+.sav-note{font-size:11.5px;color:var(--gold);background:var(--gold-soft);border:1px solid #e7d4a8;
+  padding:8px 10px;border-radius:8px;margin:6px 0 4px;line-height:1.5}
 
 /* ---------- scatter ---------- */
 #scatter{width:100%;display:block;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line)}
@@ -359,6 +369,7 @@ function render(d){
           <span>effort <b>~${uc.effort_person_weeks}wk</b></span>
           <span>savings <b>${usd(uc.est_savings_low)}</b>–<b>${usd(uc.est_savings_high)}</b></span>
         </div>
+        ${savingsTable(uc)}
         <div class="prov-h">Provenance · ${uc.provenance.length} pain point${uc.provenance.length>1?"s":""}</div>
         ${prov}
       </div>
@@ -390,6 +401,33 @@ function render(d){
 }
 
 function kpi(val,lab,sub){return `<div class="kpi"><div class="lab">${lab}</div><div class="val">${val}</div><div class="sub">${sub}</div></div>`;}
+
+function savingsTable(uc){
+  const b=uc.savings_breakdown||[]; if(!b.length) return "";
+  const s0=b[0].scenarios, pct=x=>Math.round(x*100)+"%";
+  const cap=`Annual savings = time saved × hours/task × tasks/yr × fully-loaded $/hr × adoption. `+
+    `Scenarios (saved / adoption): Low ${pct(s0.low.time_saved_fraction)} / ${pct(s0.low.adoption_rate)} · `+
+    `Base ${pct(s0.base.time_saved_fraction)} / ${pct(s0.base.adoption_rate)} · `+
+    `High ${pct(s0.high.time_saved_fraction)} / ${pct(s0.high.adoption_rate)}.`;
+  const rows=b.map(m=>`<tr>
+    <td>${esc(m.title)}<div style="color:var(--faint);font-size:11px">${m.pain_id} · ${m.function}</div></td>
+    <td class="num">${m.minutes_per_task}m</td>
+    <td class="num">${m.tasks_per_year.toLocaleString()}</td>
+    <td class="num">$${m.fully_loaded_hourly}</td>
+    <td class="num">${usd(m.scenarios.low.annual_savings)}</td>
+    <td class="num base">${usd(m.scenarios.base.annual_savings)}</td>
+    <td class="num">${usd(m.scenarios.high.annual_savings)}</td></tr>`).join("");
+  const note = uc.ai_lever==="spend analysis"
+    ? `<div class="sav-note">Figures above are review-labor savings only. The larger prize — recovered SaaS/vendor spend — scales with organization size and addressable spend, which needs an organization input.</div>`:"";
+  return `<div class="prov-h">Savings hypothesis</div><div class="sav-cap">${cap}</div>
+    <table class="sav-tbl"><thead><tr>
+      <th>Addressable pain point</th><th>min/task</th><th>tasks/yr</th><th>$/hr</th>
+      <th>Low</th><th>Base</th><th>High</th></tr></thead><tbody>${rows}</tbody>
+      <tfoot><tr><td>Total → ${uc.p_and_l_line}</td><td></td><td></td><td></td>
+        <td class="num">${usd(uc.est_savings_low)}</td>
+        <td class="num base">${usd(uc.est_savings_base)}</td>
+        <td class="num">${usd(uc.est_savings_high)}</td></tr></tfoot></table>${note}`;
+}
 function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
 
 function fillFunctions(opts){
