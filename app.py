@@ -242,13 +242,18 @@ class Session:
 
 
 CSV_COLS = [
-    ("priority_rank", "rank"), ("use_case_id", "use_case_id"), ("title", "title"),
+    ("priority_rank", "rank"), ("track", "track"),
+    ("use_case_id", "use_case_id"), ("title", "title"),
     ("category", "category"), ("ai_lever", "ai_lever"),
     ("cross_functional", "cross_functional"), ("reach", "reach_functions"),
     ("prevalence_count", "interviews_raised"), ("p_and_l_line", "p_and_l_line"),
     ("addressable_hours_year", "addressable_hours_year"),
-    ("est_savings_low", "savings_low"), ("est_savings_base", "savings_base"),
-    ("est_savings_high", "savings_high"), ("confidence", "confidence"),
+    ("est_savings_low", "gross_low"), ("est_savings_base", "gross_base"),
+    ("est_savings_high", "gross_high"),
+    ("implementation_cost", "build_cost"), ("run_cost_fraction", "run_cost_frac"),
+    ("est_net_savings_low", "net_low"), ("est_net_savings_base", "net_base"),
+    ("est_net_savings_high", "net_high"), ("payback_months", "payback_months"),
+    ("confidence", "confidence"), ("impact_score", "impact"),
     ("feasibility_score", "feasibility"), ("effort_person_weeks", "effort_weeks"),
     ("rice_score", "rice_score"), ("quadrant", "quadrant"),
     ("needs_review", "needs_review"),
@@ -300,6 +305,7 @@ class Handler(BaseHTTPRequestHandler):
         data = body.encode() if isinstance(body, str) else body
         self.send_response(code)
         self.send_header("Content-Type", ctype)
+        self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
         self.wfile.write(data)
@@ -340,6 +346,7 @@ class Handler(BaseHTTPRequestHandler):
                 fname = "lens_portfolio.json"
             self.send_response(200)
             self.send_header("Content-Type", ctype)
+            self.send_header("Cache-Control", "no-store")
             self.send_header("Content-Disposition", f'attachment; filename="{fname}"')
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()

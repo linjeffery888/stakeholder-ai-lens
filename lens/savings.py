@@ -75,8 +75,10 @@ def aggregate_and_size(
         uc.p_and_l_line = _pnl_line(uc)
 
         if _is_spend(uc):
+            uc.track = "spend"   # top-down, org-sized, less interview-grounded
             _size_spend(uc, members, functions, spend_per_uc)
         else:
+            uc.track = "labor"   # bottoms-up from interview evidence
             _size_labor(uc, members, functions)
 
 

@@ -253,7 +253,14 @@ a.dl button{width:100%}
     <main>
       <section class="card">
         <div class="hd"><h2>Prioritized portfolio</h2><span class="note" id="rankhint"></span></div>
+        <p class="hint" style="margin:0 18px 8px">Bottoms-up, interview-grounded labor opportunities. Savings shown <b>net</b> of an estimated build + run cost; ranked by a bounded RICE (impact capped 0.25&ndash;3 so no single figure dominates).</p>
         <div class="bd" id="ranked"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+      </section>
+
+      <section class="card" id="spendPanel" style="display:none">
+        <div class="hd"><h2>Top-down spend opportunities</h2><span class="note" id="spendNote"></span></div>
+        <p class="hint" style="margin:0 18px 8px">Sized from organization spend, <b>not</b> interview evidence. Treat as directional, pending a real spend/SaaS audit. Kept out of the headline number on purpose.</p>
+        <div class="bd" id="spendTrack"></div>
       </section>
 
       <section class="card">
@@ -376,65 +383,37 @@ function render(d){
   m.className="pill "+(live?"live":"mock");
   m.querySelector(".t").textContent = live? "Live · Claude" : "Mock · offline";
 
-  // KPIs
+  // KPIs — headline is the bottoms-up labor track, shown NET. Spend is separate.
   const s=d.stats,t=d.totals;
+  const L=t.labor||{base:0,low:0,high:0,net_base:0,count:0};
+  const S=t.spend||{base:0,net_base:0,count:0};
   $("#kpis").innerHTML=`
     ${kpi(s.interviews,"Interviews","across "+s.functions+" functions")}
     ${kpi(s.pain_points,"Raw pain points","the evidence layer")}
     ${kpi(s.canonical,"Use cases",s.merged_away+" duplicates merged")}
     ${kpi(s.cross_functional,"Cross-functional","horizontal opportunities")}
-    <div class="kpi feature"><div class="lab">Sized opportunity / yr</div>
-      <div class="val" title="${usd(t.base)}">${usdC(t.base)}</div>
-      <div class="sub">base case · ${usdC(t.low)}–${usdC(t.high)}</div></div>`;
+    <div class="kpi feature"><div class="lab">Net opportunity / yr</div>
+      <div class="val" title="${usd(L.net_base)}">${usdC(L.net_base)}</div>
+      <div class="sub">labor, net of build+run · gross ${usdC(L.base)}${S.count?` · +${usdC(S.net_base)} spend (top-down)`:""}</div></div>`;
 
-  // ranked
-  $("#rankhint").textContent = `${d.ranked.length} ranked${s.needs_review?` · ${s.needs_review} flagged for review`:""}`;
-  const maxRice = Math.max(1,...d.ranked.map(u=>u.rice_score));
-  $("#ranked").innerHTML = d.ranked.map((uc,i)=>{
-    const qcls = uc.quadrant==="quick win"?"qw":uc.quadrant.startsWith("roadmap")?"rm":"";
-    const qlabel = uc.quadrant==="quick win"?"quick win":uc.quadrant.startsWith("roadmap")?"big bet":uc.quadrant;
-    const chips = [
-      uc.cross_functional?`<span class="chip xf">cross-functional</span>`:"",
-      uc.needs_review?`<span class="chip rev">review</span>`:"",
-      `<span class="chip ${qcls}">${qlabel}</span>`
-    ].join("");
-    const prov = uc.provenance.map(p=>`
-      <div class="prov"><span class="pid">${p.pain_id}</span>
-        <span class="pmeta"> · ${p.interview_id} · ${p.function} · ${p.minutes}min × ${p.volume.toLocaleString()}/yr${p.match_confidence?` · merge conf ${p.match_confidence}`:""}</span>
-        <div class="pdesc">${esc(p.description)}</div></div>`).join("");
-    return `<div class="row rank-${uc.priority_rank}" onclick="this.classList.toggle('open')">
-      <div class="medal">${uc.priority_rank}</div>
-      <div class="r-main">
-        <div class="r-title">${esc(uc.title)} ${chips}</div>
-        <div class="r-sub">
-          <span>reach <b>${uc.reach}</b></span>
-          <span>conf <b>${uc.confidence}</b></span>
-          <span>${uc.affected_function_names.join(", ")}</span>
-        </div>
-      </div>
-      <div class="r-right">
-        <span class="sav">${usdC(uc.est_savings_base)}<span style="color:var(--faint);font-weight:400">/yr</span></span>
-        <span class="rice">RICE <b>${uc.rice_score}</b></span>
-        <span class="meter"><i style="width:${Math.max(4,100*uc.rice_score/maxRice)}%"></i></span>
-      </div>
-      <div class="detail" onclick="event.stopPropagation()">
-        <div class="desc">${esc(uc.canonical_description)}</div>
-        <div class="kv">
-          <span>${uc.category} / ${uc.ai_lever}</span>
-          <span>P&amp;L: <b>${uc.p_and_l_line}</b></span>
-          <span>feasibility <b>${uc.feasibility_score}</b></span>
-          <span>effort <b>~${uc.effort_person_weeks}wk</b></span>
-          <span>savings <b>${usd(uc.est_savings_low)}</b>–<b>${usd(uc.est_savings_high)}</b></span>
-        </div>
-        ${savingsTable(uc)}
-        <div class="prov-h">Provenance · ${uc.provenance.length} pain point${uc.provenance.length>1?"s":""}</div>
-        ${prov}
-      </div>
-    </div>`;
-  }).join("");
+  // split tracks: labor (interview-grounded) vs spend (top-down)
+  const labor=d.ranked.filter(u=>u.track!=="spend");
+  const spend=d.ranked.filter(u=>u.track==="spend");
 
-  // 2x2
-  LAST_RANKED=d.ranked; drawScatter();
+  $("#rankhint").textContent = `${labor.length} ranked${s.needs_review?` · ${s.needs_review} flagged for review`:""}`;
+  const maxRice = Math.max(1,...labor.map(u=>u.rice_score));
+  $("#ranked").innerHTML = labor.map(uc=>useCaseRow(uc,maxRice)).join("");
+
+  // top-down spend track (separate section, never in the headline)
+  $("#spendPanel").style.display = spend.length?"block":"none";
+  if(spend.length){
+    $("#spendNote").textContent = `${spend.length} estimate${spend.length>1?"s":""} · ${usdC(S.net_base)}/yr net · pending audit`;
+    const maxRiceS=Math.max(1,...spend.map(u=>u.rice_score));
+    $("#spendTrack").innerHTML = spend.map(uc=>useCaseRow(uc,maxRiceS)).join("");
+  }
+
+  // 2x2 — labor only, so the top-down spend outlier doesn't distort the axis
+  LAST_RANKED=labor; drawScatter();
 
   // merges
   const merged=d.ranked.concat(d.gated).filter(u=>u.provenance.length>1);
@@ -468,6 +447,55 @@ function render(d){
 }
 
 function kpi(val,lab,sub){return `<div class="kpi"><div class="lab">${lab}</div><div class="val">${val}</div><div class="sub">${sub}</div></div>`;}
+
+function paybackLabel(m){ return (!m||m<=0)?"n/a" : m>=24?"&gt;2 yr" : m+" mo"; }
+
+function useCaseRow(uc,maxRice){
+  const qcls = uc.quadrant==="quick win"?"qw":uc.quadrant.startsWith("roadmap")?"rm":"";
+  const qlabel = uc.quadrant==="quick win"?"quick win":uc.quadrant.startsWith("roadmap")?"big bet":uc.quadrant;
+  const chips = [
+    uc.cross_functional?`<span class="chip xf">cross-functional</span>`:"",
+    uc.needs_review?`<span class="chip rev">review</span>`:"",
+    `<span class="chip ${qcls}">${qlabel}</span>`
+  ].join("");
+  const prov = uc.provenance.map(p=>`
+    <div class="prov"><span class="pid">${p.pain_id}</span>
+      <span class="pmeta"> · ${p.interview_id} · ${p.function} · ${p.minutes}min × ${p.volume.toLocaleString()}/yr${p.match_confidence?` · merge conf ${p.match_confidence}`:""}</span>
+      <div class="pdesc">${esc(p.description)}</div></div>`).join("");
+  return `<div class="row rank-${uc.priority_rank}" onclick="this.classList.toggle('open')">
+    <div class="medal">${uc.priority_rank}</div>
+    <div class="r-main">
+      <div class="r-title">${esc(uc.title)} ${chips}</div>
+      <div class="r-sub">
+        <span>reach <b>${uc.reach}</b></span>
+        <span>impact <b>${uc.impact_score}</b></span>
+        <span>conf <b>${uc.confidence}</b></span>
+        <span>${uc.affected_function_names.join(", ")}</span>
+      </div>
+    </div>
+    <div class="r-right">
+      <span class="sav">${usdC(uc.est_net_savings_base)}<span style="color:var(--faint);font-weight:400">/yr net</span></span>
+      <span class="rice">RICE <b>${uc.rice_score}</b></span>
+      <span class="meter"><i style="width:${Math.max(4,100*uc.rice_score/maxRice)}%"></i></span>
+    </div>
+    <div class="detail" onclick="event.stopPropagation()">
+      <div class="desc">${esc(uc.canonical_description)}</div>
+      <div class="kv">
+        <span>${uc.category} / ${uc.ai_lever}</span>
+        <span>P&amp;L: <b>${uc.p_and_l_line}</b></span>
+        <span>feasibility <b>${uc.feasibility_score}</b></span>
+        <span>effort <b>~${uc.effort_person_weeks}wk</b></span>
+        <span>gross <b>${usd(uc.est_savings_base)}</b></span>
+        <span>net <b>${usd(uc.est_net_savings_base)}</b> (${usd(uc.est_net_savings_low)}–${usd(uc.est_net_savings_high)})</span>
+        <span>build <b>${usd(uc.implementation_cost)}</b></span>
+        <span>payback <b>${paybackLabel(uc.payback_months)}</b></span>
+      </div>
+      ${savingsTable(uc)}
+      <div class="prov-h">Provenance · ${uc.provenance.length} pain point${uc.provenance.length>1?"s":""}</div>
+      ${prov}
+    </div>
+  </div>`;
+}
 
 function savingsTableSpend(uc){
   const m=uc.savings_breakdown[0], s=m.scenarios, pct=x=>Math.round(x*100)+"%";

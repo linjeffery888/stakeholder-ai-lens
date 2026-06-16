@@ -97,6 +97,18 @@ def run_pipeline(
     ranked_view = [_use_case_view(uc, pp_by_id, fn_name) for uc in ranked]
     gated_view = [_use_case_view(uc, pp_by_id, fn_name) for uc in gated]
 
+    labor = [uc for uc in ranked if uc.track == "labor"]
+    spend = [uc for uc in ranked if uc.track == "spend"]
+
+    def _track_totals(ucs):
+        return {
+            "low": sum(uc.est_savings_low for uc in ucs),
+            "base": sum(uc.est_savings_base for uc in ucs),
+            "high": sum(uc.est_savings_high for uc in ucs),
+            "net_base": sum(uc.est_net_savings_base for uc in ucs),
+            "count": len(ucs),
+        }
+
     return {
         "mode": llm.mode,
         "org": org.to_dict(),
@@ -108,10 +120,15 @@ def run_pipeline(
         "ranked": ranked_view,
         "gated": gated_view,
         "totals": {
-            "base": sum(uc.est_savings_base for uc in ranked),
-            "low": sum(uc.est_savings_low for uc in ranked),
-            "high": sum(uc.est_savings_high for uc in ranked),
-            "quick_wins": [uc.title for uc in ranked if uc.quadrant == "quick win"],
+            # headline = bottoms-up, interview-grounded labor track (net)
+            "labor": _track_totals(labor),
+            # top-down, org-sized; kept separate, never blended into headline
+            "spend": _track_totals(spend),
+            # back-compat aggregate (gross labor)
+            "base": sum(uc.est_savings_base for uc in labor),
+            "low": sum(uc.est_savings_low for uc in labor),
+            "high": sum(uc.est_savings_high for uc in labor),
+            "quick_wins": [uc.title for uc in labor if uc.quadrant == "quick win"],
         },
         "stats": {
             "interviews": len(interviews),

@@ -16,3 +16,6 @@ out/
 
 # editor/preview local config
 .claude/
+
+# local screenshots (not part of the app)
+screenshots/

@@ -110,10 +110,21 @@ class UseCase:
     est_savings_high: float = 0.0
     p_and_l_line: str = "labor"
     savings_breakdown: list = field(default_factory=list)  # per-member derivation
+    # estimation basis: "labor" = bottoms-up from interview evidence;
+    # "spend" = top-down off org spend (less grounded, own track)
+    track: str = "labor"
+    # net economics (gross minus a transparent implementation/run estimate)
+    implementation_cost: float = 0.0   # one-time build
+    run_cost_fraction: float = 0.0     # annual run cost as a share of gross
+    est_net_savings_low: float = 0.0
+    est_net_savings_base: float = 0.0
+    est_net_savings_high: float = 0.0
+    payback_months: float = 0.0        # build cost / monthly net; 0 = n/a
     # Stage 7 (scoring)
     feasibility_score: float = 0.5
     confidence: float = 0.3            # low until validated; governs priority
     reach: int = 0
+    impact_score: float = 0.0          # bounded RICE impact tier (0.25-3)
     effort_person_weeks: float = 4.0
     rice_score: float = 0.0
     priority_rank: int = 0
