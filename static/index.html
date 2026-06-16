@@ -4,327 +4,467 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lens — AI use-case portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0e1116; --panel:#161b22; --panel2:#1c2230; --line:#2a3140;
-    --txt:#e6edf3; --muted:#8b97a7; --accent:#4da3ff; --green:#3fb950;
-    --amber:#d29922; --red:#f06b6b; --chipbg:#21283400;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--txt);
-    font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-  a{color:var(--accent)}
-  header{padding:18px 26px;border-bottom:1px solid var(--line);
-    display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  header h1{font-size:18px;margin:0;letter-spacing:.3px}
-  header .sub{color:var(--muted);font-size:13px}
-  .badge{padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;
-    border:1px solid var(--line)}
-  .badge.live{background:#13301c;color:var(--green);border-color:#1c4429}
-  .badge.mock{background:#2e2410;color:var(--amber);border-color:#4a3a14}
-  .wrap{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:20px 26px;
-    max-width:1400px;margin:0 auto}
-  @media(max-width:980px){.wrap{grid-template-columns:1fr}}
-  .kpis{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px;grid-column:1/-1}
-  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-    padding:12px 16px;min-width:120px;flex:1}
-  .kpi .n{font-size:22px;font-weight:700}
-  .kpi .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
-  .kpi.big .n{color:var(--green)}
-  section.panel{background:var(--panel);border:1px solid var(--line);
-    border-radius:12px;padding:16px 18px;margin-bottom:18px}
-  section.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;
-    color:var(--muted);margin:0 0 12px}
-  /* portfolio cards */
-  .uc{border:1px solid var(--line);border-radius:10px;padding:12px 14px;
-    margin-bottom:10px;background:var(--panel2);cursor:pointer;transition:.12s}
-  .uc:hover{border-color:#3b4658}
-  .uc .top{display:flex;align-items:center;gap:10px}
-  .rank{font-weight:700;color:var(--muted);min-width:26px}
-  .uc .title{font-weight:600;flex:1}
-  .rice{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600}
-  .q{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);
-    color:var(--muted);white-space:nowrap}
-  .q.qw{background:#13301c;color:var(--green);border-color:#1c4429}
-  .q.rm{background:#11243d;color:var(--accent);border-color:#1d3a5c}
-  .flag{font-size:11px;color:var(--amber);border:1px solid #4a3a14;background:#2e2410;
-    padding:2px 7px;border-radius:20px}
-  .xf{font-size:11px;color:#c08bff;border:1px solid #3a2a55;background:#1f1630;
-    padding:2px 7px;border-radius:20px}
-  .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12.5px;
-    margin-top:8px}
-  .meta b{color:var(--txt);font-weight:600}
-  .sav{color:var(--green);font-weight:600}
-  .detail{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
-  .uc.open .detail{display:block}
-  .prov{font-size:12.5px;color:var(--muted);margin:4px 0;padding-left:10px;
-    border-left:2px solid var(--line)}
-  .prov b{color:var(--txt)}
-  /* 2x2 */
-  svg{width:100%;height:260px;background:var(--panel2);border-radius:8px}
-  .axis-l{fill:var(--muted);font-size:11px}
-  /* input */
-  textarea,select,input{width:100%;background:#0c0f14;color:var(--txt);
-    border:1px solid var(--line);border-radius:8px;padding:9px 11px;font:inherit;
-    margin-bottom:10px}
-  textarea{min-height:120px;resize:vertical}
-  button{background:var(--accent);color:#04122a;border:0;border-radius:8px;
-    padding:10px 14px;font-weight:700;cursor:pointer;font:inherit}
-  button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
-  button:disabled{opacity:.5;cursor:wait}
-  .row{display:flex;gap:8px}
-  .hint{color:var(--muted);font-size:12px;margin-bottom:8px}
-  .gated{color:var(--muted);font-size:13px}
-  .gated .g{padding:6px 0;border-bottom:1px solid var(--line)}
-  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-    background:var(--panel);border:1px solid var(--line);padding:10px 18px;
-    border-radius:10px;opacity:0;transition:.25s;pointer-events:none}
-  .toast.show{opacity:1}
-  .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);
-    border-top-color:transparent;border-radius:50%;animation:r .7s linear infinite;
-    vertical-align:-2px}
-  @keyframes r{to{transform:rotate(360deg)}}
+:root{
+  --paper:#f4f2ec; --surface:#fffdf9; --surface-2:#faf8f2;
+  --ink:#191b18; --ink-2:#3c3f39; --muted:#7a7d74; --faint:#a4a79d;
+  --line:#e4e0d6; --line-2:#d6d2c6;
+  --accent:#0d6b57; --accent-soft:#e3f0ea; --accent-ink:#0a5544;
+  --gold:#9a6b14; --gold-soft:#f5ead1;
+  --violet:#5b46c9; --violet-soft:#eae6fa;
+  --red:#a23a32; --red-soft:#f6e2df;
+  --green:#1f7a47; --green-soft:#e0f0e4;
+  --shadow:0 1px 2px rgba(25,27,24,.04), 0 8px 24px -12px rgba(25,27,24,.12);
+  --shadow-lg:0 2px 6px rgba(25,27,24,.05), 0 24px 48px -20px rgba(25,27,24,.22);
+  --r:14px; --r-sm:10px;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --serif:"Newsreader",Georgia,serif;
+}
+*{box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{margin:0;background:var(--paper);color:var(--ink);font:450 14px/1.55 var(--sans);
+  background-image:radial-gradient(circle at 0 0, rgba(13,107,87,.025), transparent 60%);}
+::selection{background:var(--accent-soft)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(244,242,236,.82);
+  backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);}
+.topbar .in{max-width:1320px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand .mark{font-family:var(--serif);font-size:30px;line-height:1;letter-spacing:-.5px;font-weight:500}
+.brand .mark em{font-style:italic;color:var(--accent)}
+.brand .tag{color:var(--muted);font-size:12.5px;font-weight:450;border-left:1px solid var(--line-2);
+  padding-left:12px;margin-left:2px}
+.spacer{flex:1}
+.pill{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;
+  letter-spacing:.3px;padding:5px 11px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+.pill.live{color:var(--accent-ink);border-color:#bfe0d4;background:var(--accent-soft)}
+.pill.live .dot{background:var(--accent);box-shadow:0 0 0 3px rgba(13,107,87,.18);animation:pulse 2s infinite}
+.pill.mock{color:var(--gold);border-color:#e7d4a8;background:var(--gold-soft)}
+.pill.mock .dot{background:var(--gold)}
+@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(13,107,87,0)}}
+
+/* ---------- layout ---------- */
+.shell{max-width:1320px;margin:0 auto;padding:26px 28px 60px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 348px;gap:24px;margin-top:22px;align-items:start}
+@media(max-width:1040px){.grid{grid-template-columns:1fr}}
+aside{position:sticky;top:84px;display:flex;flex-direction:column;gap:18px}
+@media(max-width:1040px){aside{position:static}}
+main{min-width:0;display:flex;flex-direction:column;gap:24px}
+
+/* ---------- KPIs ---------- */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi .lab{font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.kpi .val{font-family:var(--mono);font-weight:600;font-size:26px;line-height:1.1;margin-top:9px;letter-spacing:-1px}
+.kpi .sub{font-size:11.5px;color:var(--faint);margin-top:3px}
+.kpi.feature{background:linear-gradient(160deg,#0d6b57,#0a5544);border-color:#0a5544;color:#eafaf4}
+.kpi.feature .lab{color:#a9d8c9}
+.kpi.feature .val{color:#fff}
+.kpi.feature .sub{color:#9fd0c1}
+.kpi.feature::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;
+  border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%)}
+
+/* ---------- cards ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow)}
+.card > .hd{display:flex;align-items:baseline;gap:12px;padding:16px 20px 0}
+.card > .hd h2{font-family:var(--serif);font-weight:500;font-size:19px;margin:0;letter-spacing:-.2px}
+.card > .hd .note{color:var(--muted);font-size:12.5px;margin-left:auto}
+.card > .bd{padding:14px 20px 20px}
+
+/* ---------- portfolio rows ---------- */
+.row{display:grid;grid-template-columns:38px 1fr auto;gap:14px;align-items:center;
+  padding:14px 14px;border:1px solid transparent;border-radius:var(--r-sm);cursor:pointer;
+  transition:background .14s,border-color .14s,transform .14s}
+.row + .row{border-top:1px solid var(--line)}
+.row:hover{background:var(--surface-2);border-color:var(--line);transform:translateX(2px)}
+.row.open{background:var(--surface-2);border-color:var(--line-2)}
+.medal{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  font-family:var(--mono);font-weight:600;font-size:13px;color:var(--muted);
+  background:var(--surface-2);border:1px solid var(--line)}
+.row:nth-child(1) .medal,.rank-1 .medal{background:var(--accent);color:#fff;border-color:var(--accent-ink)}
+.r-main{min-width:0}
+.r-title{font-weight:600;font-size:14.5px;letter-spacing:-.1px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.r-sub{color:var(--muted);font-size:12px;margin-top:4px;display:flex;gap:14px;flex-wrap:wrap}
+.r-sub b{color:var(--ink-2);font-weight:600}
+.chip{font-size:10.5px;font-weight:600;letter-spacing:.2px;padding:2px 8px;border-radius:999px;
+  border:1px solid var(--line-2);color:var(--muted);background:var(--surface-2);white-space:nowrap}
+.chip.qw{color:var(--green);background:var(--green-soft);border-color:#bfe0c9}
+.chip.rm{color:var(--accent-ink);background:var(--accent-soft);border-color:#bfe0d4}
+.chip.xf{color:var(--violet);background:var(--violet-soft);border-color:#cfc6f0}
+.chip.rev{color:var(--gold);background:var(--gold-soft);border-color:#e7d4a8}
+.r-right{text-align:right;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.sav{font-family:var(--mono);font-weight:600;font-size:16px;letter-spacing:-.5px}
+.rice{font-size:11px;color:var(--muted)}
+.rice b{font-family:var(--mono);color:var(--ink-2);font-weight:600}
+/* meters */
+.meter{height:4px;width:96px;border-radius:3px;background:var(--line);overflow:hidden}
+.meter > i{display:block;height:100%;border-radius:3px;background:var(--accent)}
+/* detail */
+.detail{grid-column:1/-1;display:none;padding:4px 6px 6px}
+.row.open .detail{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}}
+.detail .desc{color:var(--ink-2);font-size:13px;margin:8px 0 10px}
+.detail .kv{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-bottom:12px}
+.detail .kv b{color:var(--ink-2)}
+.prov-h{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);margin-bottom:8px;font-weight:600}
+.prov{position:relative;padding:8px 0 8px 18px;border-left:2px solid var(--line-2);margin-left:4px}
+.prov::before{content:"";position:absolute;left:-5px;top:13px;width:8px;height:8px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--accent)}
+.prov .pid{font-family:var(--mono);font-size:11.5px;color:var(--accent-ink);font-weight:600}
+.prov .pmeta{color:var(--muted);font-size:11.5px}
+.prov .pdesc{color:var(--ink-2);font-size:12.5px;margin-top:2px}
+
+/* ---------- scatter ---------- */
+#scatter{width:100%;display:block;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:10px}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:0}
+.legend .ring{box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px var(--violet);background:transparent}
+
+/* ---------- merges / gated ---------- */
+.merge{display:flex;align-items:center;gap:12px;padding:11px 0}
+.merge + .merge{border-top:1px solid var(--line)}
+.merge .links{color:var(--muted);font-size:12px}
+.merge .links code{font-family:var(--mono);color:var(--ink-2);background:var(--surface-2);
+  padding:1px 5px;border-radius:5px;border:1px solid var(--line)}
+.gated .g{padding:9px 0;font-size:13px;color:var(--ink-2)}
+.gated .g + .g{border-top:1px solid var(--line)}
+
+/* ---------- right rail ---------- */
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin-bottom:6px}
+input,select,textarea{width:100%;background:var(--surface-2);color:var(--ink);
+  border:1px solid var(--line-2);border-radius:var(--r-sm);padding:10px 12px;font:inherit;
+  transition:border-color .14s,box-shadow .14s}
+input:focus,select,textarea:focus{outline:0}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+textarea{min-height:128px;resize:vertical;line-height:1.5}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%237a7d74' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;font-weight:600;border-radius:var(--r-sm);padding:10px 15px;cursor:pointer;
+  border:1px solid transparent;transition:transform .1s,background .14s,box-shadow .14s}
+button:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 1px 2px rgba(10,85,68,.3)}
+.btn-primary:hover{background:var(--accent-ink)}
+.btn-ghost{background:var(--surface);color:var(--ink-2);border-color:var(--line-2)}
+.btn-ghost:hover{background:var(--surface-2);border-color:var(--muted)}
+button:disabled{opacity:.55;cursor:wait}
+.hint{color:var(--muted);font-size:12px;margin:-2px 0 12px;line-height:1.45}
+.iv{display:flex;align-items:center;gap:9px;padding:8px 0;font-size:12.5px;color:var(--ink-2)}
+.iv + .iv{border-top:1px solid var(--line)}
+.iv .id{font-family:var(--mono);font-size:11px;color:var(--accent-ink);background:var(--accent-soft);
+  padding:2px 7px;border-radius:6px;font-weight:600}
+.iv .fn{color:var(--muted)}
+a.dl{flex:1;text-decoration:none}
+a.dl button{width:100%}
+
+/* ---------- spinner / toast / skeleton ---------- */
+.spin{display:inline-block;width:13px;height:13px;border:2px solid currentColor;border-top-color:transparent;
+  border-radius:50%;animation:r .7s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes r{to{transform:rotate(360deg)}}
+#busy{position:fixed;inset:0;background:rgba(244,242,236,.55);backdrop-filter:blur(2px);
+  display:none;place-items:center;z-index:60}
+#busy.show{display:grid}
+#busy .box{background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r);
+  padding:16px 22px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:12px;font-weight:500}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:13px;font-weight:500;
+  opacity:0;transition:.25s;pointer-events:none;z-index:70;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.skel{height:64px;border-radius:var(--r-sm);background:linear-gradient(90deg,var(--surface-2),var(--line),var(--surface-2));
+  background-size:200% 100%;animation:sh 1.3s infinite;margin-bottom:10px}
+@keyframes sh{to{background-position:-200% 0}}
 </style>
 </head>
 <body>
-<header>
-  <h1>Lens</h1>
-  <span class="sub">AI use-case discovery &amp; prioritization</span>
-  <span id="mode" class="badge mock">…</span>
-  <span class="sub" id="modehint"></span>
-</header>
 
-<div class="wrap">
-  <div class="kpis" id="kpis"></div>
+<div class="topbar"><div class="in">
+  <div class="brand">
+    <span class="mark">Lens<em>.</em></span>
+    <span class="tag">AI use-case discovery &amp; prioritization</span>
+  </div>
+  <span class="spacer"></span>
+  <span id="mode" class="pill mock"><span class="dot"></span><span class="t">—</span></span>
+</div></div>
 
-  <main>
-    <section class="panel">
-      <h2>Prioritized portfolio <span class="sub" id="rankhint"></span></h2>
-      <div id="ranked"></div>
-    </section>
+<div class="shell">
+  <div class="eyebrow">Portfolio overview</div>
+  <div class="kpis" id="kpis">
+    <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+    <div class="skel"></div><div class="skel"></div>
+  </div>
 
-    <section class="panel">
-      <h2>Value vs feasibility</h2>
-      <svg id="scatter" preserveAspectRatio="xMidYMid meet"></svg>
-      <div class="hint" style="margin-top:8px">
-        x = feasibility, y = base savings (log). Top-right green = quick wins.
-      </div>
-    </section>
+  <div class="grid">
+    <main>
+      <section class="card">
+        <div class="hd"><h2>Prioritized portfolio</h2><span class="note" id="rankhint"></span></div>
+        <div class="bd" id="ranked"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+      </section>
 
-    <section class="panel" id="mergesPanel">
-      <h2>Overlap resolved (merges)</h2>
-      <div id="merges"></div>
-    </section>
+      <section class="card">
+        <div class="hd"><h2>Value &times; feasibility</h2><span class="note">click a dot's tooltip for detail</span></div>
+        <div class="bd">
+          <svg id="scatter" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="legend">
+            <span><i style="background:var(--green)"></i>Quick win</span>
+            <span><i style="background:var(--accent)"></i>Big bet</span>
+            <span><i style="background:var(--faint)"></i>Lower priority</span>
+            <span><i class="ring"></i>Cross-functional</span>
+          </div>
+        </div>
+      </section>
 
-    <section class="panel" id="gatedPanel" style="display:none">
-      <h2>Gated out (no savings hypothesis)</h2>
-      <div class="gated" id="gated"></div>
-    </section>
-  </main>
+      <section class="card" id="mergesPanel">
+        <div class="hd"><h2>Overlap resolved</h2><span class="note">duplicate pain points merged into one use case</span></div>
+        <div class="bd" id="merges"></div>
+      </section>
 
-  <aside>
-    <section class="panel">
-      <h2>Add an interview</h2>
-      <div class="hint">Paste a messy interview note. It extracts, de-duplicates
-        against the existing use cases, and re-ranks the whole portfolio.</div>
-      <select id="fn"></select>
-      <input id="who" placeholder="Stakeholder name (optional)">
-      <textarea id="notes" placeholder="e.g. The team spends about 20 minutes per request manually pulling figures from three systems to build a status report, around 2,000 times a year..."></textarea>
-      <div class="row">
-        <button id="add">Add &amp; re-run</button>
-        <button id="example" class="ghost">Load example</button>
-        <button id="reset" class="ghost">Reset demo</button>
-      </div>
-    </section>
+      <section class="card" id="gatedPanel" style="display:none">
+        <div class="hd"><h2>Gated out</h2><span class="note">no savings hypothesis &middot; cannot be ranked</span></div>
+        <div class="bd gated" id="gated"></div>
+      </section>
+    </main>
 
-    <section class="panel">
-      <h2>Export</h2>
-      <div class="hint">Take the current portfolio away as data.</div>
-      <div class="row">
-        <a href="/api/export.csv" download><button>Download CSV</button></a>
-        <a href="/api/export.json" download><button class="ghost">Download JSON</button></a>
-      </div>
-    </section>
+    <aside>
+      <section class="card">
+        <div class="hd"><h2>Add an interview</h2></div>
+        <div class="bd">
+          <p class="hint">Paste a messy interview note. Lens extracts the pain points, de-duplicates them against the existing use cases, and re-ranks the portfolio.</p>
+          <div class="field"><label>Business function</label><select id="fn"></select></div>
+          <div class="field"><label>Stakeholder (optional)</label><input id="who" placeholder="e.g. Dana Cole, FP&amp;A"></div>
+          <div class="field"><label>Interview note</label>
+            <textarea id="notes" placeholder="The team spends about 20 minutes per request manually pulling figures from three systems to build a status report, around 2,000 times a year..."></textarea></div>
+          <div class="btns">
+            <button class="btn-primary" id="add">Add &amp; re-run</button>
+            <button class="btn-ghost" id="example">Load example</button>
+            <button class="btn-ghost" id="reset">Reset</button>
+          </div>
+        </div>
+      </section>
 
-    <section class="panel">
-      <h2>Interviews in model</h2>
-      <div id="ivs" class="gated"></div>
-    </section>
-  </aside>
+      <section class="card">
+        <div class="hd"><h2>Export</h2></div>
+        <div class="bd">
+          <p class="hint">Hand the portfolio to finance as data.</p>
+          <div class="btns">
+            <a class="dl" href="/api/export.csv" download><button class="btn-ghost">Download CSV</button></a>
+            <a class="dl" href="/api/export.json" download><button class="btn-ghost">JSON</button></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="hd"><h2>Interviews in model</h2><span class="note" id="ivcount"></span></div>
+        <div class="bd" id="ivs"></div>
+      </section>
+    </aside>
+  </div>
 </div>
 
+<div id="busy"><div class="box"><span class="spin"></span><span id="busytxt">Running Claude extraction…</span></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
 const $ = s => document.querySelector(s);
-const fmt = n => "$" + Math.round(n).toLocaleString();
+const usd = n => "$" + Math.round(n).toLocaleString();
+const usdC = n => { // compact
+  if(n>=1e6) return "$"+(n/1e6).toFixed(1)+"M";
+  if(n>=1e3) return "$"+(n/1e3).toFixed(n>=1e4?0:1)+"K";
+  return "$"+Math.round(n);
+};
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2400);}
+function busy(on,txt){const b=$("#busy");if(txt)$("#busytxt").textContent=txt;b.classList.toggle("show",on);}
 
-function toast(msg){
-  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"), 2200);
-}
+let LAST_RANKED=[];
 
 function render(d){
-  // mode
-  const m = $("#mode"); m.textContent = d.mode.toUpperCase();
-  m.className = "badge " + (d.mode==="live"?"live":"mock");
-  $("#modehint").textContent = d.mode==="mock"
-    ? "deterministic fixtures + heuristic" : "Claude extraction + adjudication";
+  // mode pill
+  const m=$("#mode"); const live=d.mode==="live";
+  m.className="pill "+(live?"live":"mock");
+  m.querySelector(".t").textContent = live? "Live · Claude" : "Mock · offline";
 
-  // kpis
-  const s = d.stats, t = d.totals;
-  $("#kpis").innerHTML = [
-    ["Interviews", s.interviews], ["Raw pain points", s.pain_points],
-    ["Canonical use cases", s.canonical], ["Cross-functional", s.cross_functional],
-  ].map(([l,n])=>`<div class="kpi"><div class="n">${n}</div><div class="l">${l}</div></div>`).join("")
-   + `<div class="kpi big"><div class="n">${fmt(t.base)}</div><div class="l">Sized opportunity / yr</div></div>`;
+  // KPIs
+  const s=d.stats,t=d.totals;
+  $("#kpis").innerHTML=`
+    ${kpi(s.interviews,"Interviews","across "+s.functions+" functions")}
+    ${kpi(s.pain_points,"Raw pain points","the evidence layer")}
+    ${kpi(s.canonical,"Use cases",s.merged_away+" duplicates merged")}
+    ${kpi(s.cross_functional,"Cross-functional","horizontal opportunities")}
+    <div class="kpi feature"><div class="lab">Sized opportunity / yr</div>
+      <div class="val" title="${usd(t.base)}">${usdC(t.base)}</div>
+      <div class="sub">base case · ${usdC(t.low)}–${usdC(t.high)}</div></div>`;
 
-  $("#rankhint").textContent = ` — ${d.ranked.length} ranked, click to expand`;
-
-  // ranked cards
-  $("#ranked").innerHTML = d.ranked.map(uc=>{
-    const qcls = uc.quadrant==="quick win" ? "qw"
-      : uc.quadrant.startsWith("roadmap") ? "rm" : "";
-    const flag = uc.needs_review ? `<span class="flag">review</span>` : "";
-    const xf = uc.cross_functional ? `<span class="xf">cross-function</span>` : "";
-    const prov = uc.provenance.map(p=>
-      `<div class="prov"><b>${p.pain_id}</b> · ${p.interview_id} · ${p.function}
-        — ${p.minutes}min × ${p.volume.toLocaleString()}/yr
-        ${p.match_confidence?`<span style="color:var(--muted)">(merge conf ${p.match_confidence})</span>`:""}
-        <br>${p.description}</div>`).join("");
-    return `<div class="uc" onclick="this.classList.toggle('open')">
-      <div class="top">
-        <span class="rank">#${uc.priority_rank}</span>
-        <span class="title">${uc.title}</span>
-        ${xf}${flag}
-        <span class="q ${qcls}">${uc.quadrant}</span>
-        <span class="rice">RICE ${uc.rice_score}</span>
+  // ranked
+  $("#rankhint").textContent = `${d.ranked.length} ranked${s.needs_review?` · ${s.needs_review} flagged for review`:""}`;
+  const maxRice = Math.max(1,...d.ranked.map(u=>u.rice_score));
+  $("#ranked").innerHTML = d.ranked.map((uc,i)=>{
+    const qcls = uc.quadrant==="quick win"?"qw":uc.quadrant.startsWith("roadmap")?"rm":"";
+    const qlabel = uc.quadrant==="quick win"?"quick win":uc.quadrant.startsWith("roadmap")?"big bet":uc.quadrant;
+    const chips = [
+      uc.cross_functional?`<span class="chip xf">cross-functional</span>`:"",
+      uc.needs_review?`<span class="chip rev">review</span>`:"",
+      `<span class="chip ${qcls}">${qlabel}</span>`
+    ].join("");
+    const prov = uc.provenance.map(p=>`
+      <div class="prov"><span class="pid">${p.pain_id}</span>
+        <span class="pmeta"> · ${p.interview_id} · ${p.function} · ${p.minutes}min × ${p.volume.toLocaleString()}/yr${p.match_confidence?` · merge conf ${p.match_confidence}`:""}</span>
+        <div class="pdesc">${esc(p.description)}</div></div>`).join("");
+    return `<div class="row rank-${uc.priority_rank}" onclick="this.classList.toggle('open')">
+      <div class="medal">${uc.priority_rank}</div>
+      <div class="r-main">
+        <div class="r-title">${esc(uc.title)} ${chips}</div>
+        <div class="r-sub">
+          <span>reach <b>${uc.reach}</b></span>
+          <span>conf <b>${uc.confidence}</b></span>
+          <span>${uc.affected_function_names.join(", ")}</span>
+        </div>
       </div>
-      <div class="meta">
-        <span><b class="sav">${fmt(uc.est_savings_base)}</b>/yr <span style="color:var(--muted)">(${fmt(uc.est_savings_low)}–${fmt(uc.est_savings_high)})</span></span>
-        <span>reach <b>${uc.reach}</b> fn</span>
-        <span>conf <b>${uc.confidence}</b></span>
-        <span>feasibility <b>${uc.feasibility_score}</b></span>
-        <span>~<b>${uc.effort_person_weeks}</b>wk</span>
-        <span>P&amp;L: <b>${uc.p_and_l_line}</b></span>
+      <div class="r-right">
+        <span class="sav">${usdC(uc.est_savings_base)}<span style="color:var(--faint);font-weight:400">/yr</span></span>
+        <span class="rice">RICE <b>${uc.rice_score}</b></span>
+        <span class="meter"><i style="width:${Math.max(4,100*uc.rice_score/maxRice)}%"></i></span>
       </div>
-      <div class="detail">
-        <div style="margin-bottom:6px">${uc.canonical_description}</div>
-        <div style="color:var(--muted);font-size:12px;margin-bottom:6px">
-          ${uc.category} / ${uc.ai_lever} · functions: ${uc.affected_function_names.join(", ")}</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Provenance (${uc.provenance.length} pain point${uc.provenance.length>1?"s":""}):</div>
+      <div class="detail" onclick="event.stopPropagation()">
+        <div class="desc">${esc(uc.canonical_description)}</div>
+        <div class="kv">
+          <span>${uc.category} / ${uc.ai_lever}</span>
+          <span>P&amp;L: <b>${uc.p_and_l_line}</b></span>
+          <span>feasibility <b>${uc.feasibility_score}</b></span>
+          <span>effort <b>~${uc.effort_person_weeks}wk</b></span>
+          <span>savings <b>${usd(uc.est_savings_low)}</b>–<b>${usd(uc.est_savings_high)}</b></span>
+        </div>
+        <div class="prov-h">Provenance · ${uc.provenance.length} pain point${uc.provenance.length>1?"s":""}</div>
         ${prov}
       </div>
     </div>`;
   }).join("");
 
+  // 2x2
+  LAST_RANKED=d.ranked; drawScatter();
+
   // merges
-  const merged = d.ranked.concat(d.gated).filter(u=>u.provenance.length>1);
-  $("#mergesPanel").style.display = merged.length? "block":"none";
+  const merged=d.ranked.concat(d.gated).filter(u=>u.provenance.length>1);
+  $("#mergesPanel").style.display = merged.length?"block":"none";
   $("#merges").innerHTML = merged.map(uc=>{
-    const tag = uc.cross_functional? `<span class="xf">cross-function</span>`:`<span class="q">same-function</span>`;
-    return `<div style="padding:7px 0;border-bottom:1px solid var(--line)">
-      ${tag} <b>${uc.title}</b><br>
-      <span style="color:var(--muted);font-size:12.5px">
-        ${uc.provenance.map(p=>p.pain_id+" ("+p.function+")").join("  +  ")}</span></div>`;
-  }).join("") || `<span class="gated">No overlaps merged yet.</span>`;
+    const tag = uc.cross_functional?`<span class="chip xf">cross-functional</span>`:`<span class="chip">same function</span>`;
+    return `<div class="merge">${tag}
+      <div><div style="font-weight:600">${esc(uc.title)}</div>
+      <div class="links">${uc.provenance.map(p=>`<code>${p.pain_id}</code> ${p.function}`).join(" &nbsp;+&nbsp; ")}</div></div></div>`;
+  }).join("");
 
   // gated
-  $("#gatedPanel").style.display = d.gated.length? "block":"none";
-  $("#gated").innerHTML = d.gated.map(uc=>
-    `<div class="g"><b>${uc.title}</b> — ${uc.canonical_description}</div>`).join("");
+  $("#gatedPanel").style.display = d.gated.length?"block":"none";
+  $("#gated").innerHTML = d.gated.map(uc=>`<div class="g"><b>${esc(uc.title)}</b> — ${esc(uc.canonical_description)}</div>`).join("");
 
-  // 2x2 (store data so we can redraw responsively on resize)
-  LAST_RANKED = d.ranked;
-  drawScatter();
-
-  // function dropdown (repopulate each render, preserving current selection)
+  // rail
   if(d.function_options) fillFunctions(d.function_options);
+  $("#ivcount").textContent = d.interview_list.length;
   $("#ivs").innerHTML = d.interview_list.map(iv=>
-    `<div class="g"><b>${iv.interview_id}</b> · ${iv.function} · ${iv.stakeholder}</div>`).join("");
+    `<div class="iv"><span class="id">${iv.interview_id}</span><span>${esc(iv.stakeholder)}</span><span class="fn">· ${iv.function}</span></div>`).join("");
 }
+
+function kpi(val,lab,sub){return `<div class="kpi"><div class="lab">${lab}</div><div class="val">${val}</div><div class="sub">${sub}</div></div>`;}
+function esc(s){return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
 
 function fillFunctions(opts){
-  const sel = $("#fn");
-  const cur = sel.value;
-  sel.innerHTML = opts.map(f=>`<option value="${f.function_id}">${f.name}</option>`).join("");
-  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value = cur;
+  const sel=$("#fn"),cur=sel.value;
+  sel.innerHTML=opts.map(f=>`<option value="${f.function_id}">${f.name}</option>`).join("");
+  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value=cur;
 }
 
-let LAST_RANKED = [];
 function drawScatter(){
-  const ranked = LAST_RANKED;
-  const el = $("#scatter");
-  const H = 260, pad = 38;
-  const W = Math.max(320, Math.round(el.clientWidth || el.getBoundingClientRect().width || 600));
-  el.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  if(!ranked.length){ el.innerHTML = ""; return; }
-  const max = Math.max(10000, ...ranked.map(u=>u.est_savings_base));
-  const ly = v => { // log scale
-    const lo=Math.log10(200), hi=Math.log10(max);
-    const f=(Math.log10(Math.max(200,v))-lo)/(hi-lo);
-    return H-pad - f*(H-2*pad);
-  };
-  const lx = f => pad + f*(W-2*pad);
-  let svg = `<line x1="${lx(0.6)}" y1="${pad}" x2="${lx(0.6)}" y2="${H-pad}" stroke="#2a3140" stroke-dasharray="4"/>`;
-  const midY=(pad+(H-pad))/2;
-  svg += `<line x1="${pad}" y1="${midY}" x2="${W-pad}" y2="${midY}" stroke="#2a3140" stroke-dasharray="4"/>`;
-  svg += `<text class="axis-l" x="${W-pad}" y="${H-10}" text-anchor="end">feasibility →</text>`;
-  svg += `<text class="axis-l" x="6" y="${pad+4}" >savings ↑</text>`;
-  svg += `<text class="axis-l" x="${W-pad-2}" y="${pad+12}" text-anchor="end" fill="#3fb950">quick wins</text>`;
+  const el=$("#scatter"), ranked=LAST_RANKED;
+  const H=300, padL=46, padR=20, padT=24, padB=40;
+  const W=Math.max(360,Math.round(el.clientWidth||el.getBoundingClientRect().width||640));
+  el.setAttribute("viewBox",`0 0 ${W} ${H}`); el.setAttribute("height",H);
+  if(!ranked.length){el.innerHTML="";return;}
+  const max=Math.max(10000,...ranked.map(u=>u.est_savings_base));
+  const sav=[...ranked.map(u=>u.est_savings_base)].sort((a,b)=>a-b);
+  const median=sav[Math.floor(sav.length/2)]||0;
+  const x=f=>padL+f*(W-padL-padR);
+  const lo=Math.log10(200),hi=Math.log10(max);
+  const y=v=>{const f=(Math.log10(Math.max(200,v))-lo)/(hi-lo);return (H-padB)-f*(H-padB-padT);};
+  const xMid=x(0.6), yMid=y(median);
+  let g="";
+  // quadrant shading (top-right = quick wins)
+  g+=`<rect x="${xMid}" y="${padT}" width="${W-padR-xMid}" height="${yMid-padT}" fill="#1f7a47" opacity="0.06"/>`;
+  g+=`<rect x="${padL}" y="${padT}" width="${xMid-padL}" height="${yMid-padT}" fill="#0d6b57" opacity="0.04"/>`;
+  // gridlines
+  g+=`<line x1="${xMid}" y1="${padT}" x2="${xMid}" y2="${H-padB}" stroke="#d6d2c6" stroke-dasharray="3 4"/>`;
+  g+=`<line x1="${padL}" y1="${yMid}" x2="${W-padR}" y2="${yMid}" stroke="#d6d2c6" stroke-dasharray="3 4"/>`;
+  // frame
+  g+=`<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#c9c5b9"/>`;
+  g+=`<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#c9c5b9"/>`;
+  // quadrant labels
+  const ql=(tx,xx,yy,anc,col)=>`<text x="${xx}" y="${yy}" text-anchor="${anc}" fill="${col}" font-size="10.5" font-weight="600" letter-spacing="0.6" style="text-transform:uppercase;font-family:var(--sans)">${tx}</text>`;
+  g+=ql("Quick wins",W-padR-6,padT+14,"end","#1f7a47");
+  g+=ql("Big bets",padL+6,padT+14,"start","#0d6b57");
+  g+=ql("Fill-ins",W-padR-6,H-padB-8,"end","#a4a79d");
+  g+=ql("Deprioritize",padL+6,H-padB-8,"start","#a4a79d");
+  // axis labels
+  g+=`<text x="${(padL+W-padR)/2}" y="${H-8}" text-anchor="middle" fill="#7a7d74" font-size="11" font-family="Inter, sans-serif">Feasibility →</text>`;
+  g+=`<text x="14" y="${(padT+H-padB)/2}" text-anchor="middle" fill="#7a7d74" font-size="11" font-family="Inter, sans-serif" transform="rotate(-90 14 ${(padT+H-padB)/2})">Annual savings (log) ↑</text>`;
+  // dots
   ranked.forEach(u=>{
-    const x=lx(u.feasibility_score), y=ly(u.est_savings_base);
-    const c = u.quadrant==="quick win" ? "#3fb950" : u.quadrant.startsWith("roadmap")?"#4da3ff":"#8b97a7";
-    const r = u.cross_functional? 8:5;
-    svg += `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" fill-opacity="0.8" stroke="#0e1116"><title>${u.title} — ${fmt(u.est_savings_base)}/yr, feas ${u.feasibility_score}</title></circle>`;
+    const cx=x(u.feasibility_score), cy=y(u.est_savings_base);
+    const col=u.quadrant==="quick win"?"#1f7a47":u.quadrant.startsWith("roadmap")?"#0d6b57":"#a4a79d";
+    const r=u.cross_functional?7:5;
+    g+=`<circle cx="${cx}" cy="${cy}" r="${r+ (u.cross_functional?3:0)}" fill="${col}" opacity="${u.cross_functional?0.16:0}"/>`;
+    g+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${col}" stroke="#fffdf9" stroke-width="1.5">
+        <title>${esc(u.title)} — ${usd(u.est_savings_base)}/yr · feasibility ${u.feasibility_score} · RICE ${u.rice_score}</title></circle>`;
   });
-  $("#scatter").innerHTML = svg;
+  el.innerHTML=g;
 }
 
 async function load(){
-  // Populate the function dropdown immediately (fast endpoint) so it is
-  // selectable before the heavier portfolio compute (slow in live mode) returns.
-  try{
-    const fr = await fetch("/api/functions");
-    if(fr.ok) fillFunctions(await fr.json());
-  }catch(e){}
-  const r = await fetch("/api/portfolio");
-  render(await r.json());
+  busy(true,"Loading portfolio…");
+  try{ const fr=await fetch("/api/functions"); if(fr.ok) fillFunctions(await fr.json()); }catch(e){}
+  try{ const r=await fetch("/api/portfolio"); render(await r.json()); }
+  catch(e){ toast("Failed to load"); }
+  busy(false);
 }
-// keep the 2x2 matched to its container width (no stretching) on resize
-let _rT;
-window.addEventListener("resize", ()=>{ clearTimeout(_rT); _rT=setTimeout(drawScatter, 80); });
+let _rT; window.addEventListener("resize",()=>{clearTimeout(_rT);_rT=setTimeout(drawScatter,80);});
+
 async function addInterview(){
-  const notes = $("#notes").value.trim();
-  if(!notes){ toast("Paste a note first"); return; }
-  const btn=$("#add"); btn.disabled=true; const orig=btn.innerHTML;
-  btn.innerHTML='<span class="spin"></span> running…';
+  const notes=$("#notes").value.trim();
+  if(!notes){toast("Paste a note first");return;}
+  const btn=$("#add"); btn.disabled=true; const o=btn.innerHTML; btn.innerHTML='<span class="spin"></span>running';
+  busy(true,"Extracting, de-duplicating, re-ranking…");
   try{
-    const r = await fetch("/api/interview",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({function_id:$("#fn").value, raw_notes:notes, stakeholder:$("#who").value})});
-    const d = await r.json();
-    if(d.error){ toast("Error: "+d.error); }
-    else{ render(d); $("#notes").value=""; $("#who").value="";
-      toast("Added "+d.added_interview_id+" — portfolio re-ranked"); }
-  }catch(e){ toast("Request failed"); }
-  btn.disabled=false; btn.innerHTML=orig;
+    const r=await fetch("/api/interview",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({function_id:$("#fn").value,raw_notes:notes,stakeholder:$("#who").value})});
+    const d=await r.json();
+    if(d.error) toast("Error: "+d.error);
+    else{render(d);$("#notes").value="";$("#who").value="";toast("Added "+d.added_interview_id+" · portfolio re-ranked");}
+  }catch(e){toast("Request failed");}
+  busy(false); btn.disabled=false; btn.innerHTML=o;
 }
 async function reset(){
-  const btn=$("#reset"); btn.disabled=true;
-  const r = await fetch("/api/reset",{method:"POST"}); render(await r.json());
-  btn.disabled=false; toast("Reset to base interviews");
+  busy(true,"Resetting…");
+  try{const r=await fetch("/api/reset",{method:"POST"});render(await r.json());toast("Reset to base interviews");}
+  catch(e){toast("Reset failed");}
+  busy(false);
 }
-const EXAMPLE = "Every week our analysts manually compile a status summary for leadership by pulling figures out of three different systems and stitching them together by hand. It takes about 35 minutes per report and we produce roughly 1,500 of these a year. It is repetitive and error-prone.";
+
+const EXAMPLE="Every week our analysts manually compile a status summary for leadership by pulling figures out of three different systems and stitching them together by hand. It takes about 35 minutes per report and we produce roughly 1,500 of these a year. It is repetitive and error-prone.";
 $("#example").onclick=()=>{
-  const fn=$("#fn"); // pick Finance if present, else first
-  const fin=[...fn.options].find(o=>/finance/i.test(o.text));
-  if(fin) fn.value=fin.value;
-  $("#who").value="Example Analyst";
-  $("#notes").value=EXAMPLE;
-  toast("Example loaded — it overlaps the status-summarization use case");
+  const fn=$("#fn"); const fin=[...fn.options].find(o=>/finance/i.test(o.text)); if(fin) fn.value=fin.value;
+  $("#who").value="Example Analyst"; $("#notes").value=EXAMPLE;
+  $("#notes").focus(); toast("Example loaded — it overlaps the status-summarization use case");
 };
-$("#add").onclick=addInterview;
-$("#reset").onclick=reset;
+$("#add").onclick=addInterview; $("#reset").onclick=reset;
 load();
 </script>
 </body>

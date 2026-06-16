@@ -13,3 +13,6 @@ out/
 # never commit secrets
 .env
 *.key
+
+# editor/preview local config
+.claude/
