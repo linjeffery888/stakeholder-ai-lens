@@ -52,6 +52,9 @@ class Session:
         self.transcripts = transcripts
         self.load_cache = load_cache
         self.lock = threading.Lock()
+        self._plock = threading.Lock()
+        self.progress = {"active": False, "stage": "idle", "done": 0, "total": 0,
+                         "error": None, "summary": None}
         self.reset()
 
     def reset(self):
@@ -64,6 +67,7 @@ class Session:
             else:
                 self.interviews = load_base_interviews()
             self.pp_cache = {}
+            self.dedup_cache = {}   # incremental dedup state across recomputes
             self._next = 100
             self.org = default_org(self.functions)
             # dirty = the portfolio needs (re)computing. A cached result is
@@ -101,6 +105,66 @@ class Session:
                 "skipped": res.skipped,
                 "total_interviews": len(self.interviews),
             }
+
+    # ---- background upload job with live progress ----
+    def _set_progress(self, **kw):
+        with self._plock:
+            self.progress.update(kw)
+
+    def get_progress(self) -> dict:
+        with self._plock:
+            return dict(self.progress)
+
+    def start_upload_job(self, tmpdir: str) -> bool:
+        """Kick off ingest + recompute in a background thread so the request
+        returns immediately and the client can poll /api/progress."""
+        with self._plock:
+            if self.progress.get("active"):
+                return False
+            self.progress = {"active": True, "stage": "reading", "done": 0,
+                             "total": 0, "error": None, "summary": None}
+        threading.Thread(target=self._run_upload, args=(tmpdir,), daemon=True).start()
+        return True
+
+    def _run_upload(self, tmpdir: str):
+        try:
+            summary = self.ingest_path(tmpdir)  # quick, locked; sets dirty
+            if summary.get("ingested", 0) == 0:
+                self._set_progress(active=False, stage="done", summary=summary)
+                return
+            with self.lock:
+                interviews = list(self.interviews)
+                functions = dict(self.functions)
+                org = self.org
+                pp_cache = self.pp_cache
+            llm = LLM(mode=self.mode)
+
+            def cb(stage, done, total):
+                self._set_progress(active=True, stage=stage, done=done, total=total)
+
+            result = run_pipeline(interviews, functions, llm,
+                                  pp_cache=pp_cache, org=org, progress=cb,
+                                  dedup_cache=self.dedup_cache)
+            result["interview_list"] = [
+                {"interview_id": iv.interview_id,
+                 "function": functions[iv.function_id].name,
+                 "stakeholder": iv.stakeholder}
+                for iv in interviews
+            ]
+            result["function_options"] = [
+                {"function_id": fid, "name": f.name} for fid, f in functions.items()
+            ]
+            with self.lock:
+                self.last_result = result
+                self.dirty = False
+                OUT = ROOT / "out"
+                OUT.mkdir(exist_ok=True)
+                (OUT / "last_portfolio.json").write_text(json.dumps(result))
+            self._set_progress(active=False, stage="done", summary=summary)
+        except Exception as e:
+            self._set_progress(active=False, stage="error", error=str(e))
+        finally:
+            shutil.rmtree(tmpdir, ignore_errors=True)
 
     def set_org(self, fields: dict):
         with self.lock:
@@ -142,13 +206,17 @@ class Session:
             return iv.interview_id
 
     def portfolio(self) -> dict:
+        # if a background job is recomputing, don't race it: serve last result
+        if self.get_progress().get("active") and self.last_result is not None:
+            return self.last_result
         with self.lock:
             # serve the cached result unless something changed
             if not self.dirty and self.last_result is not None:
                 return self.last_result
             llm = LLM(mode=self.mode)
             result = run_pipeline(self.interviews, self.functions, llm,
-                                  pp_cache=self.pp_cache, org=self.org)
+                                  pp_cache=self.pp_cache, org=self.org,
+                                  dedup_cache=self.dedup_cache)
             result["interview_list"] = [
                 {"interview_id": iv.interview_id,
                  "function": self.functions[iv.function_id].name,
@@ -250,6 +318,8 @@ class Handler(BaseHTTPRequestHandler):
                 {"function_id": fid, "name": f.name}
                 for fid, f in SESSION.functions.items()
             ])
+        if self.path == "/api/progress":
+            return self._json(200, SESSION.get_progress())
         if self.path == "/api/portfolio":
             try:
                 return self._json(200, SESSION.portfolio())
@@ -340,33 +410,28 @@ class Handler(BaseHTTPRequestHandler):
             files = payload.get("files") or []
             if not files:
                 return self._json(400, {"error": "no files provided"})
+            if SESSION.get_progress().get("active"):
+                return self._json(409, {"error": "a run is already in progress"})
             tmp = tempfile.mkdtemp(prefix="lens_up_")
-            try:
-                written = 0
-                for f in files:
-                    name = os.path.basename(str(f.get("name", "")).strip())
-                    b64 = f.get("b64", "")
-                    if not name or not b64:
-                        continue
-                    try:
-                        data = base64.b64decode(b64)
-                    except Exception:
-                        continue
-                    with open(os.path.join(tmp, name), "wb") as fh:
-                        fh.write(data)
-                    written += 1
-                if not written:
-                    return self._json(400, {"error": "no readable files in upload"})
-                summary = SESSION.ingest_path(tmp)
-                result = SESSION.portfolio()
-                result["ingest_summary"] = summary
-                return self._json(200, result)
-            except FileNotFoundError as e:
-                return self._json(400, {"error": str(e)})
-            except Exception as e:
-                return self._json(500, {"error": str(e)})
-            finally:
+            written = 0
+            for f in files:
+                name = os.path.basename(str(f.get("name", "")).strip())
+                b64 = f.get("b64", "")
+                if not name or not b64:
+                    continue
+                try:
+                    data = base64.b64decode(b64)
+                except Exception:
+                    continue
+                with open(os.path.join(tmp, name), "wb") as fh:
+                    fh.write(data)
+                written += 1
+            if not written:
                 shutil.rmtree(tmp, ignore_errors=True)
+                return self._json(400, {"error": "no readable files in upload"})
+            # run ingest + recompute in the background; client polls /api/progress
+            SESSION.start_upload_job(tmp)
+            return self._json(202, {"started": True, "files": written})
 
         if self.path == "/api/reset":
             SESSION.reset()

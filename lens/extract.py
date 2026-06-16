@@ -8,9 +8,16 @@ tags against the taxonomy here and flag anything off-list for review.
 
 from __future__ import annotations
 
+import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from .models import Interview, PainPoint
 from .taxonomy import CATEGORIES, LEVERS
 from .llm import LLM
+
+# Extraction is independent per interview, so run several Claude calls at once.
+# Bounded so we stay well under API rate limits. Override with LENS_MAX_WORKERS.
+MAX_WORKERS = int(os.environ.get("LENS_MAX_WORKERS", "8"))
 
 
 def _coerce_enum(value: str, allowed: list, default: str) -> str:
@@ -53,8 +60,38 @@ def extract_interview(interview: Interview, llm: LLM) -> list[PainPoint]:
     return points
 
 
-def extract_all(interviews: list[Interview], llm: LLM) -> list[PainPoint]:
-    out: list[PainPoint] = []
-    for iv in interviews:
-        out.extend(extract_interview(iv, llm))
+def extract_all(interviews: list[Interview], llm: LLM, progress=None) -> list[PainPoint]:
+    """Extract every interview concurrently. progress(stage, done, total) is
+    called as each interview finishes so callers can show a real progress bar.
+    Results are returned in interview order so pain ids stay stable."""
+    total = len(interviews)
+    if progress:
+        progress("extract", 0, total)
+    if total == 0:
+        return []
+
+    workers = max(1, min(MAX_WORKERS, total))
+    # mock mode is local/instant; no need to spin up threads
+    if llm.mode == "mock" or workers == 1:
+        out: list[PainPoint] = []
+        for i, iv in enumerate(interviews, 1):
+            out.extend(extract_interview(iv, llm))
+            if progress:
+                progress("extract", i, total)
+        return out
+
+    results: list = [None] * total
+    done = 0
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(extract_interview, iv, llm): i for i, iv in enumerate(interviews)}
+        for fut in as_completed(futs):
+            i = futs[fut]
+            results[i] = fut.result()
+            done += 1
+            if progress:
+                progress("extract", done, total)
+
+    out = []
+    for r in results:
+        out.extend(r or [])
     return out

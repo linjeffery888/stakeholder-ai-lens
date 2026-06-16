@@ -56,23 +56,38 @@ def run_pipeline(
     llm: LLM,
     pp_cache: dict | None = None,
     org: Organization | None = None,
+    progress=None,
+    dedup_cache: dict | None = None,
 ) -> dict:
     """pp_cache: optional {interview_id: [PainPoint]} so already-extracted
-    interviews are not re-extracted (extraction is the costly LLM step)."""
+    interviews are not re-extracted (extraction is the costly LLM step).
+    progress: optional callback(stage, done, total) for live progress bars.
+    dedup_cache: optional mutable dict so dedup only adjudicates NEW pain points
+    against existing clusters (incremental), instead of re-running everything."""
     fn_name = {fid: f.name for fid, f in functions.items()}
     if org is None:
         org = default_org(functions)
 
     if pp_cache is None:
-        pain_points = extract_all(interviews, llm)
+        pain_points = extract_all(interviews, llm, progress=progress)
     else:
+        # only extract interviews we have not seen; report progress over those
+        todo = [iv for iv in interviews if iv.interview_id not in pp_cache]
+        if todo:
+            fresh = extract_all(todo, llm, progress=progress)
+            by_iv: dict = {}
+            for pp in fresh:
+                by_iv.setdefault(pp.interview_id, []).append(pp)
+            for iv in todo:
+                pp_cache[iv.interview_id] = by_iv.get(iv.interview_id, [])
+        elif progress:
+            progress("extract", len(interviews), len(interviews))
         pain_points = []
         for iv in interviews:
-            if iv.interview_id not in pp_cache:
-                pp_cache[iv.interview_id] = extract_interview(iv, llm)
-            pain_points.extend(pp_cache[iv.interview_id])
+            pain_points.extend(pp_cache.get(iv.interview_id, []))
 
-    use_cases = deduplicate(pain_points, functions, llm)
+    use_cases = deduplicate(pain_points, functions, llm, progress=progress,
+                            cache=dedup_cache)
     aggregate_and_size(use_cases, pain_points, functions, org)
     ranked, gated = score_portfolio(use_cases, pain_points, functions)
 

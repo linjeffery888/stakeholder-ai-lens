@@ -208,6 +208,15 @@ a.dl button{width:100%}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid currentColor;border-top-color:transparent;
   border-radius:50%;animation:r .7s linear infinite;vertical-align:-2px;margin-right:6px}
 @keyframes r{to{transform:rotate(360deg)}}
+/* scoped upload progress (indeterminate bar + elapsed time) */
+.up-status{margin-top:12px;display:none}
+.up-status.show{display:block}
+.up-bar{height:6px;border-radius:4px;background:var(--line);overflow:hidden;position:relative}
+.up-bar > i{position:absolute;top:0;left:0;height:100%;width:35%;border-radius:4px;
+  background:linear-gradient(90deg,var(--accent-soft),var(--accent));animation:upslide 1.25s ease-in-out infinite}
+@keyframes upslide{0%{left:-35%}100%{left:100%}}
+.up-status .up-txt{font-size:12px;color:var(--muted);margin-top:7px}
+.up-status .up-txt b{color:var(--ink-2);font-weight:600}
 #busy{position:fixed;inset:0;background:rgba(244,242,236,.55);backdrop-filter:blur(2px);
   display:none;place-items:center;z-index:60}
 #busy.show{display:grid}
@@ -286,6 +295,10 @@ a.dl button{width:100%}
           <div id="upPick" class="hint" style="margin:2px 0 8px"></div>
           <div class="btns">
             <button class="btn-primary" id="upBtn">Upload &amp; re-run</button>
+          </div>
+          <div id="upStatus" class="up-status">
+            <div class="up-bar"><i></i></div>
+            <div class="up-txt" id="upTxt"></div>
           </div>
         </div>
       </section>
@@ -685,30 +698,60 @@ function readFileB64(file){
     r.readAsDataURL(file);
   });
 }
+function fmtElapsed(s){const m=Math.floor(s/60),ss=s%60;return m?`${m}m ${ss}s`:`${ss}s`;}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function setBar(pct,determinate){
+  const fill=$("#upStatus .up-bar > i");
+  if(determinate){fill.style.animation="none";fill.style.width=Math.max(3,Math.min(100,pct))+"%";fill.style.left="0";}
+  else{fill.style.animation="";fill.style.width="";fill.style.left="";}
+}
 async function upload(){
   const ok=selectedUploads();
   if(!ok.length){toast("Pick at least one .txt / .md / .docx / .csv file");return;}
   const btn=$("#upBtn"); btn.disabled=true; const o=btn.innerHTML; btn.innerHTML='<span class="spin"></span>uploading';
-  busy(true,"Uploading "+ok.length+" file(s), extracting, de-duplicating…");
+  const status=$("#upStatus"), txt=$("#upTxt");
+  status.classList.add("show"); setBar(0,false);
+  const t0=Date.now(); const n=ok.length;
+  const el=()=>fmtElapsed(Math.round((Date.now()-t0)/1000));
+  txt.innerHTML=`<b>Reading ${n} file${n>1?"s":""}…</b>`;
   try{
     const files=await Promise.all(ok.map(readFileB64));
+    txt.innerHTML=`<b>Uploading ${n} file${n>1?"s":""}…</b> ${el()}`;
     const r=await fetch("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({files})});
     if(r.status===404){toast("Upload endpoint missing — restart the server (python app.py)");return;}
     const ct=r.headers.get("content-type")||"";
     if(!ct.includes("application/json")){const t=await r.text();throw new Error("server returned "+r.status+": "+t.slice(0,120));}
     const d=await r.json();
-    if(d.error){toast("Error: "+d.error);}
-    else{
-      render(d);
-      $("#upFiles").value=""; $("#upDir").value=""; refreshUpPick();
-      const s=d.ingest_summary||{};
-      let msg="Ingested "+(s.ingested||0)+" interview(s)";
-      if(s.added_function_ids&&s.added_function_ids.length) msg+=" · "+s.added_function_ids.length+" new function(s)";
-      if(s.skipped&&s.skipped.length) msg+=" · "+s.skipped.length+" skipped";
-      toast(msg+" · portfolio re-ranked");
+    if(d.error){toast("Error: "+d.error);return;}
+    // poll progress until the background job finishes
+    const STAGE={extract:"Extracting pain points",dedup:"De-duplicating & resolving overlap",reading:"Reading files"};
+    while(true){
+      await sleep(600);
+      let p; try{ p=await (await fetch("/api/progress")).json(); }catch(e){ continue; }
+      const label=STAGE[p.stage]||p.stage;
+      if(p.stage==="error"){throw new Error(p.error||"run failed");}
+      if(!p.active && p.stage==="done") break;
+      if(p.total>0){
+        const pct=Math.round(p.done/p.total*100);
+        setBar(pct,true);
+        txt.innerHTML=`<b>${label}…</b> ${p.done} of ${p.total} (${pct}%) · ${el()}`;
+      }else{
+        setBar(0,false);
+        txt.innerHTML=`<b>${label}…</b> ${el()}`;
+      }
     }
+    setBar(100,true);
+    const final=await (await fetch("/api/portfolio")).json();
+    render(final);
+    $("#upFiles").value=""; $("#upDir").value=""; refreshUpPick();
+    const prog=await (await fetch("/api/progress")).json();
+    const s=prog.summary||{};
+    let msg="Ingested "+(s.ingested||0)+" interview(s)";
+    if(s.added_function_ids&&s.added_function_ids.length) msg+=" · "+s.added_function_ids.length+" new function(s)";
+    if(s.skipped&&s.skipped.length) msg+=" · "+s.skipped.length+" skipped";
+    toast(msg+" · re-ranked in "+el());
   }catch(e){console.error("upload failed:",e);toast("Upload failed: "+(e&&e.message?e.message:e));}
-  finally{busy(false); btn.disabled=false; btn.innerHTML=o;}
+  finally{status.classList.remove("show"); txt.innerHTML=""; setBar(0,false); btn.disabled=false; btn.innerHTML=o;}
 }
 $("#upBtn").onclick=upload;
 load();

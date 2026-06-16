@@ -51,12 +51,31 @@ def _candidate_rank(pp: PainPoint, uc: UseCase, rep: PainPoint) -> float:
     return score
 
 
-def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM) -> list[UseCase]:
-    use_cases: list[UseCase] = []
-    members: dict[str, list[PainPoint]] = {}
-    uc_counter = 0
+def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM,
+                progress=None, cache: dict | None = None) -> list[UseCase]:
+    """Cluster pain points into canonical use cases.
 
-    for pp in pain_points:
+    Incremental: if `cache` carries prior state (use_cases, members, counter,
+    assigned pain ids), only pain points not already assigned are adjudicated
+    against the existing clusters. This is the expensive (LLM) step, so an
+    upload of a few interviews costs a few calls instead of re-running all of
+    them. Pass cache=None (or empty) for a full from-scratch run.
+    """
+    if cache is None:
+        cache = {}
+    use_cases: list[UseCase] = cache.get("use_cases") or []
+    members: dict[str, list[PainPoint]] = cache.get("members") or {}
+    uc_counter = cache.get("uc_counter", 0)
+    assigned = cache.get("assigned")
+    if assigned is None:
+        assigned = set()
+
+    # only adjudicate pain points we have not clustered before
+    todo = [pp for pp in pain_points if pp.pain_id not in assigned]
+    total = len(todo)
+    if progress:
+        progress("dedup", 0, total)
+    for idx, pp in enumerate(todo, 1):
         best_uc, best_conf, best_reason = None, 0.0, ""
 
         # Step 2: cheap lexical auto-merge for near-identical wording.
@@ -127,10 +146,20 @@ def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM) -> list
             use_cases.append(uc)
             members[uc.use_case_id] = [pp]
 
+        assigned.add(pp.pain_id)
+        if progress and (idx % 5 == 0 or idx == total):
+            progress("dedup", idx, total)
+
     # prevalence = number of distinct interviews that raised the use case
     for uc in use_cases:
         interviews = {members_pp.interview_id for members_pp in members[uc.use_case_id]}
         uc.prevalence_count = len(interviews)
         uc.reach = len(uc.affected_functions)
+
+    # persist incremental state for the next call
+    cache["use_cases"] = use_cases
+    cache["members"] = members
+    cache["uc_counter"] = uc_counter
+    cache["assigned"] = assigned
 
     return use_cases

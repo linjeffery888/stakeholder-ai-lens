@@ -78,7 +78,9 @@ def score_portfolio(
         members = [by_id[pid] for pid in uc.member_pain_ids]
         # the gate
         if uc.est_savings_base <= 0:
-            uc.review_reasons.append("no savings hypothesis (gated out)")
+            reason = "no savings hypothesis (gated out)"
+            if reason not in uc.review_reasons:  # idempotent across recomputes
+                uc.review_reasons.append(reason)
             gated.append(uc)
             continue
         uc.feasibility_score = _feasibility(uc, members)
