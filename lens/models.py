@@ -14,14 +14,21 @@ from typing import Optional
 
 @dataclass
 class Organization:
-    """Org-level economics that scale savings. headcount and SaaS/vendor spend
-    drive spend-type levers; per-function rates drive labor levers."""
+    """Org-level economics that scale savings. headcount drives labor levers;
+    spend_lines (any function or category + its annual spend) drive spend levers.
+
+    spend_lines: [{"label": str, "annual_spend": float}] — open-ended, so the
+    user can add any spending area. Amounts are meant to be estimated/researched.
+    """
     company_name: str = ""
     total_headcount: int = 0
-    annual_saas_spend: float = 0.0
+    spend_lines: list = field(default_factory=list)
     source: str = "manual"          # manual | researched
     confidence: float = 1.0          # researched values come in low
     notes: str = ""                  # research rationale / disclaimer
+
+    def addressable_spend(self) -> float:
+        return sum(float(l.get("annual_spend", 0) or 0) for l in self.spend_lines)
 
     def to_dict(self):
         return asdict(self)

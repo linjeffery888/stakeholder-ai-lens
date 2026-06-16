@@ -23,7 +23,9 @@ def default_org(functions: dict[str, Function]) -> Organization:
     return Organization(
         company_name="",
         total_headcount=headcount,
-        annual_saas_spend=headcount * DEFAULT_PER_SEAT,
+        spend_lines=[
+            {"label": "SaaS & software (estimated)", "annual_spend": headcount * DEFAULT_PER_SEAT},
+        ],
         source="manual",
         confidence=1.0,
     )

@@ -139,6 +139,14 @@ main{min-width:0;display:flex;flex-direction:column;gap:24px}
 .org-sugg b{color:var(--accent-ink)}
 .org-sugg .src{margin-top:5px;font-size:11px}
 .org-sugg .src a{color:var(--accent-ink)}
+.spend-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+.spend-row .sl-label{flex:1}
+.spend-row .sl-amt{width:108px}
+.spend-row input{padding:8px 10px}
+.spend-row .sl-del{background:transparent;border:1px solid var(--line-2);color:var(--muted);
+  border-radius:8px;width:30px;height:34px;padding:0;font-size:16px;line-height:1;flex:0 0 auto}
+.spend-row .sl-del:hover{color:var(--red);border-color:var(--red)}
+.btn-sm{padding:6px 11px;font-size:12px;font-weight:600}
 
 /* ---------- scatter ---------- */
 #scatter{width:100%;display:block;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line)}
@@ -275,7 +283,9 @@ a.dl button{width:100%}
             <div class="row"><input id="orgName" placeholder="e.g. Acme Health" style="flex:1">
             <button class="btn-ghost" id="research">Research</button></div></div>
           <div class="field"><label>Total headcount</label><input id="orgHead" type="number" min="0" step="1"></div>
-          <div class="field"><label>Annual SaaS / vendor spend (USD)</label><input id="orgSpend" type="number" min="0" step="1000"></div>
+          <div class="field"><label>Annual spend by area <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">— add any function or category</span></label>
+            <div id="spendLines"></div>
+            <button class="btn-ghost btn-sm" id="addLine" type="button">+ Add line</button></div>
           <div id="orgNote"></div>
           <div class="btns"><button class="btn-primary" id="orgApply">Apply &amp; re-size</button></div>
         </div>
@@ -418,7 +428,7 @@ function render(d){
     if(!$("#orgName").dataset.filled){
       $("#orgName").value=d.org.company_name||"";
       $("#orgHead").value=d.org.total_headcount;
-      $("#orgSpend").value=Math.round(d.org.annual_saas_spend);
+      renderSpendLines(d.org.spend_lines||[]);
       $("#orgName").dataset.filled="1";
     }
     $("#orgConf").textContent = d.org.source==="researched"
@@ -439,7 +449,7 @@ function savingsTableSpend(uc){
     `High ${pct(s.high.waste_rate)} / ${pct(s.high.capture_rate)}.`;
   return `<div class="prov-h">Savings hypothesis · spend basis</div><div class="sav-cap">${cap}</div>
     <table class="sav-tbl"><thead><tr><th>Addressable annual spend</th><th>Low</th><th>Base</th><th>High</th></tr></thead>
-    <tbody><tr><td>${usd(m.addressable_spend)}<div style="color:var(--faint);font-size:11px">SaaS / vendor spend (organization input)</div></td>
+    <tbody><tr><td>${usd(m.addressable_spend)}<div style="color:var(--faint);font-size:11px">sum of organization spend lines</div></td>
       <td class="num">${usd(s.low.annual_savings)}</td><td class="num base">${usd(s.base.annual_savings)}</td>
       <td class="num">${usd(s.high.annual_savings)}</td></tr></tbody></table>
     <div class="sav-cap">Scales with the organization's SaaS/vendor spend — set it in the Organization panel.</div>`;
@@ -587,6 +597,25 @@ $("#example").onclick=()=>{
   $("#who").value="Example Analyst"; $("#notes").value=EXAMPLE;
   $("#notes").focus(); toast("Example loaded — it overlaps the status-summarization use case");
 };
+function spendRowHTML(label,amt){
+  return `<div class="spend-row">
+    <input class="sl-label" placeholder="e.g. SaaS & software, Procurement" value="${(label||"").replace(/"/g,'&quot;')}">
+    <input class="sl-amt" type="number" min="0" step="1000" placeholder="annual $" value="${amt!=null?Math.round(amt):''}">
+    <button class="sl-del" type="button" title="remove">×</button></div>`;
+}
+function renderSpendLines(lines){
+  const c=$("#spendLines");
+  c.innerHTML=(lines&&lines.length?lines:[{label:"",annual_spend:""}]).map(l=>spendRowHTML(l.label,l.annual_spend)).join("");
+}
+function collectSpendLines(){
+  return [...document.querySelectorAll("#spendLines .spend-row")].map(r=>({
+    label:r.querySelector(".sl-label").value.trim(),
+    annual_spend:r.querySelector(".sl-amt").value
+  })).filter(l=>l.label && l.annual_spend!=="");
+}
+$("#addLine").onclick=()=>$("#spendLines").insertAdjacentHTML("beforeend",spendRowHTML("",""));
+$("#spendLines").addEventListener("click",e=>{ if(e.target.classList.contains("sl-del")) e.target.closest(".spend-row").remove(); });
+
 let LAST_RESEARCH=null;
 async function research(){
   const name=$("#orgName").value.trim(); if(!name){toast("Enter a company name");return;}
@@ -599,7 +628,7 @@ async function research(){
     else{
       LAST_RESEARCH=d;
       if(d.total_headcount) $("#orgHead").value=d.total_headcount;
-      if(d.annual_saas_spend) $("#orgSpend").value=Math.round(d.annual_saas_spend);
+      if(d.spend_lines && d.spend_lines.length) renderSpendLines(d.spend_lines);
       const src=(d.sources||[]).slice(0,3).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${esc(s.title||s.url)}</a>`).join(" · ");
       $("#orgNote").innerHTML=`<div class="org-sugg"><b>Suggested estimate ${d.web?"(web search)":"(no web access)"} · confidence ${d.confidence??"?"}.</b> Review and edit the fields, then Apply. ${esc(d.rationale||"")}${src?`<div class="src">Sources: ${src}</div>`:""}</div>`;
       toast("Suggestion ready — confirm the numbers, then Apply");
@@ -611,7 +640,7 @@ async function applyOrg(){
   busy(true,"Applying organization…");
   const researched = !!$("#orgNote").innerHTML.trim();
   try{
-    const body={company_name:$("#orgName").value,total_headcount:$("#orgHead").value,annual_saas_spend:$("#orgSpend").value,
+    const body={company_name:$("#orgName").value,total_headcount:$("#orgHead").value,spend_lines:collectSpendLines(),
       source: researched?"researched":"manual", confidence: researched&&LAST_RESEARCH?(LAST_RESEARCH.confidence??0.3):1.0};
     const r=await fetch("/api/org",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
     const d=await r.json();

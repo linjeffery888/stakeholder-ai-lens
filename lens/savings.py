@@ -61,9 +61,10 @@ def aggregate_and_size(
     """Mutates use_cases in place: fills addressable hours and savings."""
     by_id = {pp.pain_id: pp for pp in pain_points}
 
-    # addressable spend is split across the spend use cases so it is counted once
+    # addressable spend (sum of the org's spend lines) is split across the
+    # spend use cases so it is counted once
     spend_ucs = [uc for uc in use_cases if _is_spend(uc)]
-    total_spend = org.annual_saas_spend if org else 0.0
+    total_spend = org.addressable_spend() if org else 0.0
     spend_per_uc = (total_spend / len(spend_ucs)) if spend_ucs else 0.0
 
     for uc in use_cases:

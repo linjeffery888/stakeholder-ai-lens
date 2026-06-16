@@ -118,21 +118,24 @@ class LLM:
     # ---- assistive org research (suggestions only, never auto-applied) ----
     def research_org(self, company_name: str) -> dict:
         """Estimate org economics for a company. Live: Claude with web search.
-        Returns {total_headcount, annual_saas_spend, rationale, sources,
-        confidence, web}. These are SUGGESTIONS to be human-confirmed."""
+        Returns {total_headcount, spend_lines:[{label,annual_spend}], rationale,
+        sources, confidence, web}. These are SUGGESTIONS to be human-confirmed."""
         name = (company_name or "").strip()
         if not name:
             return {"error": "no company name"}
         if self.mode == "mock":
             return self._mock_research(name)
         system = (
-            "You research a company's size for a cost-savings estimate. Return "
-            "ONLY JSON: {\"total_headcount\": int, \"annual_saas_spend\": int (USD), "
+            "You research a company's size and spending for a cost-savings "
+            "estimate. Return ONLY JSON: {\"total_headcount\": int, "
+            "\"spend_lines\": [{\"label\": str, \"annual_spend\": int_USD}], "
             "\"rationale\": str, \"sources\": [{\"title\":str,\"url\":str}], "
-            "\"confidence\": 0-1}. Find current headcount; estimate annual SaaS/"
-            "software spend (a common benchmark is $7,000-$12,000 per employee/yr "
-            "if no figure is found). For private companies data is uncertain, so "
-            "lower the confidence and say so in the rationale. Estimate, never invent precision."
+            "\"confidence\": 0-1}. Find current headcount. Break annual spend into "
+            "a few addressable categories (e.g. 'SaaS & software', 'Contingent "
+            "labor / vendors', 'Cloud infrastructure') with a USD estimate each; a "
+            "common benchmark for software is $7,000-$12,000 per employee/yr if no "
+            "figure is found. For private companies data is uncertain, so lower the "
+            "confidence and say so in the rationale. Estimate, never invent precision."
         )
         try:
             msg = self._client_or_init().messages.create(
@@ -162,9 +165,12 @@ class LLM:
     def _mock_research(self, name: str) -> dict:
         return {
             "total_headcount": 250,
-            "annual_saas_spend": 2000000,
+            "spend_lines": [
+                {"label": "SaaS & software", "annual_spend": 2000000},
+                {"label": "Contingent labor / vendors", "annual_spend": 1200000},
+            ],
             "rationale": f"(mock) illustrative estimate for {name}; no live lookup "
-                         "in offline mode. Replace by running --live with a key.",
+                         "in offline mode. Run --live with a key for web research.",
             "sources": [],
             "confidence": 0.25,
             "web": False,

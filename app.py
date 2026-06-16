@@ -61,8 +61,14 @@ class Session:
                 o.company_name = str(fields["company_name"])[:120]
             if fields.get("total_headcount") not in (None, ""):
                 o.total_headcount = max(0, int(float(fields["total_headcount"])))
-            if fields.get("annual_saas_spend") not in (None, ""):
-                o.annual_saas_spend = max(0.0, float(fields["annual_saas_spend"]))
+            if isinstance(fields.get("spend_lines"), list):
+                lines = []
+                for l in fields["spend_lines"]:
+                    label = str(l.get("label", "")).strip()[:80]
+                    amt = l.get("annual_spend")
+                    if label and amt not in (None, ""):
+                        lines.append({"label": label, "annual_spend": max(0.0, float(amt))})
+                o.spend_lines = lines
             o.source = fields.get("source", "manual")
             o.confidence = float(fields.get("confidence", 1.0))
             o.notes = str(fields.get("notes", ""))[:600]
