@@ -1,0 +1,21 @@
+IT, Data & Digital // Daniel Nasser (CSV Specialist (Computer System Validation))
+2026-05-09 - AI Strategy & Ops - INT-055
+
+current role / context:
+- everything we touch in GxP space needs computer-sys validation, which slows every change down.
+- we run the enterprise syss: MES, LIMS, ERP, the orchestration platform, and the validated-state paperwork around all of it
+
+pain points / where time goes:
+- onboardign and keeping training material current is a constant background task, the
+  docs go stale and nobody owns updating em.
+- access provisionign is partly approvals n partly judgmetn about least-privilege,
+  some of it has to stay human fro compliance
+- buildign the management reporting pack is its own slog, copying numbers out of five
+  sources into a deck every month
+- integrating the legacy systems properly needs real capital n a platform program, not a quick automation
+- pulling data across our siloed syss for any cross-functional report is painful, MES,
+  LIMS, ERP, n the orchestration platform dont talk, so we extract n join by hand
+- computer-system validation docation is enormous, every system change in GxP needs validation protocols and
+  reports written and executed ->
+
+says the team would welcome the help but worries abt anything touching release decisions.

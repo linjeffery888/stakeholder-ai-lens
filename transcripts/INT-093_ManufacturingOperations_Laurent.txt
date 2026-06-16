@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-093
+Interviewee:    Kofi Laurent
+Title:          Manufacturing Supervisor
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-05-26
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Second-gen process, turnaround down around 22-34 days. The slot is the constraint, not the
+  chemistry on a good day.
+- Internalizing all manufacturing in-house at the iCTC, so volume is ramping hard.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Environmental monitoring generates a mountain of data entry, readings keyed in by hand
+   into the system every shift.
+
+2. Sample login gets backed up at peak, everything keyed in manually before testing can even
+   start.
+
+3. We can't run more suites without more qualified operators, and qualifying an operator
+   takes months. That's a people-and-time problem, not a software one.
+
+4. Some of our incubators and equipment are aging and we get unplanned downtime. That needs
+   capital and new hardware, not an app.
+
+5. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+6. Finding the right SOP or work instruction is a daily hunt, they're scattered across
+   SharePoint and shared drives and the search never finds the current version.
+
+7. Chain-of-identity checks are manual label reconciliation at every step. Necessary, but a
+   person is eyeballing IDs and initialing, over and over.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Says the team would welcome the help but worries about anything touching release decisions.

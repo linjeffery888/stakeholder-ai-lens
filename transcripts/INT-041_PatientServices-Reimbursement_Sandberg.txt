@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-041
+Interviewee:    Felix Sandberg
+Title:          VP, Patient Services
+Function:       Patient Services & Reimbursement
+Date:           2026-05-21
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We sit between the prescribing center, the payer, and manufacturing. Nothing moves until
+  benefits are confirmed.
+- Team owns the patient journey from referral through scheduled infusion at the Authorized
+  Treatment Center (ATC).
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Scheduling a patient is calendar tetris: ATC availability, a manufacturing slot, the
+   lymphodepletion window, and IL-2, all coordinated by hand across teams. One slip and the
+   whole sequence reshuffles.
+
+2. So much knowledge is locked in people's heads and old email threads, when someone is out
+   or leaves we lose the answer.
+
+3. Reimbursement rates and the payer mix are what they are. The economics of a given case
+   aren't something my team can fix, that's set above us.
+
+4. Biggest time sink is benefit verification. Before we can schedule anyone a coordinator
+   pulls status out of the payer portal, our case system, and the copay tool and hand-
+   assembles one picture of the case. Call it 30-40 min each and we're running thousands of
+   cases a year, and it's error prone if one source is stale.
+
+5. Competitive intelligence is a person reading press releases and conference coverage and
+   writing it up, it's never current.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Skeptical that a tool can handle the GxP documentation rigor, wants to see it before
+  trusting it.

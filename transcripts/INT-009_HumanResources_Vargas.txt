@@ -1,0 +1,43 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-009
+Interviewee:    Rosa Vargas
+Title:          HR Business Partner
+Function:       Human Resources
+Date:           2026-05-18
+Interviewer:    J. Lin (AI Strategy)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We staff a very tight cell-therapy talent market: manufacturing associates, QC analysts, all
+  hard to find.
+- Headcount is growing with the manufacturing ramp, so recruiting and onboarding volume is
+  high.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Comp benchmarking decisions are judgment calls with real equity implications, I won't
+   outsource that to a tool.
+
+2. Retention in this talent market is the real problem, people get poached and that's about
+   comp, culture, and career, not automation.
+
+3. Recruiting volume is high and screening resumes for manufacturing and QC roles is a huge
+   manual sift, hundreds of applicants per req.
+
+4. Onboarding and keeping training material current is a constant background task, the
+   documents go stale and nobody owns updating them.
+
+5. Training compliance tracking is manual, chasing people to complete required trainings and
+   reconciling the LMS records.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

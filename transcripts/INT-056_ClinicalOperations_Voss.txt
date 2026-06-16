@@ -1,0 +1,45 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-056
+Interviewee:    Caleb Voss
+Title:          Director, Clinical Operations
+Function:       Clinical Operations
+Date:           2026-05-20
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We run the trials: the sarcoma registrational study, endometrial, and the next-gen gene-
+  edited TIL programs.
+- Oversight of CROs and sites, plus all the trial documentation that has to be inspection-
+  ready.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Protocol deviation tracking across sites is manual reconciliation, and rolling it up for
+   the sponsor oversight meeting takes a CTA most of a week.
+
+2. Slow enrollment is fundamentally a biology and epidemiology problem, the patients are rare
+   and you can't manufacture eligible patients.
+
+3. Enrollment forecasting is guesswork in a spreadsheet, and when a model would help, the
+   underlying problem is still that these are rare tumors.
+
+4. Drafting adverse-event narratives for the safety database is repetitive structured
+   writing, and we do a lot of them.
+
+5. Some ex-US submissions need certified translations and local agent work that's inherently
+   external and manual.
+
+6. So much knowledge is locked in people's heads and old email threads, when someone is out
+   or leaves we lose the answer.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Asked what they'd hand off first: the repetitive writing, no question.

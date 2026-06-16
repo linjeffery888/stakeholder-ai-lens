@@ -8,12 +8,25 @@ provenance, totals, stats). Both the CLI (run_demo.py) and the dashboard server
 
 from __future__ import annotations
 
-from .models import Function, Interview
+from .models import Function, Interview, Organization
 from .llm import LLM
 from .extract import extract_all, extract_interview
 from .dedup import deduplicate
 from .savings import aggregate_and_size
 from .score import score_portfolio
+
+DEFAULT_PER_SEAT = 8000  # illustrative annual SaaS/vendor spend per employee
+
+
+def default_org(functions: dict[str, Function]) -> Organization:
+    headcount = sum(f.headcount for f in functions.values())
+    return Organization(
+        company_name="",
+        total_headcount=headcount,
+        annual_saas_spend=headcount * DEFAULT_PER_SEAT,
+        source="manual",
+        confidence=1.0,
+    )
 
 
 def _use_case_view(uc, pp_by_id, fn_name) -> dict:
@@ -40,10 +53,13 @@ def run_pipeline(
     functions: dict[str, Function],
     llm: LLM,
     pp_cache: dict | None = None,
+    org: Organization | None = None,
 ) -> dict:
     """pp_cache: optional {interview_id: [PainPoint]} so already-extracted
     interviews are not re-extracted (extraction is the costly LLM step)."""
     fn_name = {fid: f.name for fid, f in functions.items()}
+    if org is None:
+        org = default_org(functions)
 
     if pp_cache is None:
         pain_points = extract_all(interviews, llm)
@@ -55,7 +71,7 @@ def run_pipeline(
             pain_points.extend(pp_cache[iv.interview_id])
 
     use_cases = deduplicate(pain_points, functions, llm)
-    aggregate_and_size(use_cases, pain_points, functions)
+    aggregate_and_size(use_cases, pain_points, functions, org)
     ranked, gated = score_portfolio(use_cases, pain_points, functions)
 
     pp_by_id = {p.pain_id: p for p in pain_points}
@@ -66,6 +82,7 @@ def run_pipeline(
 
     return {
         "mode": llm.mode,
+        "org": org.to_dict(),
         "functions": fn_name,
         "pain_points": [
             {**p.to_dict(), "function_name": fn_name.get(p.function_id, p.function_id)}

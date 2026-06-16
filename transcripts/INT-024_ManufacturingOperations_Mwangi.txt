@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-024
+Interviewee:    Dmitri Mwangi
+Title:          Shift Lead, TIL Expansion
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-05-29
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Second-gen process, turnaround down around 22-34 days. The slot is the constraint, not the
+  chemistry on a good day.
+- Autologous TIL, so every batch is one patient. Tumor tissue comes in, we expand to billions
+  of cells, cryopreserve, ship back.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Shift handoff is all manual notes. Night shift writes up where each batch stands and day
+   shift re-reads it, and stuff gets lost in the translation.
+
+2. Deviation writeups eat the floor. When something goes off-script the associate documents
+   it in detail, and they're doing it mid-shift trying to remember exactly what happened.
+   Slow and inconsistent.
+
+3. My inbox is a part-time job, triaging and routing email and pulling out the few things
+   that actually need me.
+
+4. Some of our incubators and equipment are aging and we get unplanned downtime. That needs
+   capital and new hardware, not an app.
+
+5. We can't run more suites without more qualified operators, and qualifying an operator
+   takes months. That's a people-and-time problem, not a software one.
+
+6. Environmental monitoring generates a mountain of data entry, readings keyed in by hand
+   into the system every shift.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- If I could wave a wand and kill one thing, it's the manual report stitching.

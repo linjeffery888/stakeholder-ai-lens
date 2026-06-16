@@ -1,0 +1,42 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-036
+Interviewee:    Fatima Quinn
+Title:          Contracts Manager
+Function:       Legal & Compliance
+Date:           2026-05-12
+Interviewer:    J. Lin (AI Strategy)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Contracts, compliance, and policy. Heavy CDA/MSA volume with CROs, ATCs, suppliers, and
+  academic collaborators.
+- Small team, very high contract throughput, plus the healthcare-compliance overhead of a
+  commercial pharma.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Drafting and updating policies and SOPs is slow, lots of cross-referencing and
+   consistency-checking.
+
+2. Monitoring healthcare-compliance obligations like Sunshine Act reporting is partly
+   tracking we could speed up and partly judgment.
+
+3. Finding a prior contract or a specific clause in the repository is a nightmare, the search
+   is bad so we re-draft things we already have.
+
+4. Onboarding and keeping training material current is a constant background task, the
+   documents go stale and nobody owns updating them.
+
+5. Headcount approvals and the hiring-justification process are a governance flow that's slow
+   by design, that's policy, not a tool gap.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Says the team would welcome the help but worries about anything touching release decisions.

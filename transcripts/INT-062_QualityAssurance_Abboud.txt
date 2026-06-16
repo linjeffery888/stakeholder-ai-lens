@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-062
+Interviewee:    Selene Abboud
+Title:          VP, Quality
+Function:       Quality Assurance
+Date:           2026-04-25
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Quality owns batch disposition, deviations, change control, and audit readiness. For a
+  personalized product the paperwork is the product.
+- Every batch is patient-specific so the documentation burden per unit is brutal compared to
+  small molecule.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Onboarding and keeping training material current is a constant background task, the
+   documents go stale and nobody owns updating them.
+
+2. We have hundreds of SOPs on periodic-review cycles. Someone has to read each one, decide
+   if it still reflects practice, and document the review. It's relentless.
+
+3. We genuinely need more trained QA reviewers, the volume is outpacing the team and review
+   can't be skipped. That's headcount.
+
+4. Change control documentation is heavy, every change needs an impact assessment written,
+   routed, and tracked, and the writing is repetitive.
+
+5. The actual timing of FDA and EMA decisions is completely outside our control, we can
+   prepare but we can't move their calendar.
+
+6. Annual Product Quality Review compilation is a multi-week effort pulling data from
+   everywhere into one report.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

@@ -1,0 +1,27 @@
+Manufacturing Operations (iCTC) // Carla Laurent (Manufacturing Supervisor)
+2026-05-21 - J. Lin + intern (discovery) - INT-042
+
+current role / context:
+- second-gen process, turnaround down around 22-34 days. The slot is teh constraint, not the chemistry on a good day
+- internalizing all manufacturing in-house at the iCTC so volume is ramping hard ->
+
+pain points / where time goes:
+- schedulign mfg slots against incoming tumor tissue is a constant puzzle. Tissue arrives in tight windows,
+  suites n staff are fixed, n we re-plan by hn whenever anything shifts ->
+- batch record review is the slog. For every patietn batch someone reviews the
+  electronic batch record line by line for completeness before it goes to QA, and any
+  blank or transcription miss bounces it back. Its hours per batch and every batch is
+  a patient
+- pullign process data into the monthly process-monitoring reports is brutal, the data lives in
+  three syss and we stitch it together by hand evry time.
+- we cant run more suites w/o more qualified operators, n qualifying an operator takes months.
+  Thats a ppl-and-time problem, not a software one.
+- deviation writeups eat the floor. When smth goes off-script the associate docs it in
+  detail n theyre doing it mid-shift trying to remember exactly what happened. Slow n
+  inconsistent.
+- shift handoff is all manual notes. Night shift writes up where each batch stands and day shift
+  re-reads it, and stuff gets lost in the translation
+- environmental monitoring generates a mountain of data entry readings keyed in by hand into the
+  sys every shift
+
+flagged that whatever we build has to play nice with the validated syss or it wont get approved ->

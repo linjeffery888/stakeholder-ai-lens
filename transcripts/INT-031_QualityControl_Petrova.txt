@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-031
+Interviewee:    Aaron Petrova
+Title:          Director, Quality Control
+Function:       Quality Control
+Date:           2026-05-24
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We run release and in-process testing: identity, potency, sterility, flow panels. Everything
+  funnels through LIMS.
+- Turnaround on testing is on the critical path to disposition, so any delay in QC delays a
+  patient.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Analysts spend hours on manual data analysis for assays, exporting from instruments,
+   reformatting, and calculating in spreadsheets.
+
+2. We genuinely need more trained QA reviewers, the volume is outpacing the team and review
+   can't be skipped. That's headcount.
+
+3. Reviewing certificates of analysis and transcribing results into LIMS is constant, and any
+   transcription error is a deviation, so it gets double-checked, doubling the work.
+
+4. Out-of-spec investigations are big writeups and we do a lot of them. Documenting the
+   investigation is most of the effort.
+
+5. Qualifying a new assay is bench science, you run the validation experiments, there's no
+   automating the wet work.
+
+6. Sample login gets backed up at peak, everything keyed in manually before testing can even
+   start.
+
+7. Instrument calibration and maintenance is physical and on a fixed schedule, that's
+   metrology, not analytics.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Open to piloting something if it's reliable and stays inside our validated systems.

@@ -1,0 +1,22 @@
+Patient Services & Reimbursement // Bianca Mansour (Manager, Benefit Verification)
+2026-04-28 - J. Lin + intern (discovery) - INT-043
+
+current role / context:
+- volume is climbing fast as more ATCs come online for Amtagvi.
+- team owns the patient journey from referral thru scheduled infusion at the Authorized Treatment Center (ATC)
+
+pain points / where time goes:
+- patients n centers ask coverage questoins constantly n we dig thru plan policy PDFs to find the
+  exact clause. The answer exists finding it takes forever.
+- onboarding n keeping training material curretn is a constant background task the documents go
+  stale n nobody owns updating them.
+- biggest time sink is benefit verification. Before we can schedule anyone a coordinator pulls
+  status out of the payer portal, ovr case sys, n the copay tool n hand-assembles one picture of
+  the case. Call it 30-40 min each n were running thousands of cases a year, n its error prone if
+  one source is stale
+- honestly we just dont have enough coordinators for teh case volume coming. More ATCs
+  onboarding means more cases n were already maxed. We need heads ->
+- theres no single tracker of which payers cover Amtagvi and under what criteria.
+  Policies change and we find out the hard way when smth gets denied ->
+
+noted the volume is only going up as mfg internalizes and more markets come online.

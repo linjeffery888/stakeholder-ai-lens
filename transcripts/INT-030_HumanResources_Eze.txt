@@ -1,0 +1,23 @@
+Human Resources // Omar Eze (HR Business Partner)
+2026-05-03 - AI Transformation team - INT-030
+
+current role / context:
+- we staff a very tight cell-therapy talent market: manufacturing associates, QC analysts, all hard to find
+- headcount is growing w/ the mfg ramp, so recruiting n onboarding volume is high.
+
+pain points / where time goes:
+- finding the right SOP or work instructoin is a daily hunt, theyre scattered across
+  SharePoint n shared drives n the search nvr finds the current version ->
+- writing n updating job descriptions is slow n they drift out of date, every manager wants a custom one
+- retentoin in this talent market is teh real problem, ppl get poached and thats about comp, culture, and
+  career, not automation
+- interview scheduling across panels is pure coordination overhead, back-and-forth on
+  calendars all day.
+- onboarding is a docs checklist nightmare, every new hire in a GxP role has a stack of forms n trainings to
+  track to completion
+- employees constntly ask teh same policy questoins, PTO, benefits, travel, n HR
+  answers them one at a time from documents that exist but nobody reads
+-
+-
+
+asked what theyd hn off first: the repetitive writing, no question

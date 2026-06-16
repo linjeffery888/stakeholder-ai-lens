@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-038
+Interviewee:    Marco Tanaka
+Title:          Director, Quality Control
+Function:       Quality Control
+Date:           2026-06-05
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We run release and in-process testing: identity, potency, sterility, flow panels. Everything
+  funnels through LIMS.
+- Turnaround on testing is on the critical path to disposition, so any delay in QC delays a
+  patient.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. So much knowledge is locked in people's heads and old email threads, when someone is out
+   or leaves we lose the answer.
+
+2. Analysts spend hours on manual data analysis for assays, exporting from instruments,
+   reformatting, and calculating in spreadsheets.
+
+3. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+4. Out-of-spec investigations are big writeups and we do a lot of them. Documenting the
+   investigation is most of the effort.
+
+5. Instrument calibration and maintenance is physical and on a fixed schedule, that's
+   metrology, not analytics.
+
+6. Stability tracking is a manual calendar and spreadsheet exercise, what's due to pull, what
+   was tested, what's trending.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Asked what they'd hand off first: the repetitive writing, no question.

@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-017
+Interviewee:    Ravi Hartman
+Title:          Director, IT & Data
+Function:       IT, Data & Digital
+Date:           2026-06-02
+Interviewer:    J. Lin (AI Strategy)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Everything we touch in GxP space needs computer-system validation, which slows every change
+  down.
+- We run the enterprise systems: MES, LIMS, ERP, the orchestration platform, and the
+  validated-state paperwork around all of it.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. My inbox is a part-time job, triaging and routing email and pulling out the few things
+   that actually need me.
+
+2. Computer-system validation documentation is enormous, every system change in GxP needs
+   validation protocols and reports written and executed.
+
+3. There's spreadsheet sprawl everywhere, shadow tools doing critical work with no controls,
+   and we spend time hunting them down.
+
+4. Master data is maintained by hand across systems and it drifts, so reports disagree
+   depending on the source.
+
+5. Pulling data across our siloed systems for any cross-functional report is painful, MES,
+   LIMS, ERP, and the orchestration platform don't talk, so we extract and join by hand.
+
+6. Integrating the legacy systems properly needs real capital and a platform program, not a
+   quick automation.
+
+7. Service-desk tickets pour in and a person triages and routes every one, and a big share
+   are the same handful of password and access issues.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Asked what they'd hand off first: the repetitive writing, no question.

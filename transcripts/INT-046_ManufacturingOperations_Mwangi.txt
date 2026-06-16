@@ -1,0 +1,43 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-046
+Interviewee:    Ravi Mwangi
+Title:          VP, Manufacturing
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-05-17
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Second-gen process, turnaround down around 22-34 days. The slot is the constraint, not the
+  chemistry on a good day.
+- Autologous TIL, so every batch is one patient. Tumor tissue comes in, we expand to billions
+  of cells, cryopreserve, ship back.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Inbound tumor tissue has to land in a tight window and we hand-coordinate every pickup
+   against the manufacturing slot. Constant re-planning.
+
+2. My inbox is a part-time job, triaging and routing email and pulling out the few things
+   that actually need me.
+
+3. Some of our incubators and equipment are aging and we get unplanned downtime. That needs
+   capital and new hardware, not an app.
+
+4. Yield still varies batch to batch because it's living cells from a sick patient. No model
+   fixes the underlying biology, the starting material is what it is.
+
+5. Chain-of-identity checks are manual label reconciliation at every step. Necessary, but a
+   person is eyeballing IDs and initialing, over and over.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

@@ -1,0 +1,101 @@
+interview_id,file,style,stakeholder,role,seniority,function,function_id,date,n_pain_points,n_ai_addressable,n_not_addressable
+INT-001,INT-001_Finance-FP&A_Haddad.txt,clean,Leila Haddad,"Cost Accountant, COGS",ic,Finance & FP&A,FN-finance,2026-05-28,5,3,2
+INT-002,INT-002_IT-Data-Digital_Bello.txt,clean,Nina Bello,Business Systems Analyst,ic,"IT, Data & Digital",FN-it,2026-05-04,7,5,2
+INT-003,INT-003_ManufacturingOperations_Romano.txt,clean,Liam Romano,Manufacturing Associate III,ic,Manufacturing Operations (iCTC),FN-mfg-ops,2026-06-04,5,3,2
+INT-004,INT-004_RegulatoryAffairs_Fischer.txt,clean,Liam Fischer,"Manager, Regulatory Affairs",manager,Regulatory Affairs,FN-regulatory,2026-04-22,5,3,2
+INT-005,INT-005_Commercial_Walsh.txt,messy,Selene Walsh,"Manager, Market Access",manager,Commercial (Sales & Marketing),FN-commercial,2026-06-11,5,5,0
+INT-006,INT-006_RegulatoryAffairs_Quinn.txt,clean,Selene Quinn,"Senior Manager, Global Reg",manager,Regulatory Affairs,FN-regulatory,2026-05-01,6,4,2
+INT-007,INT-007_RegulatoryAffairs_Walsh.txt,clean,Oscar Walsh,"Manager, Regulatory Affairs",manager,Regulatory Affairs,FN-regulatory,2026-05-09,7,5,2
+INT-008,INT-008_RegulatoryAffairs_Walsh.txt,clean,Kenji Walsh,"Director, Regulatory CMC",director,Regulatory Affairs,FN-regulatory,2026-06-12,6,5,1
+INT-009,INT-009_HumanResources_Walsh.txt,clean,Lena Walsh,HR Business Partner,manager,Human Resources,FN-hr,2026-04-28,7,6,1
+INT-010,INT-010_Commercial_Carver.txt,messy,Hassan Carver,"Manager, Market Access",manager,Commercial (Sales & Marketing),FN-commercial,2026-06-07,6,5,1
+INT-011,INT-011_IT-Data-Digital_Shah.txt,clean,Carla Shah,Business Systems Analyst,ic,"IT, Data & Digital",FN-it,2026-05-29,7,5,2
+INT-012,INT-012_Procurement-Sourcing_Walsh.txt,messy,Lucas Walsh,"Director, Strategic Sourcing",director,Procurement & Sourcing,FN-procurement,2026-05-23,7,5,2
+INT-013,INT-013_MedicalAffairs-Pharmacovigilance_Laurent.txt,clean,Renata Laurent,Medical Science Liaison,ic,Medical Affairs & Pharmacovigilance,FN-medical-affairs,2026-05-11,5,3,2
+INT-014,INT-014_ManufacturingSciences_Sokolov.txt,clean,Hannah Sokolov,"Director, Manufacturing Sciences",director,Manufacturing Sciences (MSAT),FN-msat,2026-05-24,5,3,2
+INT-015,INT-015_SupplyChain-ColdChainLogistics_Nasser.txt,clean,Maya Nasser,"Planner, Materials Management",ic,Supply Chain & Cold Chain Logistics,FN-supply-chain,2026-05-27,5,3,2
+INT-016,INT-016_Finance-FP&A_Costa.txt,clean,Elena Costa,"Cost Accountant, COGS",ic,Finance & FP&A,FN-finance,2026-05-04,5,4,1
+INT-017,INT-017_IT-Data-Digital_Hartman.txt,clean,Ravi Hartman,"Director, IT & Data",director,"IT, Data & Digital",FN-it,2026-06-02,7,6,1
+INT-018,INT-018_ManufacturingOperations_Patel.txt,clean,Caleb Patel,"Shift Lead, TIL Expansion",ic,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-16,6,5,1
+INT-019,INT-019_Commercial_Aguilar.txt,clean,Lucas Aguilar,Sales Operations Analyst,ic,Commercial (Sales & Marketing),FN-commercial,2026-06-10,6,5,1
+INT-020,INT-020_ClinicalOperations_Bauer.txt,clean,Amara Bauer,Clinical Trial Associate,ic,Clinical Operations,FN-clinical-ops,2026-05-31,5,4,1
+INT-021,INT-021_Procurement-Sourcing_Castillo.txt,clean,Marco Castillo,"Director, Strategic Sourcing",director,Procurement & Sourcing,FN-procurement,2026-04-26,7,5,2
+INT-022,INT-022_Procurement-Sourcing_Costa.txt,clean,Aaron Costa,Procurement Analyst,ic,Procurement & Sourcing,FN-procurement,2026-05-17,7,5,2
+INT-023,INT-023_ManufacturingOperations_Castillo.txt,clean,Liam Castillo,"VP, Manufacturing",vp,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-24,5,4,1
+INT-024,INT-024_ManufacturingOperations_Novak.txt,clean,Linnea Novak,"Manager, Production Scheduling",manager,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-23,6,6,0
+INT-025,INT-025_SupplyChain-ColdChainLogistics_Sorensen.txt,clean,Omar Sorensen,"Coordinator, Cell Orchestration",ic,Supply Chain & Cold Chain Logistics,FN-supply-chain,2026-05-13,5,3,2
+INT-026,INT-026_PatientServices-Reimbursement_Sorensen.txt,clean,Kofi Sorensen,Senior Patient Coordinator,ic,Patient Services & Reimbursement,FN-patient-services,2026-05-21,7,4,3
+INT-027,INT-027_SupplyChain-ColdChainLogistics_Rahimi.txt,messy,Leila Rahimi,"Manager, Logistics",manager,Supply Chain & Cold Chain Logistics,FN-supply-chain,2026-05-14,6,4,2
+INT-028,INT-028_QualityControl_Okonkwo.txt,clean,Joan Okonkwo,"Senior QC Analyst, Flow Cytometry",ic,Quality Control,FN-qc,2026-05-25,5,3,2
+INT-029,INT-029_QualityControl_Fischer.txt,clean,Felix Fischer,"Senior QC Analyst, Flow Cytometry",ic,Quality Control,FN-qc,2026-06-09,5,2,3
+INT-030,INT-030_HumanResources_Eze.txt,messy,Omar Eze,HR Business Partner,manager,Human Resources,FN-hr,2026-05-03,6,5,1
+INT-031,INT-031_QualityControl_Russo.txt,clean,Samuel Russo,"Manager, QC Operations",manager,Quality Control,FN-qc,2026-05-07,5,5,0
+INT-032,INT-032_Commercial_Novak.txt,clean,Dmitri Novak,"Manager, Market Access",manager,Commercial (Sales & Marketing),FN-commercial,2026-05-05,6,6,0
+INT-033,INT-033_ManufacturingSciences_Haddad.txt,clean,Anika Haddad,"Manager, MSAT",manager,Manufacturing Sciences (MSAT),FN-msat,2026-05-10,5,4,1
+INT-034,INT-034_PatientServices-Reimbursement_Hartman.txt,clean,Joan Hartman,Senior Patient Coordinator,ic,Patient Services & Reimbursement,FN-patient-services,2026-04-23,7,5,2
+INT-035,INT-035_PatientServices-Reimbursement_Costa.txt,clean,Priscilla Costa,"Case Manager, Cell Therapy",ic,Patient Services & Reimbursement,FN-patient-services,2026-05-29,6,4,2
+INT-036,INT-036_Legal-Compliance_Quinn.txt,clean,Fatima Quinn,Contracts Manager,manager,Legal & Compliance,FN-legal,2026-05-12,5,4,1
+INT-037,INT-037_Legal-Compliance_Sokolov.txt,messy,Caleb Sokolov,Compliance Analyst,ic,Legal & Compliance,FN-legal,2026-05-14,7,5,2
+INT-038,INT-038_QualityControl_Tanaka.txt,clean,Marco Tanaka,"Director, Quality Control",director,Quality Control,FN-qc,2026-06-05,6,5,1
+INT-039,INT-039_RegulatoryAffairs_Quinn.txt,clean,Priya Quinn,"Manager, Regulatory Affairs",manager,Regulatory Affairs,FN-regulatory,2026-04-29,6,4,2
+INT-040,INT-040_Commercial_Vargas.txt,messy,Lucas Vargas,"Director, Commercial Operations",director,Commercial (Sales & Marketing),FN-commercial,2026-04-26,6,5,1
+INT-041,INT-041_PatientServices-Reimbursement_Voss.txt,clean,Jin Voss,"VP, Patient Services",vp,Patient Services & Reimbursement,FN-patient-services,2026-04-20,5,4,1
+INT-042,INT-042_ManufacturingOperations_Laurent.txt,messy,Carla Laurent,Manufacturing Supervisor,manager,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-21,7,6,1
+INT-043,INT-043_PatientServices-Reimbursement_Mansour.txt,messy,Bianca Mansour,"Manager, Benefit Verification",manager,Patient Services & Reimbursement,FN-patient-services,2026-04-28,5,4,1
+INT-044,INT-044_RegulatoryAffairs_Boyle.txt,clean,Rosa Boyle,"Director, Regulatory CMC",director,Regulatory Affairs,FN-regulatory,2026-06-04,7,5,2
+INT-045,INT-045_ManufacturingSciences_Okonkwo.txt,clean,Imani Okonkwo,"Scientist II, Process Development",ic,Manufacturing Sciences (MSAT),FN-msat,2026-06-01,7,5,2
+INT-046,INT-046_ManufacturingOperations_Mwangi.txt,clean,Ravi Mwangi,"VP, Manufacturing",vp,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-17,5,3,2
+INT-047,INT-047_ManufacturingSciences_Costa.txt,clean,Viktor Costa,"Director, Manufacturing Sciences",director,Manufacturing Sciences (MSAT),FN-msat,2026-06-08,6,5,1
+INT-048,INT-048_ManufacturingSciences_Reyes.txt,messy,Yuki Reyes,"Director, Manufacturing Sciences",director,Manufacturing Sciences (MSAT),FN-msat,2026-06-11,7,5,2
+INT-049,INT-049_ClinicalOperations_Fischer.txt,messy,Mateo Fischer,Clinical Trial Associate,ic,Clinical Operations,FN-clinical-ops,2026-04-21,5,4,1
+INT-050,INT-050_QualityControl_Delgado.txt,clean,Bianca Delgado,"Director, Quality Control",director,Quality Control,FN-qc,2026-05-01,5,4,1
+INT-051,INT-051_QualityAssurance_Bauer.txt,clean,Yuki Bauer,"Senior Manager, QA Compliance",manager,Quality Assurance,FN-qa,2026-05-26,7,5,2
+INT-052,INT-052_MedicalAffairs-Pharmacovigilance_Sandberg.txt,clean,Jin Sandberg,Drug Safety Associate (PV),ic,Medical Affairs & Pharmacovigilance,FN-medical-affairs,2026-04-24,7,5,2
+INT-053,INT-053_QualityAssurance_Patel.txt,clean,Nina Patel,"Manager, Quality Assurance",manager,Quality Assurance,FN-qa,2026-05-06,6,4,2
+INT-054,INT-054_QualityControl_Haddad.txt,clean,Maya Haddad,"Senior QC Analyst, Flow Cytometry",ic,Quality Control,FN-qc,2026-06-02,6,4,2
+INT-055,INT-055_IT-Data-Digital_Nasser.txt,messy,Daniel Nasser,CSV Specialist (Computer System Validation),ic,"IT, Data & Digital",FN-it,2026-05-09,6,4,2
+INT-056,INT-056_ClinicalOperations_Eze.txt,messy,Anika Eze,Clinical Trial Manager,manager,Clinical Operations,FN-clinical-ops,2026-05-12,7,6,1
+INT-057,INT-057_PatientServices-Reimbursement_Petrova.txt,messy,Leila Petrova,"VP, Patient Services",vp,Patient Services & Reimbursement,FN-patient-services,2026-05-25,5,4,1
+INT-058,INT-058_Finance-FP&A_Castillo.txt,clean,Zara Castillo,"Cost Accountant, COGS",ic,Finance & FP&A,FN-finance,2026-06-05,7,6,1
+INT-059,INT-059_ManufacturingSciences_Brennan.txt,clean,Grace Brennan,"Principal Engineer, Tech Transfer",ic,Manufacturing Sciences (MSAT),FN-msat,2026-05-17,6,5,1
+INT-060,INT-060_QualityAssurance_Santos.txt,clean,Jin Santos,"VP, Quality",vp,Quality Assurance,FN-qa,2026-05-03,5,3,2
+INT-061,INT-061_ManufacturingOperations_Walsh.txt,clean,Ravi Walsh,"VP, Manufacturing",vp,Manufacturing Operations (iCTC),FN-mfg-ops,2026-06-12,6,3,3
+INT-062,INT-062_QualityAssurance_Abboud.txt,clean,Selene Abboud,"VP, Quality",vp,Quality Assurance,FN-qa,2026-04-25,6,4,2
+INT-063,INT-063_ClinicalOperations_Sandberg.txt,clean,Ravi Sandberg,CRA (Clinical Research Associate),ic,Clinical Operations,FN-clinical-ops,2026-05-07,5,3,2
+INT-064,INT-064_ManufacturingSciences_Klein.txt,clean,Samuel Klein,"Scientist II, Process Development",ic,Manufacturing Sciences (MSAT),FN-msat,2026-05-30,7,5,2
+INT-065,INT-065_QualityAssurance_Haddad.txt,clean,Joan Haddad,"Senior Manager, QA Compliance",manager,Quality Assurance,FN-qa,2026-04-26,6,5,1
+INT-066,INT-066_Legal-Compliance_Costa.txt,messy,Ravi Costa,Contracts Manager,manager,Legal & Compliance,FN-legal,2026-05-22,7,5,2
+INT-067,INT-067_Legal-Compliance_Klein.txt,messy,Nina Klein,"Director, Legal Operations",director,Legal & Compliance,FN-legal,2026-04-24,5,4,1
+INT-068,INT-068_ManufacturingOperations_Sokolov.txt,clean,Marco Sokolov,"Manager, Production Scheduling",manager,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-21,7,4,3
+INT-069,INT-069_Procurement-Sourcing_Moreau.txt,messy,Hassan Moreau,Procurement Analyst,ic,Procurement & Sourcing,FN-procurement,2026-04-24,7,5,2
+INT-070,INT-070_QualityAssurance_Vargas.txt,messy,Kenji Vargas,"QA Specialist, Batch Disposition",ic,Quality Assurance,FN-qa,2026-05-09,6,4,2
+INT-071,INT-071_Finance-FP&A_Costa.txt,clean,Dmitri Costa,"Manager, FP&A",manager,Finance & FP&A,FN-finance,2026-06-12,6,4,2
+INT-072,INT-072_ManufacturingOperations_Eze.txt,clean,Grace Eze,"Shift Lead, TIL Expansion",ic,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-07,6,4,2
+INT-073,INT-073_HumanResources_Russo.txt,clean,Connor Russo,"Manager, People Operations",manager,Human Resources,FN-hr,2026-05-25,6,5,1
+INT-074,INT-074_PatientServices-Reimbursement_Boyle.txt,clean,Noor Boyle,Reimbursement Specialist,ic,Patient Services & Reimbursement,FN-patient-services,2026-05-29,5,4,1
+INT-075,INT-075_QualityAssurance_Hartman.txt,clean,Dana Hartman,"QA Specialist, Batch Disposition",ic,Quality Assurance,FN-qa,2026-06-03,7,6,1
+INT-076,INT-076_QualityAssurance_Shah.txt,clean,Mateo Shah,"Manager, Quality Assurance",manager,Quality Assurance,FN-qa,2026-05-25,6,6,0
+INT-077,INT-077_HumanResources_Romano.txt,clean,Samuel Romano,"Manager, People Operations",manager,Human Resources,FN-hr,2026-05-17,6,5,1
+INT-078,INT-078_SupplyChain-ColdChainLogistics_Mwangi.txt,messy,Carla Mwangi,Cold Chain Specialist,ic,Supply Chain & Cold Chain Logistics,FN-supply-chain,2026-05-27,6,4,2
+INT-079,INT-079_MedicalAffairs-Pharmacovigilance_Tanaka.txt,clean,Camila Tanaka,"Manager, Medical Information",manager,Medical Affairs & Pharmacovigilance,FN-medical-affairs,2026-05-21,6,4,2
+INT-080,INT-080_QualityAssurance_Vargas.txt,clean,Viktor Vargas,"VP, Quality",vp,Quality Assurance,FN-qa,2026-05-07,6,4,2
+INT-081,INT-081_QualityControl_Vargas.txt,clean,Daniel Vargas,QC Analyst II,ic,Quality Control,FN-qc,2026-04-21,7,5,2
+INT-082,INT-082_Procurement-Sourcing_Haddad.txt,messy,Caleb Haddad,Procurement Analyst,ic,Procurement & Sourcing,FN-procurement,2026-05-26,7,5,2
+INT-083,INT-083_Commercial_Bello.txt,clean,Mateo Bello,"Director, Commercial Operations",director,Commercial (Sales & Marketing),FN-commercial,2026-06-06,7,5,2
+INT-084,INT-084_PatientServices-Reimbursement_Friedman.txt,clean,Tara Friedman,Reimbursement Specialist,ic,Patient Services & Reimbursement,FN-patient-services,2026-05-13,5,3,2
+INT-085,INT-085_QualityControl_Ferreira.txt,clean,Elena Ferreira,QC Analyst II,ic,Quality Control,FN-qc,2026-05-27,6,5,1
+INT-086,INT-086_ManufacturingOperations_Carver.txt,clean,Mateo Carver,Manufacturing Associate III,ic,Manufacturing Operations (iCTC),FN-mfg-ops,2026-04-21,7,4,3
+INT-087,INT-087_Finance-FP&A_Russo.txt,clean,Ravi Russo,Senior Financial Analyst,ic,Finance & FP&A,FN-finance,2026-05-06,5,4,1
+INT-088,INT-088_ManufacturingOperations_Bello.txt,clean,Wesley Bello,"Manager, Production Scheduling",manager,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-13,6,3,3
+INT-089,INT-089_ClinicalOperations_Ferreira.txt,clean,Kenji Ferreira,"Director, Clinical Operations",director,Clinical Operations,FN-clinical-ops,2026-05-12,5,4,1
+INT-090,INT-090_MedicalAffairs-Pharmacovigilance_Iyer.txt,clean,Aaron Iyer,Pharmacovigilance Scientist,ic,Medical Affairs & Pharmacovigilance,FN-medical-affairs,2026-05-14,5,3,2
+INT-091,INT-091_SupplyChain-ColdChainLogistics_Park.txt,clean,Rohan Park,Cold Chain Specialist,ic,Supply Chain & Cold Chain Logistics,FN-supply-chain,2026-05-07,7,6,1
+INT-092,INT-092_SupplyChain-ColdChainLogistics_Abboud.txt,messy,Omar Abboud,"Manager, Logistics",manager,Supply Chain & Cold Chain Logistics,FN-supply-chain,2026-06-02,5,4,1
+INT-093,INT-093_ManufacturingOperations_Laurent.txt,clean,Kofi Laurent,Manufacturing Supervisor,manager,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-26,7,5,2
+INT-094,INT-094_Finance-FP&A_Brennan.txt,clean,Mei Brennan,"Director, Controllership",director,Finance & FP&A,FN-finance,2026-04-23,5,4,1
+INT-095,INT-095_PatientServices-Reimbursement_Doyle.txt,clean,Pablo Doyle,Senior Patient Coordinator,ic,Patient Services & Reimbursement,FN-patient-services,2026-04-30,6,3,3
+INT-096,INT-096_ManufacturingOperations_Brennan.txt,clean,Leila Brennan,"VP, Manufacturing",vp,Manufacturing Operations (iCTC),FN-mfg-ops,2026-05-06,7,4,3
+INT-097,INT-097_SupplyChain-ColdChainLogistics_Park.txt,clean,Camila Park,"Manager, Logistics",manager,Supply Chain & Cold Chain Logistics,FN-supply-chain,2026-05-17,5,3,2
+INT-098,INT-098_Commercial_Bello.txt,messy,Ingrid Bello,"Director, Commercial Operations",director,Commercial (Sales & Marketing),FN-commercial,2026-05-06,5,4,1
+INT-099,INT-099_QualityAssurance_Tanaka.txt,clean,Priscilla Tanaka,"Manager, Quality Assurance",manager,Quality Assurance,FN-qa,2026-06-04,6,5,1
+INT-100,INT-100_QualityControl_Okonkwo.txt,clean,Selene Okonkwo,"Director, Quality Control",director,Quality Control,FN-qc,2026-05-02,7,5,2

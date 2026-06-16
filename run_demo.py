@@ -22,6 +22,7 @@ from lens.extract import extract_all
 from lens.dedup import deduplicate
 from lens.savings import aggregate_and_size
 from lens.score import score_portfolio
+from lens.pipeline import default_org
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -82,7 +83,7 @@ def main():
     print()
 
     # Stage 5 + 6: aggregate + savings (the gate)
-    aggregate_and_size(use_cases, pain_points, functions)
+    aggregate_and_size(use_cases, pain_points, functions, default_org(functions))
 
     # Stage 7: score + prioritize
     ranked, gated = score_portfolio(use_cases, pain_points, functions)

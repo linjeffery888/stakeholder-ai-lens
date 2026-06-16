@@ -1,0 +1,45 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-002
+Interviewee:    Viktor Bauer
+Title:          Business Systems Analyst
+Function:       IT, Data & Digital
+Date:           2026-05-17
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Everything we touch in GxP space needs computer-system validation, which slows every change
+  down.
+- We run the enterprise systems: MES, LIMS, ERP, the orchestration platform, and the
+  validated-state paperwork around all of it.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Every contract that comes up I write a summary memo, pulling key terms, renewal dates, and
+   pricing out of a long PDF into a one-pager.
+
+2. Access provisioning is partly approvals and partly judgment about least-privilege, some of
+   it has to stay human for compliance.
+
+3. Pulling data across our siloed systems for any cross-functional report is painful, MES,
+   LIMS, ERP, and the orchestration platform don't talk, so we extract and join by hand.
+
+4. Service-desk tickets pour in and a person triages and routes every one, and a big share
+   are the same handful of password and access issues.
+
+5. Integrating the legacy systems properly needs real capital and a platform program, not a
+   quick automation.
+
+6. Computer-system validation documentation is enormous, every system change in GxP needs
+   validation protocols and reports written and executed.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Asked what they'd hand off first: the repetitive writing, no question.

@@ -1,0 +1,26 @@
+Legal & Compliance // Caleb Sokolov (Compliance Analyst)
+2026-05-14 - J. Lin + intern (discovery) - INT-037
+
+current role / context:
+- small team very high contract thruput, plus teh healthcare-compliance overhead of a commercial pharma ->
+- contracts compliance, n policy. Heavy CDA/MSA volume w/ CROs, ATCs, suppliers, n academic collaborators.
+
+pain points / where time goes:
+- nDA n CDA turnaround is a bottleneck for the whole company, partners wait on us n theyre 80%
+  boilerplate
+- a lot of our critical GMP materials are single-source, n that supply risk is a
+  market n qualificatoin reality no software removes
+- compliance trainign content has to be built n refreshed constntly n its mostly assembling n rewording existing
+  material
+- every week I stitch together a status report from three or four differetn sources by hand its teh same format
+  evry time n it still takes hours
+- monitoring healthcare-compliance obligations like Sunshine Act reporting is partly tracking we could speed up
+  n partly judgment
+- finding a prior contract or a specific clause in the repository is a nightmare, the
+  search is bad so we re-draft things we already have.
+- a real privacy or HIPAA incidetn is a judgment-and-liability call, you escalate to people, you
+  dont let a model decide
+-
+-
+
+skeptical that a tool can handle teh GxP docation rigor, wants to see it before trusting it

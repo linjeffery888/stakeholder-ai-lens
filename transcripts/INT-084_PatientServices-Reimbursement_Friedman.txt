@@ -1,0 +1,45 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-084
+Interviewee:    Tara Friedman
+Title:          Reimbursement Specialist
+Function:       Patient Services & Reimbursement
+Date:           2026-05-13
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Team owns the patient journey from referral through scheduled infusion at the Authorized
+  Treatment Center (ATC).
+- We sit between the prescribing center, the payer, and manufacturing. Nothing moves until
+  benefits are confirmed.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Scheduling a patient is calendar tetris: ATC availability, a manufacturing slot, the
+   lymphodepletion window, and IL-2, all coordinated by hand across teams. One slip and the
+   whole sequence reshuffles.
+
+2. A lot of this job is emotional support for patients who are out of options. That's human
+   work, you can't automate sitting with someone through a terminal diagnosis.
+
+3. So much knowledge is locked in people's heads and old email threads, when someone is out
+   or leaves we lose the answer.
+
+4. Honestly we just don't have enough coordinators for the case volume coming. More ATCs
+   onboarding means more cases and we're already maxed. We need heads.
+
+5. Denial appeals are brutal. When a payer denies we draft the appeal more or less from
+   scratch every time, people keep a few old letters and rewrite them, 45 min easy, and we do
+   hundreds a year.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

@@ -13,6 +13,21 @@ from typing import Optional
 
 
 @dataclass
+class Organization:
+    """Org-level economics that scale savings. headcount and SaaS/vendor spend
+    drive spend-type levers; per-function rates drive labor levers."""
+    company_name: str = ""
+    total_headcount: int = 0
+    annual_saas_spend: float = 0.0
+    source: str = "manual"          # manual | researched
+    confidence: float = 1.0          # researched values come in low
+    notes: str = ""                  # research rationale / disclaimer
+
+    def to_dict(self):
+        return asdict(self)
+
+
+@dataclass
 class Function:
     function_id: str
     name: str

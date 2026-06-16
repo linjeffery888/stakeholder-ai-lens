@@ -1,0 +1,20 @@
+Clinical Operations // Mateo Fischer (Clinical Trial Associate)
+2026-04-21 - J. Lin + intern (discovery) - INT-049
+
+current role / context:
+- we run the trials: the sarcoma registrational study, endometrial, n the next-gen gene-edited TIL programs
+- oversight of CROs n sites plus all the trial docatoin that has to be inspection-ready.
+
+pain points / where time goes:
+- reconciling CRO-delivered data against our own trackers is endless the #s nvr quite match and we chase the
+  differences.
+- literature surveillance for safety is a firehose, someone screens new publications weekly for anything
+  relevant to our product.
+- site startup drags on IRB n contract timelines that are external no internal tool speeds up
+  another institutions committee.
+- protocol deviation tracking across sites is manual recon n rolling it up for the sponsor oversight meeting
+  takes a CTA most of a week.
+- reviewing monitoring visit reports from CRAs is a steady load, reading long reports n pulling
+  out the issues that need action
+
+skeptical that a tool can handle the GxP documentation rigor, wants to see it before trusting it

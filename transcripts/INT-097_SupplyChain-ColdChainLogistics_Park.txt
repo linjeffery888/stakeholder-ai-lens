@@ -1,0 +1,44 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-097
+Interviewee:    Camila Park
+Title:          Manager, Logistics
+Function:       Supply Chain & Cold Chain Logistics
+Date:           2026-05-17
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Chain of identity and chain of custody is everything. A single mislabeled handoff is a
+  patient-impacting event.
+- We orchestrate the cold chain both directions: fresh tumor inbound, cryopreserved product
+  outbound to the ATC.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Inbound tumor tissue has to land in a tight window and we hand-coordinate every pickup
+   against the manufacturing slot. Constant re-planning.
+
+2. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+3. We're capacity-limited on LN2 dry shippers and qualified packaging. That's procurement and
+   hardware, you can't software your way to more shippers.
+
+4. Finding the right SOP or work instruction is a daily hunt, they're scattered across
+   SharePoint and shared drives and the search never finds the current version.
+
+5. Flights, weather, and customs are out of our hands. No model makes a grounded plane fly,
+   that's physical-world risk we just manage.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

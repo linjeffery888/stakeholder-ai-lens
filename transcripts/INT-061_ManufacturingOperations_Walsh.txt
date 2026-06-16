@@ -1,0 +1,47 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-061
+Interviewee:    Ravi Walsh
+Title:          VP, Manufacturing
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-06-12
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Second-gen process, turnaround down around 22-34 days. The slot is the constraint, not the
+  chemistry on a good day.
+- Internalizing all manufacturing in-house at the iCTC, so volume is ramping hard.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+2. Yield still varies batch to batch because it's living cells from a sick patient. No model
+   fixes the underlying biology, the starting material is what it is.
+
+3. We can't run more suites without more qualified operators, and qualifying an operator
+   takes months. That's a people-and-time problem, not a software one.
+
+4. Some of our incubators and equipment are aging and we get unplanned downtime. That needs
+   capital and new hardware, not an app.
+
+5. Deviation writeups eat the floor. When something goes off-script the associate documents
+   it in detail, and they're doing it mid-shift trying to remember exactly what happened.
+   Slow and inconsistent.
+
+6. Scheduling manufacturing slots against incoming tumor tissue is a constant puzzle. Tissue
+   arrives in tight windows, suites and staff are fixed, and we re-plan by hand whenever
+   anything shifts.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Open to piloting something if it's reliable and stays inside our validated systems.

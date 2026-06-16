@@ -1,0 +1,42 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-025
+Interviewee:    Omar Sorensen
+Title:          Coordinator, Cell Orchestration
+Function:       Supply Chain & Cold Chain Logistics
+Date:           2026-05-13
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We orchestrate the cold chain both directions: fresh tumor inbound, cryopreserved product
+  outbound to the ATC.
+- Chain of identity and chain of custody is everything. A single mislabeled handoff is a
+  patient-impacting event.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Flights, weather, and customs are out of our hands. No model makes a grounded plane fly,
+   that's physical-world risk we just manage.
+
+2. We're capacity-limited on LN2 dry shippers and qualified packaging. That's procurement and
+   hardware, you can't software your way to more shippers.
+
+3. Every temperature excursion triggers a documented investigation, and writing those up and
+   chasing the data is a recurring drain.
+
+4. We monitor cold-chain shipments across multiple couriers and there's no single dashboard,
+   so coordinators watch portals and emails and phone for status all day, both directions.
+
+5. Courier and vendor performance reporting is manual every quarter, pulling shipment data
+   and building the scorecards by hand.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Open to piloting something if it's reliable and stays inside our validated systems.

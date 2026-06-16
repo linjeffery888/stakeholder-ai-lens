@@ -1,0 +1,43 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-020
+Interviewee:    Amara Bauer
+Title:          Clinical Trial Associate
+Function:       Clinical Operations
+Date:           2026-05-31
+Interviewer:    J. Lin (AI Strategy)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Oversight of CROs and sites, plus all the trial documentation that has to be inspection-
+  ready.
+- We run the trials: the sarcoma registrational study, endometrial, and the next-gen gene-
+  edited TIL programs.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Protocol deviation tracking across sites is manual reconciliation, and rolling it up for
+   the sponsor oversight meeting takes a CTA most of a week.
+
+2. Every week I stitch together a status report from three or four different sources by hand,
+   it's the same format every time and it still takes hours.
+
+3. Drafting adverse-event narratives for the safety database is repetitive structured
+   writing, and we do a lot of them.
+
+4. Trial master file completeness is a constant audit risk, someone is forever checking which
+   documents are missing or expired across thousands of files.
+
+5. Slow enrollment is fundamentally a biology and epidemiology problem, the patients are rare
+   and you can't manufacture eligible patients.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Flagged that whatever we build has to play nice with the validated systems or it won't get
+  approved.

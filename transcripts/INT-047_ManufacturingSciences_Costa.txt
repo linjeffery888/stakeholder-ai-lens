@@ -1,0 +1,47 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-047
+Interviewee:    Viktor Costa
+Title:          Director, Manufacturing Sciences
+Function:       Manufacturing Sciences (MSAT)
+Date:           2026-06-08
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We own the process: characterization, tech transfer from dev into GMP, and investigation
+  support when a batch misbehaves.
+- Bridge between R&D and the floor. We translate a process that works at bench into something
+  that survives at commercial scale.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. When we investigate a process deviation we manually trend across dozens of historical
+   batches to find the root cause, pulling data out of MES and LIMS into spreadsheets by
+   hand.
+
+2. My inbox is a part-time job, triaging and routing email and pulling out the few things
+   that actually need me.
+
+3. Process characterization is wet-lab work. You have to run the experiments at the bench,
+   there's no shortcut around generating the actual data.
+
+4. Pulling process data into the monthly process-monitoring reports is brutal, the data lives
+   in three systems and we stitch it together by hand every time.
+
+5. Comparability protocols and reports take weeks, and a lot of it is assembling data and
+   writing the narrative around it.
+
+6. Environmental monitoring generates a mountain of data entry, readings keyed in by hand
+   into the system every shift.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Skeptical that a tool can handle the GxP documentation rigor, wants to see it before
+  trusting it.

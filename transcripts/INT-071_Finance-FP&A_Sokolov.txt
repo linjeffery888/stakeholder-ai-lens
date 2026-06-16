@@ -1,0 +1,43 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-071
+Interviewee:    Hannah Sokolov
+Title:          Cost Accountant, COGS
+Function:       Finance & FP&A
+Date:           2026-05-24
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Controllership, FP&A, and cost accounting. COGS per batch is a huge focus given the gross-
+  margin push.
+- Leadership wants COGS down and margin up, so finance is under the microscope on cost per
+  patient.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Building the management reporting pack is its own slog, copying numbers out of five
+   sources into a deck every month.
+
+2. Vendor and SaaS spend review is quarterly and manual, I go invoice by invoice looking for
+   duplicate tools and licenses we forgot to cancel, and I'm sure we miss savings.
+
+3. Month-end account reconciliation is where it hurts, an analyst ties ERP balances to
+   subledgers and spreadsheets and chases every variance. A material account is 90 min and we
+   do 500-600 a close.
+
+4. Finding the right SOP or work instruction is a daily hunt, they're scattered across
+   SharePoint and shared drives and the search never finds the current version.
+
+5. Revenue recognition for a personalized therapy has genuine judgment calls that I'm not
+   handing to a model.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Wants any solution to keep a human in the loop for anything patient-impacting.

@@ -1,0 +1,45 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-039
+Interviewee:    Priya Quinn
+Title:          Manager, Regulatory Affairs
+Function:       Regulatory Affairs
+Date:           2026-04-29
+Interviewer:    J. Lin (AI Strategy)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We own submissions and health-authority interactions across the markets where Amtagvi is
+  approved or pending.
+- Lots of parallel markets now: US approved, Australia conditional, EMA resubmission in
+  progress, Switzerland pending.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. The actual timing of FDA and EMA decisions is completely outside our control, we can
+   prepare but we can't move their calendar.
+
+2. Tracking regulatory commitments across all our markets is a spreadsheet that's always
+   slightly out of date, and missing one is a serious problem.
+
+3. Health-authority queries come in with tight clocks and we draft responses pulling from
+   prior submissions and source docs every time.
+
+4. Some ex-US submissions need certified translations and local agent work that's inherently
+   external and manual.
+
+5. Labeling changes have to be managed across regions and reconciled against local
+   requirements, very manual cross-checking.
+
+6. Keeping up with new guidances and summarizing what they mean for us is a reading-and-
+   writing job nobody has time for.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Says the team would welcome the help but worries about anything touching release decisions.

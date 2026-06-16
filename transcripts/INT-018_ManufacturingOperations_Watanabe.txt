@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-018
+Interviewee:    Bianca Watanabe
+Title:          Director, Manufacturing Operations
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-05-31
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Second-gen process, turnaround down around 22-34 days. The slot is the constraint, not the
+  chemistry on a good day.
+- Internalizing all manufacturing in-house at the iCTC, so volume is ramping hard.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. So much knowledge is locked in people's heads and old email threads, when someone is out
+   or leaves we lose the answer.
+
+2. Courier and vendor performance reporting is manual every quarter, pulling shipment data
+   and building the scorecards by hand.
+
+3. Deviation writeups eat the floor. When something goes off-script the associate documents
+   it in detail, and they're doing it mid-shift trying to remember exactly what happened.
+   Slow and inconsistent.
+
+4. Shift handoff is all manual notes. Night shift writes up where each batch stands and day
+   shift re-reads it, and stuff gets lost in the translation.
+
+5. Yield still varies batch to batch because it's living cells from a sick patient. No model
+   fixes the underlying biology, the starting material is what it is.
+
+6. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Says the team would welcome the help but worries about anything touching release decisions.

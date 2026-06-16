@@ -1,0 +1,26 @@
+Procurement & Sourcing // Hassan Moreau (Procurement Analyst)
+2026-04-24 - J. Lin (AI Strategy) - INT-069
+
+current role / context:
+- we source everythign from GMP raw materials and media to consumables and lab services
+- a lot of single-source critical materials, which makes supply risk ovr constant background worry
+
+pain points / where time goes:
+- spend analysis across categories is a quarterly manual build, and w/o it we cant see
+  where to consolidate or negotiate.
+- every week I stitch together a status report from three or fovr different sources by hand its the same format
+  evry time n it still takes hours.
+- contract renewals sneak up on us bc tracking em is a spreadsheet n auto-renewals
+  slip thru n cost us.
+- a lot of our critical GMP materials are single-source, n that supply risk is a market n
+  qualification reality no software removes ->
+- supplier onboarding n qualification is a paperwork marathon collecting docs, quality
+  questionnaires, n risk assessments for every new vendor
+- w/ sole suppliers we have almost no negotiating leverage, thats a market-structure
+  problem, not an analytics one
+- building RFPs and comparing bids is slow, assembling the requirements and then normalizing
+  wildly different vendor responses by hand ->
+-
+-
+
+if I could wave a wand and kill one thing, its the manual report stitching ->

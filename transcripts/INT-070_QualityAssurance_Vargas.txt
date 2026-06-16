@@ -1,0 +1,22 @@
+Quality Assurance // Kenji Vargas (QA Specialist, Batch Disposition)
+2026-05-09 - J. Lin + intern (discovery) - INT-070
+
+current role / context:
+- every batch is patient-specific so the docs burden per unit is brutal compared to small molecule
+- quality owns batch disposition deviations, change control, and audit readiness. For a personalized product the paperwork is the product
+
+pain points / where time goes:
+- we have hundreds of SOPs on periodic-review cycles. Someone has to read each one, decide if it
+  still reflects practice, n document the review. Its relentless.
+- inspection readiness is also a culture n behavior thing on the floor, thats
+  leadership n training, not a tool.
+- we genuinely need more trained QA reviewers the volume is outpacing the team n review cant be
+  skipped. Thats headcount.
+- change control docs is heavy every change needs an impact assessment written, routed, and tracked, and the
+  writing is repetitive ->
+- annual Product Quality Review compilation is a multi-week effort pullign data from
+  everywhere into one report.
+- batch disposition review means a QA person re-reads the entire batch record n supportign docs before release.
+  For a patient-specific product thats enormous n its on the patients critical path.
+
+asked what theyd hn off first: the repetitive writing no question.

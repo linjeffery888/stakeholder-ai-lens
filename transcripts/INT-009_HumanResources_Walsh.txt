@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-009
+Interviewee:    Lena Walsh
+Title:          HR Business Partner
+Function:       Human Resources
+Date:           2026-04-28
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We staff a very tight cell-therapy talent market: manufacturing associates, QC analysts, all
+  hard to find.
+- Headcount is growing with the manufacturing ramp, so recruiting and onboarding volume is
+  high.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Master data is maintained by hand across systems and it drifts, so reports disagree
+   depending on the source.
+
+2. Employees constantly ask the same policy questions, PTO, benefits, travel, and HR answers
+   them one at a time from documents that exist but nobody reads.
+
+3. Writing and updating job descriptions is slow and they drift out of date, every manager
+   wants a custom one.
+
+4. Onboarding is a documentation checklist nightmare, every new hire in a GxP role has a
+   stack of forms and trainings to track to completion.
+
+5. Interview scheduling across panels is pure coordination overhead, back-and-forth on
+   calendars all day.
+
+6. Comp benchmarking decisions are judgment calls with real equity implications, I won't
+   outsource that to a tool.
+
+7. Training compliance tracking is manual, chasing people to complete required trainings and
+   reconciling the LMS records.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Says the team would welcome the help but worries about anything touching release decisions.

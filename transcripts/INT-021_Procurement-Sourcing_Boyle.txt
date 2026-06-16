@@ -1,0 +1,47 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-021
+Interviewee:    Camila Boyle
+Title:          Director, Strategic Sourcing
+Function:       Procurement & Sourcing
+Date:           2026-06-11
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- A lot of single-source critical materials, which makes supply risk our constant background
+  worry.
+- We source everything from GMP raw materials and media to consumables and lab services.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Flights, weather, and customs are out of our hands. No model makes a grounded plane fly,
+   that's physical-world risk we just manage.
+
+2. Spend analysis across categories is a quarterly manual build, and without it we can't see
+   where to consolidate or negotiate.
+
+3. Supplier risk monitoring is reactive, we find out a supplier had a problem when a shipment
+   is already late.
+
+4. With sole suppliers we have almost no negotiating leverage, that's a market-structure
+   problem, not an analytics one.
+
+5. Every week I stitch together a status report from three or four different sources by hand,
+   it's the same format every time and it still takes hours.
+
+6. A lot of our critical GMP materials are single-source, and that supply risk is a market
+   and qualification reality no software removes.
+
+7. Building RFPs and comparing bids is slow, assembling the requirements and then normalizing
+   wildly different vendor responses by hand.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Wants any solution to keep a human in the loop for anything patient-impacting.

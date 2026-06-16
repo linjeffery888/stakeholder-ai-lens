@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-051
+Interviewee:    Yuki Bauer
+Title:          Senior Manager, QA Compliance
+Function:       Quality Assurance
+Date:           2026-05-26
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Every batch is patient-specific so the documentation burden per unit is brutal compared to
+  small molecule.
+- Quality owns batch disposition, deviations, change control, and audit readiness. For a
+  personalized product the paperwork is the product.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Annual Product Quality Review compilation is a multi-week effort pulling data from
+   everywhere into one report.
+
+2. So much knowledge is locked in people's heads and old email threads, when someone is out
+   or leaves we lose the answer.
+
+3. We genuinely need more trained QA reviewers, the volume is outpacing the team and review
+   can't be skipped. That's headcount.
+
+4. Environmental monitoring generates a mountain of data entry, readings keyed in by hand
+   into the system every shift.
+
+5. Deviations and CAPAs are the bottleneck. Authoring and reviewing them is a backlog that
+   never clears, each one is a structured writeup and we have hundreds open at any time.
+
+6. Inspection readiness is also a culture and behavior thing on the floor, that's leadership
+   and training, not a tool.
+
+7. Change control documentation is heavy, every change needs an impact assessment written,
+   routed, and tracked, and the writing is repetitive.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Wants any solution to keep a human in the loop for anything patient-impacting.

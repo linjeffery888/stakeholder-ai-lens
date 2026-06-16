@@ -1,0 +1,24 @@
+Supply Chain & Cold Chain Logistics // Leila Rahimi (Manager, Logistics)
+2026-05-14 - AI Strategy & Ops - INT-027
+
+current role / context:
+- we orchestrate the cold chain both directoins: fresh tumor inbound cryopreserved product outbound to the ATC
+- chain of identity n chain of custody is evrythng. A single mislabeled handoff is a patient-impacting event
+
+pain points / where time goes:
+- courier n vendor performance reporting is manual every quarter pulling shipment data n building the scorecards
+  by hand
+- every temperature excursion triggers a documented investigation, n writign those up n chasing the data is a
+  recurring drain.
+- demn forecasting for consumables is basically a persons gut plus a spreadsheet, n
+  when were wrong we either stock out or sit on expensive expiring material ->
+- were capacity-limited on LN2 dry shippers and qualified packaging. Thats procuremetn and
+  hardware, u cant software your way to more shippers.
+- flights, weather, n customs are out of our hands. No model makes a grounded plane fly, thats
+  physical-world risk we just manage
+- we monitor cold-chain shipments across multiple couriers n theres no single dashboard, so
+  coordinators watch portals n emails n phone for status all day, both directions
+-
+-
+
+flagged that whatever we build has to play nice w/ the validated systems or it wont get approved

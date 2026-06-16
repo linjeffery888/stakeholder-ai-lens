@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-007
+Interviewee:    Oscar Walsh
+Title:          Manager, Regulatory Affairs
+Function:       Regulatory Affairs
+Date:           2026-05-09
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Lots of parallel markets now: US approved, Australia conditional, EMA resubmission in
+  progress, Switzerland pending.
+- We own submissions and health-authority interactions across the markets where Amtagvi is
+  approved or pending.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. The actual timing of FDA and EMA decisions is completely outside our control, we can
+   prepare but we can't move their calendar.
+
+2. Some ex-US submissions need certified translations and local agent work that's inherently
+   external and manual.
+
+3. Assembling submissions is heavy lifting, compiling modules, cross-referencing, formatting
+   to each authority's spec. Hours of assembly per submission.
+
+4. Health-authority queries come in with tight clocks and we draft responses pulling from
+   prior submissions and source docs every time.
+
+5. Labeling changes have to be managed across regions and reconciled against local
+   requirements, very manual cross-checking.
+
+6. Keeping up with new guidances and summarizing what they mean for us is a reading-and-
+   writing job nobody has time for.
+
+7. Tracking regulatory commitments across all our markets is a spreadsheet that's always
+   slightly out of date, and missing one is a serious problem.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- If I could wave a wand and kill one thing, it's the manual report stitching.

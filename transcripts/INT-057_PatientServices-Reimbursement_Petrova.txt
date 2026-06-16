@@ -1,0 +1,23 @@
+Patient Services & Reimbursement // Leila Petrova (VP, Patient Services)
+2026-05-25 - J. Lin (AI Strategy) - INT-057
+
+current role / context:
+- we sit btwn the prescribing center, the payer, n manufacturing. Nothing moves until benefits are confirmed
+- team owns the patient journey from referral thru scheduled infusion at the Authorized Treatment Center (ATC).
+
+pain points / where time goes:
+- scheduling a patietn is calendar tetris: ATC availability a manufacturing slot, teh
+  lymphodepletion window, n IL-2, all coordinated by hn across teams. One slip n the whole
+  sequence reshuffles
+- inbound tumor tissue has to ln in a tight window n we hand-coordinate every pickup against the mfg slot.
+  Constant re-planning
+- every week I stitch together a status report from three or four different sources by hand its the same format
+  evry time n it still takes hours
+- we burn hours just chasing prior-auth status, calling payers n sitting on hold to
+  find out if smth got approved. Pure waiting
+- honestly we just dont have enough coordinators fro the case volume coming. More ATCs onboarding means more
+  cases and were already maxed. We need heads
+-
+-
+
+if I could wave a wn n kill one thing, its the manual report stitching ->

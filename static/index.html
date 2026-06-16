@@ -134,6 +134,11 @@ main{min-width:0;display:flex;flex-direction:column;gap:24px}
 .sav-tbl tfoot td{font-weight:700;border-top:2px solid var(--line-2);border-bottom:0;color:var(--ink)}
 .sav-note{font-size:11.5px;color:var(--gold);background:var(--gold-soft);border:1px solid #e7d4a8;
   padding:8px 10px;border-radius:8px;margin:6px 0 4px;line-height:1.5}
+.org-sugg{font-size:11.5px;color:var(--ink-2);background:var(--accent-soft);border:1px solid #bfe0d4;
+  padding:9px 11px;border-radius:8px;margin-bottom:10px;line-height:1.5}
+.org-sugg b{color:var(--accent-ink)}
+.org-sugg .src{margin-top:5px;font-size:11px}
+.org-sugg .src a{color:var(--accent-ink)}
 
 /* ---------- scatter ---------- */
 #scatter{width:100%;display:block;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line)}
@@ -262,6 +267,20 @@ a.dl button{width:100%}
     </main>
 
     <aside>
+      <section class="card">
+        <div class="hd"><h2>Organization</h2><span class="note" id="orgConf"></span></div>
+        <div class="bd">
+          <p class="hint">Drives savings that scale with org size, like SaaS/vendor spend. Edit directly, or research from a company name.</p>
+          <div class="field"><label>Company name</label>
+            <div class="row"><input id="orgName" placeholder="e.g. Acme Health" style="flex:1">
+            <button class="btn-ghost" id="research">Research</button></div></div>
+          <div class="field"><label>Total headcount</label><input id="orgHead" type="number" min="0" step="1"></div>
+          <div class="field"><label>Annual SaaS / vendor spend (USD)</label><input id="orgSpend" type="number" min="0" step="1000"></div>
+          <div id="orgNote"></div>
+          <div class="btns"><button class="btn-primary" id="orgApply">Apply &amp; re-size</button></div>
+        </div>
+      </section>
+
       <section class="card">
         <div class="hd"><h2>Add an interview</h2></div>
         <div class="bd">
@@ -395,6 +414,16 @@ function render(d){
 
   // rail
   if(d.function_options) fillFunctions(d.function_options);
+  if(d.org){
+    if(!$("#orgName").dataset.filled){
+      $("#orgName").value=d.org.company_name||"";
+      $("#orgHead").value=d.org.total_headcount;
+      $("#orgSpend").value=Math.round(d.org.annual_saas_spend);
+      $("#orgName").dataset.filled="1";
+    }
+    $("#orgConf").textContent = d.org.source==="researched"
+      ? `researched · conf ${d.org.confidence}` : "";
+  }
   $("#ivcount").textContent = d.interview_list.length;
   $("#ivs").innerHTML = d.interview_list.map(iv=>
     `<div class="iv"><span class="id">${iv.interview_id}</span><span>${esc(iv.stakeholder)}</span><span class="fn">· ${iv.function}</span></div>`).join("");
@@ -402,8 +431,23 @@ function render(d){
 
 function kpi(val,lab,sub){return `<div class="kpi"><div class="lab">${lab}</div><div class="val">${val}</div><div class="sub">${sub}</div></div>`;}
 
+function savingsTableSpend(uc){
+  const m=uc.savings_breakdown[0], s=m.scenarios, pct=x=>Math.round(x*100)+"%";
+  const cap=`Recovered spend = addressable spend × waste rate × capture rate. `+
+    `Scenarios (waste / capture): Low ${pct(s.low.waste_rate)} / ${pct(s.low.capture_rate)} · `+
+    `Base ${pct(s.base.waste_rate)} / ${pct(s.base.capture_rate)} · `+
+    `High ${pct(s.high.waste_rate)} / ${pct(s.high.capture_rate)}.`;
+  return `<div class="prov-h">Savings hypothesis · spend basis</div><div class="sav-cap">${cap}</div>
+    <table class="sav-tbl"><thead><tr><th>Addressable annual spend</th><th>Low</th><th>Base</th><th>High</th></tr></thead>
+    <tbody><tr><td>${usd(m.addressable_spend)}<div style="color:var(--faint);font-size:11px">SaaS / vendor spend (organization input)</div></td>
+      <td class="num">${usd(s.low.annual_savings)}</td><td class="num base">${usd(s.base.annual_savings)}</td>
+      <td class="num">${usd(s.high.annual_savings)}</td></tr></tbody></table>
+    <div class="sav-cap">Scales with the organization's SaaS/vendor spend — set it in the Organization panel.</div>`;
+}
+
 function savingsTable(uc){
   const b=uc.savings_breakdown||[]; if(!b.length) return "";
+  if(b[0].basis==="spend") return savingsTableSpend(uc);
   const s0=b[0].scenarios, pct=x=>Math.round(x*100)+"%";
   const cap=`Annual savings = time saved × hours/task × tasks/yr × fully-loaded $/hr × adoption. `+
     `Scenarios (saved / adoption): Low ${pct(s0.low.time_saved_fraction)} / ${pct(s0.low.adoption_rate)} · `+
@@ -530,7 +574,9 @@ async function addInterview(){
 }
 async function reset(){
   busy(true,"Resetting…");
-  try{const r=await fetch("/api/reset",{method:"POST"});render(await r.json());toast("Reset to base interviews");}
+  try{const r=await fetch("/api/reset",{method:"POST"});
+    $("#orgName").dataset.filled=""; $("#orgNote").innerHTML=""; LAST_RESEARCH=null;
+    render(await r.json());toast("Reset to base interviews");}
   catch(e){toast("Reset failed");}
   busy(false);
 }
@@ -541,6 +587,39 @@ $("#example").onclick=()=>{
   $("#who").value="Example Analyst"; $("#notes").value=EXAMPLE;
   $("#notes").focus(); toast("Example loaded — it overlaps the status-summarization use case");
 };
+let LAST_RESEARCH=null;
+async function research(){
+  const name=$("#orgName").value.trim(); if(!name){toast("Enter a company name");return;}
+  const b=$("#research"); b.disabled=true; const o=b.innerHTML; b.innerHTML='<span class="spin"></span>';
+  busy(true,"Researching "+name+"…");
+  try{
+    const r=await fetch("/api/research",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({company_name:name})});
+    const d=await r.json();
+    if(d.error){toast("Research failed: "+d.error);}
+    else{
+      LAST_RESEARCH=d;
+      if(d.total_headcount) $("#orgHead").value=d.total_headcount;
+      if(d.annual_saas_spend) $("#orgSpend").value=Math.round(d.annual_saas_spend);
+      const src=(d.sources||[]).slice(0,3).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${esc(s.title||s.url)}</a>`).join(" · ");
+      $("#orgNote").innerHTML=`<div class="org-sugg"><b>Suggested estimate ${d.web?"(web search)":"(no web access)"} · confidence ${d.confidence??"?"}.</b> Review and edit the fields, then Apply. ${esc(d.rationale||"")}${src?`<div class="src">Sources: ${src}</div>`:""}</div>`;
+      toast("Suggestion ready — confirm the numbers, then Apply");
+    }
+  }catch(e){toast("Research request failed");}
+  busy(false); b.disabled=false; b.innerHTML=o;
+}
+async function applyOrg(){
+  busy(true,"Applying organization…");
+  const researched = !!$("#orgNote").innerHTML.trim();
+  try{
+    const body={company_name:$("#orgName").value,total_headcount:$("#orgHead").value,annual_saas_spend:$("#orgSpend").value,
+      source: researched?"researched":"manual", confidence: researched&&LAST_RESEARCH?(LAST_RESEARCH.confidence??0.3):1.0};
+    const r=await fetch("/api/org",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const d=await r.json();
+    if(d.error)toast("Error: "+d.error); else{render(d);toast("Organization applied · portfolio re-sized");}
+  }catch(e){toast("Apply failed");}
+  busy(false);
+}
+$("#research").onclick=research; $("#orgApply").onclick=applyOrg;
 $("#add").onclick=addInterview; $("#reset").onclick=reset;
 load();
 </script>

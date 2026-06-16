@@ -1,0 +1,26 @@
+Procurement & Sourcing // Lucas Walsh (Director, Strategic Sourcing)
+2026-05-23 - J. Lin (AI Strategy) - INT-012
+
+current role / context:
+- we source evrythng from GMP raw materials n media to consumables n lab services ->
+- a lot of single-source critical materials, which makes supply risk our constant background worry
+
+pain points / where time goes:
+- purchase-order processing and three-way matching is high volume and manual, exceptions kicked out for a human
+  to chase down all day
+- finding the right SOP or work instructoin is a daily hunt, theyre scattered across
+  SharePoint n shared drives n the search nvr finds the current version.
+- buildign RFPs and comparing bids is slow, assembling the requirements and then normalizing wildly differetn
+  vendor responses by hand.
+- spend analysis across categories is a quarterly manual build, and w/o it we cant see where to
+  consolidate or negotiate ->
+- a lot of our critical GMP materials are single-source, n that supply risk is a market n
+  qualificatoin reality no software removes ->
+- supplier onboarding and qualification is a paperwork marathon, collecting documents,
+  quality questionnaires, and risk assessments fro every new vendor.
+- w/ sole suppliers we have almost no negotiating leverage, thats a market-structure
+  problem, not an analytics one.
+-
+-
+
+flagged that whatever we build has to play nice w/ the validated syss or it wont get approved.

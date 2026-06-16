@@ -1,0 +1,24 @@
+Commercial (Sales & Marketing) // Lucas Vargas (Director, Commercial Operations)
+2026-04-26 - J. Lin + intern (discovery) - INT-040
+
+current role / context:
+- we support the field team selling Amtagvi into ATCs, plus market access and the brand work.
+- small specialized field force callign on a defined set of treatment centers not a primary-care blitz
+
+pain points / where time goes:
+- market-access dossiers n payer value decks are assembled from scratch each time even
+  though 70% of the content repeats.
+- reps need a curretn picture of each ATC account, n today an analyst compiles it by hn from the
+  CRM, orderign data, n emails before every cycle.
+- competitive intelligence is a person reading press releases n conference coverage n
+  writing it up, its nvr current ->
+- onboarding and keeping training material current is a constant background task the
+  documents go stale and nobody owns updating them ->
+- cRM data hygiene is a mess, duplicate accounts, stale contacts, n someone is always cleaning it
+  manually.
+- if we want more ATC coverage we need more field ppl on teh ground, thats a headcount and
+  territory decision.
+-
+-
+
+open to pilotign smth if its reliable n stays inside our validated syss

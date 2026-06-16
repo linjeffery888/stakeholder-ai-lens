@@ -1,0 +1,45 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-091
+Interviewee:    Daniel Laurent
+Title:          Director, Supply Chain
+Function:       Supply Chain & Cold Chain Logistics
+Date:           2026-05-30
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We orchestrate the cold chain both directions: fresh tumor inbound, cryopreserved product
+  outbound to the ATC.
+- Chain of identity and chain of custody is everything. A single mislabeled handoff is a
+  patient-impacting event.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Materials and consumables inventory never reconciles cleanly between the warehouse system
+   and the ERP, so someone goes line by line monthly.
+
+2. Courier and vendor performance reporting is manual every quarter, pulling shipment data
+   and building the scorecards by hand.
+
+3. Inbound tumor tissue has to land in a tight window and we hand-coordinate every pickup
+   against the manufacturing slot. Constant re-planning.
+
+4. Demand forecasting for consumables is basically a person's gut plus a spreadsheet, and
+   when we're wrong we either stock out or sit on expensive expiring material.
+
+5. Flights, weather, and customs are out of our hands. No model makes a grounded plane fly,
+   that's physical-world risk we just manage.
+
+6. We're capacity-limited on LN2 dry shippers and qualified packaging. That's procurement and
+   hardware, you can't software your way to more shippers.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Asked what they'd hand off first: the repetitive writing, no question.

@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-077
+Interviewee:    Samuel Romano
+Title:          Manager, People Operations
+Function:       Human Resources
+Date:           2026-05-17
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We staff a very tight cell-therapy talent market: manufacturing associates, QC analysts, all
+  hard to find.
+- Headcount is growing with the manufacturing ramp, so recruiting and onboarding volume is
+  high.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Writing and updating job descriptions is slow and they drift out of date, every manager
+   wants a custom one.
+
+2. Interview scheduling across panels is pure coordination overhead, back-and-forth on
+   calendars all day.
+
+3. Comp benchmarking decisions are judgment calls with real equity implications, I won't
+   outsource that to a tool.
+
+4. Employees constantly ask the same policy questions, PTO, benefits, travel, and HR answers
+   them one at a time from documents that exist but nobody reads.
+
+5. Recruiting volume is high and screening resumes for manufacturing and QC roles is a huge
+   manual sift, hundreds of applicants per req.
+
+6. Training compliance tracking is manual, chasing people to complete required trainings and
+   reconciling the LMS records.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

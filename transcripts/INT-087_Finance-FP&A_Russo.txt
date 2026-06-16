@@ -1,0 +1,44 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-087
+Interviewee:    Ravi Russo
+Title:          Senior Financial Analyst
+Function:       Finance & FP&A
+Date:           2026-05-06
+Interviewer:    J. Lin (AI Strategy)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Leadership wants COGS down and margin up, so finance is under the microscope on cost per
+  patient.
+- Controllership, FP&A, and cost accounting. COGS per batch is a huge focus given the gross-
+  margin push.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Headcount approvals and the hiring-justification process are a governance flow that's slow
+   by design, that's policy, not a tool gap.
+
+2. Supplier risk monitoring is reactive, we find out a supplier had a problem when a shipment
+   is already late.
+
+3. Budget-versus-actual variance commentary is written from scratch each month even though
+   half the explanations recur.
+
+4. Onboarding and keeping training material current is a constant background task, the
+   documents go stale and nobody owns updating them.
+
+5. Month-end account reconciliation is where it hurts, an analyst ties ERP balances to
+   subledgers and spreadsheets and chases every variance. A material account is 90 min and we
+   do 500-600 a close.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

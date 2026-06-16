@@ -1,0 +1,42 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-013
+Interviewee:    Renata Laurent
+Title:          Medical Science Liaison
+Function:       Medical Affairs & Pharmacovigilance
+Date:           2026-05-11
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- MSLs in the field, medical information desk, and the drug-safety/PV group handling adverse
+  events.
+- We field the scientific questions the commercial team is not allowed to answer, plus case
+  processing for safety.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Adverse-event intake and case triage is high volume, reading in cases, coding them, and
+   prioritizing, and the clock is regulatory so we can't fall behind.
+
+2. Off-label questions from HCPs are a compliance minefield, how we respond is a judgment and
+   legal line, not something to fully automate.
+
+3. The medical information desk drafts responses to HCP inquiries, and most questions repeat
+   but each response is researched and written fresh against approved sources.
+
+4. So much knowledge is locked in people's heads and old email threads, when someone is out
+   or leaves we lose the answer.
+
+5. Slow enrollment is fundamentally a biology and epidemiology problem, the patients are rare
+   and you can't manufacture eligible patients.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Says the team would welcome the help but worries about anything touching release decisions.

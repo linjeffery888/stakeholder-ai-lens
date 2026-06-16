@@ -1,0 +1,43 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-090
+Interviewee:    Aaron Iyer
+Title:          Pharmacovigilance Scientist
+Function:       Medical Affairs & Pharmacovigilance
+Date:           2026-05-14
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- MSLs in the field, medical information desk, and the drug-safety/PV group handling adverse
+  events.
+- We field the scientific questions the commercial team is not allowed to answer, plus case
+  processing for safety.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Literature surveillance for safety is a firehose, someone screens new publications weekly
+   for anything relevant to our product.
+
+2. After every congress we summarize the relevant abstracts and presentations into a readout,
+   and it's a manual scramble.
+
+3. Slow enrollment is fundamentally a biology and epidemiology problem, the patients are rare
+   and you can't manufacture eligible patients.
+
+4. MSLs build their own slide decks for every center visit, pulling from the master deck and
+   tailoring it, hours each.
+
+5. Off-label questions from HCPs are a compliance minefield, how we respond is a judgment and
+   legal line, not something to fully automate.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

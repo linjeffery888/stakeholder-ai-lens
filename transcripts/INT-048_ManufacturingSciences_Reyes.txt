@@ -1,0 +1,27 @@
+Manufacturing Sciences (MSAT) // Yuki Reyes (Director, Manufacturing Sciences)
+2026-06-11 - AI Strategy & Ops - INT-048
+
+current role / context:
+- bridge btwn R&D and teh floor. We translate a process that works at bench into smth that survives at commercial scale.
+- we own the process: characterization, tech transfer from dev into GMP, and investigation support when a batch misbehaves.
+
+pain points / where time goes:
+- when we investigate a process deviation we manually trend across dozens of historical batches to find the root
+  cause, pulling data out of MES n LIMS into spreadsheets by hand
+- pulling process data into the monthly process-monitoring reports is brutal, the data lives in
+  three syss and we stitch it together by hand evry time
+- scale-up is a physical engineering problem, equipment, footprint, single-use
+  hardware. Software helps doc it but doesnt build it
+- tech transfer docs is endless. Moving a process from dev into GMP means re-authoring
+  batch records, risk assessments, and control strategies, and most of it is
+  reformatting and cross-referencing existing material.
+- finding the right SOP or work instruction is a daily hunt, theyre scattered across SharePoint n shared drives
+  n the search nvr finds the curretn version
+- comparability protocols n reports take weeks, n a lot of it is assembling data n
+  writing the narrative around it
+- process characterization is wet-lab work. You have to run the experiments at the bench, theres no shortcut
+  around generatign the actual data ->
+-
+-
+
+flagged that whatever we build has to play nice w/ the validated systems or it wont get approved ->

@@ -1,0 +1,24 @@
+Supply Chain & Cold Chain Logistics // Carla Mwangi (Cold Chain Specialist)
+2026-05-27 - AI Strategy & Ops - INT-078
+
+current role / context:
+- chain of identity and chain of custody is evrythng. A single mislabeled handoff is a patient-impacting event
+- we orchestrate the cold chain both directions: fresh tumor inbound cryopreserved product outbound to the ATC
+
+pain points / where time goes:
+- materials and consumables inventory nvr recons cleanly btwn the warehouse system and the ERP, so someone goes
+  line by line monthly
+- demn forecasting for consumables is basically a persons gut plus a spreadsheet, n when were wrong we either
+  stock out or sit on expensive expiring material.
+- flights, weather, n customs are out of our hands. No model makes a grounded plane fly, thats physical-world
+  risk we just manage.
+- inbound tumor tissue has to ln in a tight window n we hand-coordinate every pickup against the mfg slot.
+  Constant re-planning.
+- were capacity-limited on LN2 dry shippers n qualified packaging. Thats procurement n hardware u
+  cant software your way to more shippers.
+- every temperature excursion triggers a doced investigatoin n writing those up n
+  chasing the data is a recurring drain.
+-
+-
+
+if I could wave a wn n kill one thing its the manual report stitching

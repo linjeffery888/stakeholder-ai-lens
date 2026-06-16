@@ -1,0 +1,20 @@
+Commercial (Sales & Marketing) // Ingrid Bello (Director, Commercial Operations)
+2026-05-06 - J. Lin + intern (discovery) - INT-098
+
+current role / context:
+- small specialized field force calling on a defined set of treatment centers not a primary-care blitz
+- we support teh field team selling Amtagvi into ATCs, plus market access n the brn work.
+
+pain points / where time goes:
+- if we want more ATC coverage we need more field ppl on the ground thats a headcount
+  n territory decision.
+- field territory reporting is a manual monthly build, exporting from the CRM n reformatting into the deck
+  leadership wants
+- market-access dossiers n payer value decks are assembled from scratch each time even though 70%
+  of the content repeats ->
+- cRM data hygiene is a mess, duplicate accounts, stale contacts, n someone is always cleaning it
+  manually
+- patients n centers ask coverage questions constntly n we dig thru plan policy PDFs to find the
+  exact clause. The answer exists, finding it takes forever
+
+asked what theyd hn off first: the repetitive writing, no question

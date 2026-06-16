@@ -1,0 +1,20 @@
+Commercial (Sales & Marketing) // Selene Walsh (Manager, Market Access)
+2026-06-11 - J. Lin + intern (discovery) - INT-005
+
+current role / context:
+- we support the field team selling Amtagvi into ATCs, plus market access n the brn work.
+- small specialized field force calling on a defined set of treatmetn centers, not a primary-care blitz.
+
+pain points / where time goes:
+- promotional material has to clear medical-legal-regulatory review n the cycle is slow lots of back-and-forth n
+  version chasing
+- cRM data hygiene is a mess duplicate accounts, stale contacts, n someone is always
+  cleaning it manually
+- competitive intelligence is a person reading press releases n conference coverage n
+  writing it up its nvr current.
+- my inbox is a part-time job, triaging n routing email n pulling out the few things that actually
+  need me ->
+- market-access dossiers n payer value decks are assembled from scratch each time even
+  though 70% of the content repeats
+
+flagged that whatever we build has to play nice with teh validated systems or it wont get approved

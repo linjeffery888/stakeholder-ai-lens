@@ -1,0 +1,24 @@
+Legal & Compliance // Ravi Costa (Contracts Manager)
+2026-05-22 - AI Transformation team - INT-066
+
+current role / context:
+- contracts compliance, n policy. Heavy CDA/MSA volume w/ CROs, ATCs, suppliers, n academic collaborators.
+- small team, very high contract thruput, plus the healthcare-compliance overhead of a commercial pharma.
+
+pain points / where time goes:
+- findign a prior contract or a specific clause in the repository is a nightmare, the search is bad so we re-
+  draft things we already have
+- compliance training contetn has to be built n refreshed constantly, n its mostly assembling n rewording
+  existing material.
+- contract review eats the team, redlining standard CDAs, MSAs, n work orders against our playbook, most of it
+  the same edits over n over
+- monitorign healthcare-compliance obligations like Sunshine Act reporting is partly
+  tracking we could speed up and partly judgment
+- a real privacy or HIPAA incidetn is a judgment-and-liability call, you escalate to ppl, you dont
+  let a model decide
+- drafting n updating policies n SOPs is slow, lots of cross-referencing n
+  consistency-checking
+- actual negotiation n litigation strategy is judgment n relationships thats the core lawyering n it stays
+  human.
+
+says the team would welcome the help but worries abt anythign touching release decisions ->

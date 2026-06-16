@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-024
+Interviewee:    Linnea Novak
+Title:          Manager, Production Scheduling
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-05-23
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Internalizing all manufacturing in-house at the iCTC, so volume is ramping hard.
+- Second-gen process, turnaround down around 22-34 days. The slot is the constraint, not the
+  chemistry on a good day.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. My inbox is a part-time job, triaging and routing email and pulling out the few things
+   that actually need me.
+
+2. Scheduling manufacturing slots against incoming tumor tissue is a constant puzzle. Tissue
+   arrives in tight windows, suites and staff are fixed, and we re-plan by hand whenever
+   anything shifts.
+
+3. Shift handoff is all manual notes. Night shift writes up where each batch stands and day
+   shift re-reads it, and stuff gets lost in the translation.
+
+4. Environmental monitoring generates a mountain of data entry, readings keyed in by hand
+   into the system every shift.
+
+5. Deviation writeups eat the floor. When something goes off-script the associate documents
+   it in detail, and they're doing it mid-shift trying to remember exactly what happened.
+   Slow and inconsistent.
+
+6. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Flagged that whatever we build has to play nice with the validated systems or it won't get
+  approved.

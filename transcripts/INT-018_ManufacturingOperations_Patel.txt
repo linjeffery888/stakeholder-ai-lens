@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-018
+Interviewee:    Caleb Patel
+Title:          Shift Lead, TIL Expansion
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-05-16
+Interviewer:    J. Lin (AI Strategy)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Autologous TIL, so every batch is one patient. Tumor tissue comes in, we expand to billions
+  of cells, cryopreserve, ship back.
+- Second-gen process, turnaround down around 22-34 days. The slot is the constraint, not the
+  chemistry on a good day.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. We can't run more suites without more qualified operators, and qualifying an operator
+   takes months. That's a people-and-time problem, not a software one.
+
+2. Scheduling manufacturing slots against incoming tumor tissue is a constant puzzle. Tissue
+   arrives in tight windows, suites and staff are fixed, and we re-plan by hand whenever
+   anything shifts.
+
+3. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+4. Chain-of-identity checks are manual label reconciliation at every step. Necessary, but a
+   person is eyeballing IDs and initialing, over and over.
+
+5. Deviation writeups eat the floor. When something goes off-script the associate documents
+   it in detail, and they're doing it mid-shift trying to remember exactly what happened.
+   Slow and inconsistent.
+
+6. Environmental monitoring generates a mountain of data entry, readings keyed in by hand
+   into the system every shift.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Wants any solution to keep a human in the loop for anything patient-impacting.

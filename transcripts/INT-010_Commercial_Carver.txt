@@ -1,0 +1,21 @@
+Commercial (Sales & Marketing) // Hassan Carver (Manager, Market Access)
+2026-06-07 - J. Lin (AI Strategy) - INT-010
+
+current role / context:
+- we support the field team selling Amtagvi into ATCs plus market access n the brn work
+- small specialized field force calling on a defined set of treatment centers, not a primary-care blitz
+
+pain points / where time goes:
+- reps need a current picture of each ATC account and today an analyst compiles it by
+  hand from the CRM, ordering data, and emails before every cycle
+- market-access dossiers n payer value decks are assembled from scratch each time even though 70% of the content
+  repeats.
+- promotional material has to clear medical-legal-regulatory review n the cycle is slow, lots of
+  back-and-forth n version chasing ->
+- competitive intelligence is a person reading press releases and conference coverage and writing it up, its nvr
+  current
+- kOL relationships are built on trust over years of in-person time. Thats human you cant automate
+  a relationship w/ a thought leader.
+- cRM data hygiene is a mess, duplicate accounts, stale contacts, n someone is always cleaning it manually ->
+
+says the team would welcome the help but worries abt anything touching release decisions.

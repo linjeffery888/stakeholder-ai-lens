@@ -1,0 +1,47 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-012
+Interviewee:    Yuki Park
+Title:          Buyer, Consumables
+Function:       Procurement & Sourcing
+Date:           2026-06-10
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- A lot of single-source critical materials, which makes supply risk our constant background
+  worry.
+- We source everything from GMP raw materials and media to consumables and lab services.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Supplier onboarding and qualification is a paperwork marathon, collecting documents,
+   quality questionnaires, and risk assessments for every new vendor.
+
+2. Contract renewals sneak up on us because tracking them is a spreadsheet, and auto-renewals
+   slip through and cost us.
+
+3. Spend analysis across categories is a quarterly manual build, and without it we can't see
+   where to consolidate or negotiate.
+
+4. Building RFPs and comparing bids is slow, assembling the requirements and then normalizing
+   wildly different vendor responses by hand.
+
+5. Purchase-order processing and three-way matching is high volume and manual, exceptions
+   kicked out for a human to chase down all day.
+
+6. With sole suppliers we have almost no negotiating leverage, that's a market-structure
+   problem, not an analytics one.
+
+7. A lot of our critical GMP materials are single-source, and that supply risk is a market
+   and qualification reality no software removes.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Open to piloting something if it's reliable and stays inside our validated systems.

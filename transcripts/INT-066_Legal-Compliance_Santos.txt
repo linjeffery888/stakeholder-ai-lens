@@ -1,0 +1,48 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-066
+Interviewee:    Lucas Santos
+Title:          Contracts Manager
+Function:       Legal & Compliance
+Date:           2026-05-06
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Small team, very high contract throughput, plus the healthcare-compliance overhead of a
+  commercial pharma.
+- Contracts, compliance, and policy. Heavy CDA/MSA volume with CROs, ATCs, suppliers, and
+  academic collaborators.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Compliance training content has to be built and refreshed constantly, and it's mostly
+   assembling and rewording existing material.
+
+2. A real privacy or HIPAA incident is a judgment-and-liability call, you escalate to people,
+   you don't let a model decide.
+
+3. Onboarding and keeping training material current is a constant background task, the
+   documents go stale and nobody owns updating them.
+
+4. Drafting and updating policies and SOPs is slow, lots of cross-referencing and
+   consistency-checking.
+
+5. Actual negotiation and litigation strategy is judgment and relationships, that's the core
+   lawyering and it stays human.
+
+6. Finding a prior contract or a specific clause in the repository is a nightmare, the search
+   is bad so we re-draft things we already have.
+
+7. NDA and CDA turnaround is a bottleneck for the whole company, partners wait on us and
+   they're 80% boilerplate.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Asked what they'd hand off first: the repetitive writing, no question.

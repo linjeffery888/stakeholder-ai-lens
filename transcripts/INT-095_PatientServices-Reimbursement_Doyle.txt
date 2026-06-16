@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-095
+Interviewee:    Pablo Doyle
+Title:          Senior Patient Coordinator
+Function:       Patient Services & Reimbursement
+Date:           2026-04-30
+Interviewer:    AI Strategy & Ops
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Volume is climbing fast as more ATCs come online for Amtagvi.
+- Team owns the patient journey from referral through scheduled infusion at the Authorized
+  Treatment Center (ATC).
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. We burn hours just chasing prior-auth status, calling payers and sitting on hold to find
+   out if something got approved. Pure waiting.
+
+2. Reimbursement rates and the payer mix are what they are. The economics of a given case
+   aren't something my team can fix, that's set above us.
+
+3. We're capacity-limited on LN2 dry shippers and qualified packaging. That's procurement and
+   hardware, you can't software your way to more shippers.
+
+4. Honestly we just don't have enough coordinators for the case volume coming. More ATCs
+   onboarding means more cases and we're already maxed. We need heads.
+
+5. Patients and centers ask coverage questions constantly and we dig through plan policy PDFs
+   to find the exact clause. The answer exists, finding it takes forever.
+
+6. Scheduling a patient is calendar tetris: ATC availability, a manufacturing slot, the
+   lymphodepletion window, and IL-2, all coordinated by hand across teams. One slip and the
+   whole sequence reshuffles.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Flagged that whatever we build has to play nice with the validated systems or it won't get
+  approved.

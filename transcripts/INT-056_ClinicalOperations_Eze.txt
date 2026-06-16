@@ -1,0 +1,25 @@
+Clinical Operations // Anika Eze (Clinical Trial Manager)
+2026-05-12 - AI Transformation team - INT-056
+
+current role / context:
+- we run the trials: the sarcoma registrational study, endometrial, n the next-gen gene-edited TIL programs.
+- oversight of CROs n sites plus all the trial docs that has to be inspectoin-ready ->
+
+pain points / where time goes:
+- literature surveillance for safety is a firehose, someone screens new publications
+  weekly for anything relevant to ovr product.
+- reconcilign CRO-delivered data against our own trackers is endless, the #s nvr quite match and we chase the
+  differences ->
+- reviewing monitoring visit reports from CRAs is a steady load, reading long reports
+  n pulling out teh issues that need action ->
+- protocol deviation tracking across sites is manual recon, n rolling it up for the
+  sponsor oversight meeting takes a CTA most of a week
+- drafting adverse-event narratives for teh safety database is repetitive structured writing, and
+  we do lotta em ->
+- trial master file completeness is a constant audit risk, someone is forever checking
+  which docs are missing or expired across thousands of files.
+- site startup drags on IRB and contract timelines that are external no internal tool
+  speeds up another institutoins committee
+-
+
+noted the volume is only goign up as mfg internalizes n more markets come online.

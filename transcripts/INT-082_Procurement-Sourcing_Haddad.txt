@@ -1,0 +1,24 @@
+Procurement & Sourcing // Caleb Haddad (Procurement Analyst)
+2026-05-26 - AI Strategy & Ops - INT-082
+
+current role / context:
+- a lot of single-source critical materials, which makes supply risk our constant background worry.
+- we source evrythng from GMP raw materials n media to consumables n lab services.
+
+pain points / where time goes:
+- a lot of our critical GMP materials are single-source, n that supply risk is a
+  market n qualificatoin reality no software removes
+- w/ sole suppliers we have almost no negotiating leverage thats a market-structure problem, not an analytics
+  one
+- purchase-order processing n three-way matching is high volume n manual, exceptions kicked out for a human to
+  chase down all day ->
+- spend analysis across categories is a quarterly manual build n w/o it we cant see where to
+  consolidate or negotiate
+- building RFPs and comparing bids is slow, assembling the requirements and then normalizing
+  wildly different vendor responses by hand
+- supplier risk monitorign is reactive, we find out a supplier had a problem when a shipment is already late ->
+- finding the right SOP or work instruction is a daily hunt, theyre scattered across SharePoint
+  and shared drives and the search nvr finds the current version
+-
+
+wants any solution to keep a human in the loop for anything patient-impacting.

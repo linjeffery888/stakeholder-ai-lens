@@ -1,0 +1,20 @@
+Legal & Compliance // Nina Klein (Director, Legal Operations)
+2026-04-24 - AI Transformation team - INT-067
+
+current role / context:
+- small team very high contract thruput, plus the healthcare-compliance overhead of a commercial pharma
+- contracts, compliance, n policy. Heavy CDA/MSA volume w/ CROs, ATCs, suppliers, n academic collaborators
+
+pain points / where time goes:
+- actual negotiation n litigation strategy is judgment n relationships, thats the core
+  lawyering n it stays human ->
+- contract review eats the team, redlining standard CDAs, MSAs, and work orders against our
+  playbook, most of it the same edits over and over.
+- drafting n updating policies n SOPs is slow lots of cross-referencing n consistency-checking
+- nDA n CDA turnaround is a bottleneck for the whole company, partners wait on us n theyre 80% boilerplate
+- compliance trainign contetn has to be built n refreshed constantly, n its mostly
+  assembling n rewording existing material.
+-
+-
+
+says teh team would welcome the help but worries abt anything touching release decisions.

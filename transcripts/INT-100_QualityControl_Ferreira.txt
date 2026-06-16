@@ -1,0 +1,46 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-100
+Interviewee:    Bianca Ferreira
+Title:          Senior QC Analyst, Flow Cytometry
+Function:       Quality Control
+Date:           2026-05-26
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We run release and in-process testing: identity, potency, sterility, flow panels. Everything
+  funnels through LIMS.
+- Turnaround on testing is on the critical path to disposition, so any delay in QC delays a
+  patient.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Onboarding and keeping training material current is a constant background task, the
+   documents go stale and nobody owns updating them.
+
+2. Reviewing certificates of analysis and transcribing results into LIMS is constant, and any
+   transcription error is a deviation, so it gets double-checked, doubling the work.
+
+3. Qualifying a new assay is bench science, you run the validation experiments, there's no
+   automating the wet work.
+
+4. Out-of-spec investigations are big writeups and we do a lot of them. Documenting the
+   investigation is most of the effort.
+
+5. Sample login gets backed up at peak, everything keyed in manually before testing can even
+   start.
+
+6. Stability tracking is a manual calendar and spreadsheet exercise, what's due to pull, what
+   was tested, what's trending.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Noted the volume is only going up as manufacturing internalizes and more markets come
+  online.

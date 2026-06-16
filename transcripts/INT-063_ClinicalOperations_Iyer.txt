@@ -1,0 +1,42 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-063
+Interviewee:    Carla Iyer
+Title:          CRA (Clinical Research Associate)
+Function:       Clinical Operations
+Date:           2026-04-27
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We run the trials: the sarcoma registrational study, endometrial, and the next-gen gene-
+  edited TIL programs.
+- Oversight of CROs and sites, plus all the trial documentation that has to be inspection-
+  ready.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Reconciling CRO-delivered data against our own trackers is endless, the numbers never
+   quite match and we chase the differences.
+
+2. Reviewing monitoring visit reports from CRAs is a steady load, reading long reports and
+   pulling out the issues that need action.
+
+3. Slow enrollment is fundamentally a biology and epidemiology problem, the patients are rare
+   and you can't manufacture eligible patients.
+
+4. Enrollment forecasting is guesswork in a spreadsheet, and when a model would help, the
+   underlying problem is still that these are rare tumors.
+
+5. Actual safety signal detection takes clinical judgment, you can surface candidates but a
+   human has to make the medical call.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Wants any solution to keep a human in the loop for anything patient-impacting.

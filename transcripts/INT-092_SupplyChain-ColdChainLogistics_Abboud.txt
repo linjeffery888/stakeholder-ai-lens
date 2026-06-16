@@ -1,0 +1,20 @@
+Supply Chain & Cold Chain Logistics // Omar Abboud (Manager, Logistics)
+2026-06-02 - AI Strategy & Ops - INT-092
+
+current role / context:
+- we orchestrate teh cold chain both directions: fresh tumor inbound, cryopreserved product outbound to the ATC.
+- chain of identity n chain of custody is everything. A single mislabeled handoff is a patient-impacting event
+
+pain points / where time goes:
+- supplier onboarding n qualification is a paperwork marathon collecting docs, quality
+  questionnaires, n risk assessments for every new vendor
+- demn forecastign for consumables is basically a persons gut plus a spreadsheet, n
+  when were wrong we either stock out or sit on expensive expiring material.
+- finding teh right SOP or work instruction is a daily hunt theyre scattered across SharePoint and
+  shared drives and the search never finds the current version ->
+- we monitor cold-chain shipments across multiple couriers n theres no single dashboard, so coordinators watch
+  portals n emails n phone for status all day, both directions.
+- were capacity-limited on LN2 dry shippers n qualified packaging. Thats procuremetn n
+  hardware you cant software your way to more shippers
+
+flagged that whatever we build has to play nice w/ the validated systems or it wont get approved

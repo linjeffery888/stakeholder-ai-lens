@@ -1,0 +1,49 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-093
+Interviewee:    Caleb Aguilar
+Title:          VP, Manufacturing
+Function:       Manufacturing Operations (iCTC)
+Date:           2026-06-02
+Interviewer:    AI Transformation team
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- Internalizing all manufacturing in-house at the iCTC, so volume is ramping hard.
+- Autologous TIL, so every batch is one patient. Tumor tissue comes in, we expand to billions
+  of cells, cryopreserve, ship back.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. Comparability protocols and reports take weeks, and a lot of it is assembling data and
+   writing the narrative around it.
+
+2. Shift handoff is all manual notes. Night shift writes up where each batch stands and day
+   shift re-reads it, and stuff gets lost in the translation.
+
+3. Some of our incubators and equipment are aging and we get unplanned downtime. That needs
+   capital and new hardware, not an app.
+
+4. Yield still varies batch to batch because it's living cells from a sick patient. No model
+   fixes the underlying biology, the starting material is what it is.
+
+5. Batch record review is the slog. For every patient batch someone reviews the electronic
+   batch record line by line for completeness before it goes to QA, and any blank or
+   transcription miss bounces it back. It's hours per batch and every batch is a patient.
+
+6. Chain-of-identity checks are manual label reconciliation at every step. Necessary, but a
+   person is eyeballing IDs and initialing, over and over.
+
+7. Finding the right SOP or work instruction is a daily hunt, they're scattered across
+   SharePoint and shared drives and the search never finds the current version.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Flagged that whatever we build has to play nice with the validated systems or it won't get
+  approved.

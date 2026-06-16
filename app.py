@@ -18,9 +18,9 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from lens.models import Function, Interview
+from lens.models import Function, Interview, Organization
 from lens.llm import LLM, resolve_mode
-from lens.pipeline import run_pipeline
+from lens.pipeline import run_pipeline, default_org
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -52,6 +52,23 @@ class Session:
             self.pp_cache: dict = {}
             self._next = 100
             self.last_result = None
+            self.org = default_org(self.functions)
+
+    def set_org(self, fields: dict):
+        with self.lock:
+            o = self.org
+            if "company_name" in fields:
+                o.company_name = str(fields["company_name"])[:120]
+            if fields.get("total_headcount") not in (None, ""):
+                o.total_headcount = max(0, int(float(fields["total_headcount"])))
+            if fields.get("annual_saas_spend") not in (None, ""):
+                o.annual_saas_spend = max(0.0, float(fields["annual_saas_spend"]))
+            o.source = fields.get("source", "manual")
+            o.confidence = float(fields.get("confidence", 1.0))
+            o.notes = str(fields.get("notes", ""))[:600]
+
+    def research(self, company_name: str) -> dict:
+        return LLM(mode=self.mode).research_org(company_name)
 
     def add_interview(self, function_id: str, raw_notes: str,
                       stakeholder: str = "", role: str = ""):
@@ -72,7 +89,7 @@ class Session:
         with self.lock:
             llm = LLM(mode=self.mode)
             result = run_pipeline(self.interviews, self.functions, llm,
-                                  pp_cache=self.pp_cache)
+                                  pp_cache=self.pp_cache, org=self.org)
             result["interview_list"] = [
                 {"interview_id": iv.interview_id,
                  "function": self.functions[iv.function_id].name,
@@ -195,6 +212,24 @@ class Handler(BaseHTTPRequestHandler):
                 result = SESSION.portfolio()
                 result["added_interview_id"] = iid
                 return self._json(200, result)
+            except Exception as e:
+                return self._json(500, {"error": str(e)})
+
+        if self.path == "/api/org":
+            try:
+                SESSION.set_org(payload)
+                return self._json(200, SESSION.portfolio())
+            except (ValueError, TypeError) as e:
+                return self._json(400, {"error": f"invalid org fields: {e}"})
+            except Exception as e:
+                return self._json(500, {"error": str(e)})
+
+        if self.path == "/api/research":
+            name = (payload.get("company_name") or "").strip()
+            if not name:
+                return self._json(400, {"error": "company_name required"})
+            try:
+                return self._json(200, SESSION.research(name))
             except Exception as e:
                 return self._json(500, {"error": str(e)})
 

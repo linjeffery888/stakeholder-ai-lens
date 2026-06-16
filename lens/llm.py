@@ -115,6 +115,61 @@ class LLM:
         )
         return _extract_json(self._call(system, user))
 
+    # ---- assistive org research (suggestions only, never auto-applied) ----
+    def research_org(self, company_name: str) -> dict:
+        """Estimate org economics for a company. Live: Claude with web search.
+        Returns {total_headcount, annual_saas_spend, rationale, sources,
+        confidence, web}. These are SUGGESTIONS to be human-confirmed."""
+        name = (company_name or "").strip()
+        if not name:
+            return {"error": "no company name"}
+        if self.mode == "mock":
+            return self._mock_research(name)
+        system = (
+            "You research a company's size for a cost-savings estimate. Return "
+            "ONLY JSON: {\"total_headcount\": int, \"annual_saas_spend\": int (USD), "
+            "\"rationale\": str, \"sources\": [{\"title\":str,\"url\":str}], "
+            "\"confidence\": 0-1}. Find current headcount; estimate annual SaaS/"
+            "software spend (a common benchmark is $7,000-$12,000 per employee/yr "
+            "if no figure is found). For private companies data is uncertain, so "
+            "lower the confidence and say so in the rationale. Estimate, never invent precision."
+        )
+        try:
+            msg = self._client_or_init().messages.create(
+                model=MODEL, max_tokens=1500,
+                tools=[{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}],
+                system=system,
+                messages=[{"role": "user", "content": f"Company: {name}"}],
+            )
+            text = "".join(getattr(b, "text", "") for b in msg.content
+                           if getattr(b, "type", None) == "text")
+            data = _extract_json(text)
+            data["web"] = True
+            return data
+        except Exception:
+            # web search unavailable: estimate from the model's own knowledge
+            try:
+                text = self._call(
+                    system + " You have NO web access; estimate from general "
+                    "knowledge and set confidence accordingly.",
+                    f"Company: {name}", max_tokens=700)
+                data = _extract_json(text)
+                data["web"] = False
+                return data
+            except Exception as e:
+                return {"error": f"research failed: {e}"}
+
+    def _mock_research(self, name: str) -> dict:
+        return {
+            "total_headcount": 250,
+            "annual_saas_spend": 2000000,
+            "rationale": f"(mock) illustrative estimate for {name}; no live lookup "
+                         "in offline mode. Replace by running --live with a key.",
+            "sources": [],
+            "confidence": 0.25,
+            "web": False,
+        }
+
     def _mock_extract(self, interview_id: str) -> list:
         if self._mock_extractions is None:
             path = _DATA / "mock_extractions.json"

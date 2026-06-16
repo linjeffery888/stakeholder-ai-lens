@@ -1,0 +1,44 @@
+IOVANCE BIOTHERAPEUTICS
+AI Transformation Diagnostic | Stakeholder Interview Notes
+================================================================
+
+Interview ID:   INT-019
+Interviewee:    Lucas Aguilar
+Title:          Sales Operations Analyst
+Function:       Commercial (Sales & Marketing)
+Date:           2026-06-10
+Interviewer:    J. Lin + intern (discovery)
+Format:         ~45 min discovery call (raw notes, lightly cleaned)
+
+----------------------------------------------------------------
+Background / current role
+----------------------------------------------------------------
+- We support the field team selling Amtagvi into ATCs, plus market access and the brand work.
+- Small specialized field force calling on a defined set of treatment centers, not a primary-
+  care blitz.
+
+----------------------------------------------------------------
+Pain points / friction raised (in their words)
+----------------------------------------------------------------
+1. If we want more ATC coverage we need more field people on the ground, that's a headcount
+   and territory decision.
+
+2. CRM data hygiene is a mess, duplicate accounts, stale contacts, and someone is always
+   cleaning it manually.
+
+3. Reps need a current picture of each ATC account, and today an analyst compiles it by hand
+   from the CRM, ordering data, and emails before every cycle.
+
+4. Promotional material has to clear medical-legal-regulatory review and the cycle is slow,
+   lots of back-and-forth and version chasing.
+
+5. Market-access dossiers and payer value decks are assembled from scratch each time even
+   though 70% of the content repeats.
+
+6. Competitive intelligence is a person reading press releases and conference coverage and
+   writing it up, it's never current.
+
+----------------------------------------------------------------
+Closing note
+----------------------------------------------------------------
+- Open to piloting something if it's reliable and stays inside our validated systems.
