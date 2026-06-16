@@ -130,6 +130,17 @@ main{min-width:0;display:flex;flex-direction:column;gap:24px}
 .legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:10px}
 .legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:0}
 .legend .ring{box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px var(--violet);background:transparent}
+.tip{position:absolute;pointer-events:none;z-index:20;opacity:0;transform:translate(-50%,-118%);
+  transition:opacity .12s;background:var(--ink);color:#fff;border-radius:10px;padding:9px 12px;
+  font-size:12px;line-height:1.5;box-shadow:var(--shadow-lg);white-space:nowrap;max-width:300px}
+.tip.show{opacity:1}
+.tip .ti{font-weight:600;font-size:12.5px;margin-bottom:2px;white-space:normal}
+.tip .mut{color:#b6bab0}
+.tip b{font-family:var(--mono);font-weight:600}
+.tip::after{content:"";position:absolute;left:50%;top:100%;transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:var(--ink)}
+.tip.below{transform:translate(-50%,18%)}
+.tip.below::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:var(--ink)}
 
 /* ---------- merges / gated ---------- */
 .merge{display:flex;align-items:center;gap:12px;padding:11px 0}
@@ -214,9 +225,12 @@ a.dl button{width:100%}
       </section>
 
       <section class="card">
-        <div class="hd"><h2>Value &times; feasibility</h2><span class="note">click a dot's tooltip for detail</span></div>
+        <div class="hd"><h2>Value &times; feasibility</h2><span class="note">hover a point for detail</span></div>
         <div class="bd">
-          <svg id="scatter" preserveAspectRatio="xMidYMid meet"></svg>
+          <div id="scatterWrap" style="position:relative">
+            <svg id="scatter" preserveAspectRatio="xMidYMid meet"></svg>
+            <div id="tip" class="tip"></div>
+          </div>
           <div class="legend">
             <span><i style="background:var(--green)"></i>Quick win</span>
             <span><i style="background:var(--accent)"></i>Big bet</span>
@@ -421,11 +435,36 @@ function drawScatter(){
     const cx=x(u.feasibility_score), cy=y(u.est_savings_base);
     const col=u.quadrant==="quick win"?"#1f7a47":u.quadrant.startsWith("roadmap")?"#0d6b57":"#a4a79d";
     const r=u.cross_functional?7:5;
-    g+=`<circle cx="${cx}" cy="${cy}" r="${r+ (u.cross_functional?3:0)}" fill="${col}" opacity="${u.cross_functional?0.16:0}"/>`;
-    g+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${col}" stroke="#fffdf9" stroke-width="1.5">
-        <title>${esc(u.title)} — ${usd(u.est_savings_base)}/yr · feasibility ${u.feasibility_score} · RICE ${u.rice_score}</title></circle>`;
+    const qlabel=u.quadrant==="quick win"?"Quick win":u.quadrant.startsWith("roadmap")?"Big bet":u.quadrant;
+    if(u.cross_functional) g+=`<circle cx="${cx}" cy="${cy}" r="${r+3}" fill="${col}" opacity="0.16"/>`;
+    g+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${col}" stroke="#fffdf9" stroke-width="1.5"/>`;
+    // transparent, larger hit target carries the data for the tooltip
+    g+=`<circle class="dot" cx="${cx}" cy="${cy}" r="${Math.max(13,r+7)}" fill="transparent"
+        data-title="${esc(u.title)}" data-sav="${usd(u.est_savings_base)}" data-feas="${u.feasibility_score}"
+        data-rice="${u.rice_score}" data-quad="${qlabel}" data-xf="${u.cross_functional?1:0}"/>`;
   });
   el.innerHTML=g;
+  wireTips();
+}
+
+function wireTips(){
+  const tip=$("#tip");
+  document.querySelectorAll("#scatter circle.dot").forEach(c=>{
+    c.style.cursor="pointer";
+    const show=()=>{
+      tip.innerHTML=`<div class="ti">${c.dataset.title}</div>
+        <div><b>${c.dataset.sav}</b>/yr <span class="mut">· ${c.dataset.quad}</span></div>
+        <div class="mut">feasibility ${c.dataset.feas} · RICE ${c.dataset.rice}${c.dataset.xf==="1"?" · cross-functional":""}</div>`;
+      const cy=+c.getAttribute("cy");
+      tip.style.left=c.getAttribute("cx")+"px";
+      tip.style.top=cy+"px";
+      tip.classList.toggle("below", cy<90);
+      tip.classList.add("show");
+    };
+    c.addEventListener("mouseenter",show);
+    c.addEventListener("click",show);
+    c.addEventListener("mouseleave",()=>tip.classList.remove("show"));
+  });
 }
 
 async function load(){
