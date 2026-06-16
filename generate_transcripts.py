@@ -674,6 +674,10 @@ def render(intv):
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
+    # clear prior output so re-runs do not leave stale files behind
+    for f in os.listdir(OUT_DIR):
+        if f.startswith("INT-") and f.endswith(".txt"):
+            os.remove(os.path.join(OUT_DIR, f))
 
     N = 100
     fn_order = weighted_function_order(N)

@@ -1,0 +1,23 @@
+# Render Blueprint. Push this repo to GitHub, then in Render:
+#   New + -> Blueprint -> pick this repo. It reads this file.
+# Secrets (sync: false) are NOT stored here; you paste them in the Render
+# dashboard under the service's Environment tab, so the key never lives in git.
+services:
+  - type: web
+    name: lens-dashboard
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py --host 0.0.0.0
+    envVars:
+      # Real Claude extraction. Paste your key in the Render dashboard.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      # Protect the public URL so only people you share the password with can
+      # use it (and spend your API budget). Set both in the dashboard.
+      - key: LENS_BASIC_USER
+        sync: false
+      - key: LENS_BASIC_PASS
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.12.5"

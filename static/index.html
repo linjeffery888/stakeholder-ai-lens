@@ -276,6 +276,21 @@ a.dl button{width:100%}
 
     <aside>
       <section class="card">
+        <div class="hd"><h2>Upload transcripts</h2></div>
+        <div class="bd">
+          <p class="hint">Upload interview files (<code>.txt</code>, <code>.md</code>, <code>.docx</code>, <code>.csv</code>) or a whole folder. Lens extracts pain points from each, de-duplicates across all of them, and re-ranks the portfolio. A CSV bulk file needs a <code>raw_notes</code> column.</p>
+          <div class="field"><label>Choose files</label>
+            <input id="upFiles" type="file" multiple accept=".txt,.md,.text,.docx,.csv,text/plain,text/csv"></div>
+          <div class="field"><label>…or a folder</label>
+            <input id="upDir" type="file" multiple webkitdirectory directory></div>
+          <div id="upPick" class="hint" style="margin:2px 0 8px"></div>
+          <div class="btns">
+            <button class="btn-primary" id="upBtn">Upload &amp; re-run</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
         <div class="hd"><h2>Organization</h2><span class="note" id="orgConf"></span></div>
         <div class="bd">
           <p class="hint">Drives savings that scale with org size, like SaaS/vendor spend. Edit directly, or research from a company name.</p>
@@ -620,11 +635,11 @@ let LAST_RESEARCH=null;
 async function research(){
   const name=$("#orgName").value.trim(); if(!name){toast("Enter a company name");return;}
   const b=$("#research"); b.disabled=true; const o=b.innerHTML; b.innerHTML='<span class="spin"></span>';
-  busy(true,"Researching "+name+"…");
+  $("#orgNote").innerHTML=`<div class="org-sugg"><span class="spin"></span> Researching ${esc(name)}…</div>`;
   try{
     const r=await fetch("/api/research",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({company_name:name})});
     const d=await r.json();
-    if(d.error){toast("Research failed: "+d.error);}
+    if(d.error){toast("Research failed: "+d.error);$("#orgNote").innerHTML="";}
     else{
       LAST_RESEARCH=d;
       if(d.total_headcount) $("#orgHead").value=d.total_headcount;
@@ -633,8 +648,8 @@ async function research(){
       $("#orgNote").innerHTML=`<div class="org-sugg"><b>Suggested estimate ${d.web?"(web search)":"(no web access)"} · confidence ${d.confidence??"?"}.</b> Review and edit the fields, then Apply. ${esc(d.rationale||"")}${src?`<div class="src">Sources: ${src}</div>`:""}</div>`;
       toast("Suggestion ready — confirm the numbers, then Apply");
     }
-  }catch(e){toast("Research request failed");}
-  busy(false); b.disabled=false; b.innerHTML=o;
+  }catch(e){toast("Research request failed");$("#orgNote").innerHTML="";}
+  b.disabled=false; b.innerHTML=o;
 }
 async function applyOrg(){
   busy(true,"Applying organization…");
@@ -650,6 +665,52 @@ async function applyOrg(){
 }
 $("#research").onclick=research; $("#orgApply").onclick=applyOrg;
 $("#add").onclick=addInterview; $("#reset").onclick=reset;
+
+const UP_RE=/\.(txt|md|text|docx|csv)$/i;
+function selectedUploads(){
+  const sel=[...$("#upFiles").files, ...$("#upDir").files];
+  return sel.filter(f=>UP_RE.test(f.name) && !/^~\$/.test(f.name)
+    && f.name.toLowerCase()!=="_index.csv" && f.name.toLowerCase()!=="index.csv");
+}
+function refreshUpPick(){
+  const n=selectedUploads().length;
+  $("#upPick").textContent = n ? (n+" file"+(n>1?"s":"")+" ready to upload") : "";
+}
+$("#upFiles").onchange=refreshUpPick; $("#upDir").onchange=refreshUpPick;
+function readFileB64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>{const s=String(r.result||""); const i=s.indexOf(","); res({name:file.name, b64:i>=0?s.slice(i+1):s});};
+    r.onerror=()=>rej(new Error("read failed: "+file.name));
+    r.readAsDataURL(file);
+  });
+}
+async function upload(){
+  const ok=selectedUploads();
+  if(!ok.length){toast("Pick at least one .txt / .md / .docx / .csv file");return;}
+  const btn=$("#upBtn"); btn.disabled=true; const o=btn.innerHTML; btn.innerHTML='<span class="spin"></span>uploading';
+  busy(true,"Uploading "+ok.length+" file(s), extracting, de-duplicating…");
+  try{
+    const files=await Promise.all(ok.map(readFileB64));
+    const r=await fetch("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({files})});
+    if(r.status===404){toast("Upload endpoint missing — restart the server (python app.py)");return;}
+    const ct=r.headers.get("content-type")||"";
+    if(!ct.includes("application/json")){const t=await r.text();throw new Error("server returned "+r.status+": "+t.slice(0,120));}
+    const d=await r.json();
+    if(d.error){toast("Error: "+d.error);}
+    else{
+      render(d);
+      $("#upFiles").value=""; $("#upDir").value=""; refreshUpPick();
+      const s=d.ingest_summary||{};
+      let msg="Ingested "+(s.ingested||0)+" interview(s)";
+      if(s.added_function_ids&&s.added_function_ids.length) msg+=" · "+s.added_function_ids.length+" new function(s)";
+      if(s.skipped&&s.skipped.length) msg+=" · "+s.skipped.length+" skipped";
+      toast(msg+" · portfolio re-ranked");
+    }
+  }catch(e){console.error("upload failed:",e);toast("Upload failed: "+(e&&e.message?e.message:e));}
+  finally{busy(false); btn.disabled=false; btn.innerHTML=o;}
+}
+$("#upBtn").onclick=upload;
 load();
 </script>
 </body>

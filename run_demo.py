@@ -23,6 +23,7 @@ from lens.dedup import deduplicate
 from lens.savings import aggregate_and_size
 from lens.score import score_portfolio
 from lens.pipeline import default_org
+from lens.ingest import ingest
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -48,12 +49,25 @@ def main():
     g = ap.add_mutually_exclusive_group()
     g.add_argument("--mock", action="store_true", help="force mock fixtures")
     g.add_argument("--live", action="store_true", help="force live Anthropic calls")
+    ap.add_argument("--transcripts", metavar="PATH",
+                    help="ingest a folder or a .txt/.docx/.csv file of interviews "
+                         "instead of the built-in demo set")
     args = ap.parse_args()
     mode = "mock" if args.mock else "live" if args.live else "auto"
     resolved = resolve_mode(mode)
 
     functions = load_functions()
-    interviews = load_interviews()
+    if args.transcripts:
+        res = ingest(args.transcripts, functions)
+        functions = res.functions
+        interviews = res.interviews
+        print(f"  Ingested {len(interviews)} interviews from {args.transcripts}")
+        if res.added_function_ids:
+            print(f"  Auto-registered functions: {', '.join(res.added_function_ids)}")
+        for fname, reason in res.skipped:
+            print(f"  [skip] {fname}: {reason}")
+    else:
+        interviews = load_interviews()
     fn_name = {fid: f.name for fid, f in functions.items()}
     llm = LLM(mode=mode)
 

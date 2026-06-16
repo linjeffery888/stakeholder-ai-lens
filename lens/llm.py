@@ -15,7 +15,29 @@ import re
 from pathlib import Path
 
 MODEL = "claude-haiku-4-5"
-_DATA = Path(__file__).resolve().parent.parent / "data"
+_ROOT = Path(__file__).resolve().parent.parent
+_DATA = _ROOT / "data"
+
+
+def _load_dotenv() -> None:
+    """Load KEY=VALUE lines from a local, git-ignored .env into the environment
+    so live mode turns on automatically. Real env vars take precedence."""
+    env_path = _ROOT / ".env"
+    if not env_path.exists():
+        return
+    for line in env_path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, val = line.partition("=")
+        key = key.strip()
+        # fill if unset OR present-but-blank (some shells export an empty var);
+        # a real non-empty value already in the environment still wins.
+        if not os.environ.get(key):
+            os.environ[key] = val.strip().strip('"').strip("'")
+
+
+_load_dotenv()
 
 
 def have_key() -> bool:
@@ -200,12 +222,48 @@ class LLM:
          "manual data entry", "extraction and structuring"),
     ]
 
+    # lines that are scaffolding/metadata, not pain content
+    _SKIP_MARKERS = (
+        "format:", "interview id", "interviewee", "interviewer", "date:",
+        "title:", "function:", "background", "current role", "pain point",
+        "where time goes", "closing note", "===", "---",
+    )
+
     def _mock_extract_freeform(self, notes: str) -> list:
         """Very rough offline extractor: split the note into sentences and turn
         each substantive one into a pain point with a keyword-guessed tag.
-        Only used in mock mode for interviews not in the fixtures."""
+        Only used in mock mode for interviews not in the fixtures.
+
+        Focuses on the pain-points section when the note has one, and skips
+        header/heading/metadata lines so the offline demo stays sensible."""
+        text = notes.strip()
+        low_all = text.lower()
+        idx = low_all.find("pain point")
+        if idx >= 0:
+            nl = text.find("\n", idx)
+            region = text[nl + 1:] if nl >= 0 else text[idx:]
+            for stop in ("closing note", "\nclosing", "\n----"):
+                cut = region.lower().find(stop)
+                if cut >= 0:
+                    region = region[:cut]
+        else:
+            region = text
+        # drop scaffolding lines and leading bullet/number markers
+        kept = []
+        for ln in region.splitlines():
+            s = ln.strip()
+            low = s.lower()
+            if not s or set(s) <= {"-", "=", " "}:
+                continue
+            if any(low.startswith(m) or low == m.strip(":") for m in self._SKIP_MARKERS):
+                continue
+            s = re.sub(r"^\s*(?:\d+[.)]|[-*•])\s*", "", s)
+            if s:
+                kept.append(s)
+        region = " ".join(kept)
+
         out = []
-        for sent in re.split(r"(?<=[.!?])\s+", notes.strip()):
+        for sent in re.split(r"(?<=[.!?])\s+", region.strip()):
             s = sent.strip()
             if len(s) < 25:
                 continue

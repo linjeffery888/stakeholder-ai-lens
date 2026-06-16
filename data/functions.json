@@ -1,26 +1,130 @@
 [
   {
     "function_id": "FN-patient-services",
-    "name": "Patient Services",
-    "description": "Coordinates benefit verification, scheduling, and patient onboarding before treatment.",
-    "headcount": 24,
-    "est_annual_cost_base": 2640000,
+    "name": "Patient Services & Reimbursement",
+    "description": "Benefit verification, prior authorization, denial appeals, and ATC scheduling for patients on the path to TIL therapy.",
+    "headcount": 40,
+    "est_annual_cost_base": 3744000,
     "avg_fully_loaded_hourly": 45
+  },
+  {
+    "function_id": "FN-mfg-ops",
+    "name": "Manufacturing Operations (iCTC)",
+    "description": "GMP production of autologous TIL at the Iovance Cell Therapy Center: batch execution, batch records, deviations, environmental monitoring.",
+    "headcount": 220,
+    "est_annual_cost_base": 22880000,
+    "avg_fully_loaded_hourly": 50
+  },
+  {
+    "function_id": "FN-msat",
+    "name": "Manufacturing Sciences (MSAT)",
+    "description": "Process characterization, tech transfer from development into GMP, comparability, and manufacturing investigation support.",
+    "headcount": 45,
+    "est_annual_cost_base": 5616000,
+    "avg_fully_loaded_hourly": 60
+  },
+  {
+    "function_id": "FN-qa",
+    "name": "Quality Assurance",
+    "description": "Batch disposition, deviations and CAPAs, change control, SOP lifecycle, and audit/inspection readiness.",
+    "headcount": 90,
+    "est_annual_cost_base": 10296000,
+    "avg_fully_loaded_hourly": 55
+  },
+  {
+    "function_id": "FN-qc",
+    "name": "Quality Control",
+    "description": "Release and in-process testing: identity, potency, sterility, and flow cytometry, with LIMS data review and OOS investigations.",
+    "headcount": 85,
+    "est_annual_cost_base": 9193000,
+    "avg_fully_loaded_hourly": 52
+  },
+  {
+    "function_id": "FN-supply-chain",
+    "name": "Supply Chain & Cold Chain Logistics",
+    "description": "Bidirectional cold chain (fresh tumor inbound, cryopreserved product outbound), chain of identity/custody, materials, and demand planning.",
+    "headcount": 55,
+    "est_annual_cost_base": 5491000,
+    "avg_fully_loaded_hourly": 48
+  },
+  {
+    "function_id": "FN-regulatory",
+    "name": "Regulatory Affairs",
+    "description": "Global submissions, health-authority query responses, commitment tracking, labeling, and regulatory intelligence.",
+    "headcount": 30,
+    "est_annual_cost_base": 4056000,
+    "avg_fully_loaded_hourly": 65
+  },
+  {
+    "function_id": "FN-clinical-ops",
+    "name": "Clinical Operations",
+    "description": "Trial execution and CRO/site oversight: monitoring reports, deviations, TMF, AE narratives, and enrollment planning.",
+    "headcount": 50,
+    "est_annual_cost_base": 6240000,
+    "avg_fully_loaded_hourly": 60
+  },
+  {
+    "function_id": "FN-commercial",
+    "name": "Commercial (Sales & Marketing)",
+    "description": "Field force support for ATCs, market access, brand, MLR review, CRM, and competitive intelligence.",
+    "headcount": 70,
+    "est_annual_cost_base": 8736000,
+    "avg_fully_loaded_hourly": 60
+  },
+  {
+    "function_id": "FN-medical-affairs",
+    "name": "Medical Affairs & Pharmacovigilance",
+    "description": "MSL field medical, medical information desk, and drug safety/PV case intake, literature surveillance, and congress readouts.",
+    "headcount": 35,
+    "est_annual_cost_base": 4732000,
+    "avg_fully_loaded_hourly": 65
+  },
+  {
+    "function_id": "FN-finance",
+    "name": "Finance & FP&A",
+    "description": "Controllership, FP&A, and cost accounting: month-end close, reconciliation, management reporting, and COGS-per-batch.",
+    "headcount": 28,
+    "est_annual_cost_base": 3203000,
+    "avg_fully_loaded_hourly": 55
+  },
+  {
+    "function_id": "FN-hr",
+    "name": "Human Resources",
+    "description": "Talent acquisition, onboarding, training compliance, and people operations for a fast-ramping cell-therapy workforce.",
+    "headcount": 22,
+    "est_annual_cost_base": 2288000,
+    "avg_fully_loaded_hourly": 50
+  },
+  {
+    "function_id": "FN-it",
+    "name": "IT, Data & Digital",
+    "description": "Enterprise systems (MES, LIMS, ERP, orchestration), service desk, data integration, and computer-system validation.",
+    "headcount": 35,
+    "est_annual_cost_base": 4222000,
+    "avg_fully_loaded_hourly": 58
+  },
+  {
+    "function_id": "FN-legal",
+    "name": "Legal & Compliance",
+    "description": "Contract drafting and review, CDA/MSA throughput, policy lifecycle, and healthcare-compliance monitoring.",
+    "headcount": 16,
+    "est_annual_cost_base": 2330000,
+    "avg_fully_loaded_hourly": 70
+  },
+  {
+    "function_id": "FN-procurement",
+    "name": "Procurement & Sourcing",
+    "description": "Sourcing of GMP raw materials, media, consumables, and services: PO processing, supplier qualification, spend analysis, and risk.",
+    "headcount": 18,
+    "est_annual_cost_base": 1946000,
+    "avg_fully_loaded_hourly": 52
   },
   {
     "function_id": "FN-mfg-coordination",
     "name": "Manufacturing Coordination",
-    "description": "Schedules and tracks production orders through the orchestration system.",
+    "description": "Schedules and tracks production orders through the orchestration system. (Retained from the original demo dataset.)",
     "headcount": 18,
     "est_annual_cost_base": 2160000,
     "avg_fully_loaded_hourly": 48
-  },
-  {
-    "function_id": "FN-finance",
-    "name": "Finance",
-    "description": "Month-end close, reconciliation, vendor spend, and management reporting.",
-    "headcount": 14,
-    "est_annual_cost_base": 1820000,
-    "avg_fully_loaded_hourly": 52
   }
 ]
