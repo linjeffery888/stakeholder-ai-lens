@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lens — AI use-case portfolio</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c2230; --line:#2a3140;
+    --txt:#e6edf3; --muted:#8b97a7; --accent:#4da3ff; --green:#3fb950;
+    --amber:#d29922; --red:#f06b6b; --chipbg:#21283400;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent)}
+  header{padding:18px 26px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{font-size:18px;margin:0;letter-spacing:.3px}
+  header .sub{color:var(--muted);font-size:13px}
+  .badge{padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;
+    border:1px solid var(--line)}
+  .badge.live{background:#13301c;color:var(--green);border-color:#1c4429}
+  .badge.mock{background:#2e2410;color:var(--amber);border-color:#4a3a14}
+  .wrap{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:20px 26px;
+    max-width:1400px;margin:0 auto}
+  @media(max-width:980px){.wrap{grid-template-columns:1fr}}
+  .kpis{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px;grid-column:1/-1}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:12px 16px;min-width:120px;flex:1}
+  .kpi .n{font-size:22px;font-weight:700}
+  .kpi .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  .kpi.big .n{color:var(--green)}
+  section.panel{background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;margin-bottom:18px}
+  section.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;
+    color:var(--muted);margin:0 0 12px}
+  /* portfolio cards */
+  .uc{border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+    margin-bottom:10px;background:var(--panel2);cursor:pointer;transition:.12s}
+  .uc:hover{border-color:#3b4658}
+  .uc .top{display:flex;align-items:center;gap:10px}
+  .rank{font-weight:700;color:var(--muted);min-width:26px}
+  .uc .title{font-weight:600;flex:1}
+  .rice{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600}
+  .q{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);
+    color:var(--muted);white-space:nowrap}
+  .q.qw{background:#13301c;color:var(--green);border-color:#1c4429}
+  .q.rm{background:#11243d;color:var(--accent);border-color:#1d3a5c}
+  .flag{font-size:11px;color:var(--amber);border:1px solid #4a3a14;background:#2e2410;
+    padding:2px 7px;border-radius:20px}
+  .xf{font-size:11px;color:#c08bff;border:1px solid #3a2a55;background:#1f1630;
+    padding:2px 7px;border-radius:20px}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12.5px;
+    margin-top:8px}
+  .meta b{color:var(--txt);font-weight:600}
+  .sav{color:var(--green);font-weight:600}
+  .detail{display:none;margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+  .uc.open .detail{display:block}
+  .prov{font-size:12.5px;color:var(--muted);margin:4px 0;padding-left:10px;
+    border-left:2px solid var(--line)}
+  .prov b{color:var(--txt)}
+  /* 2x2 */
+  svg{width:100%;height:260px;background:var(--panel2);border-radius:8px}
+  .axis-l{fill:var(--muted);font-size:11px}
+  /* input */
+  textarea,select,input{width:100%;background:#0c0f14;color:var(--txt);
+    border:1px solid var(--line);border-radius:8px;padding:9px 11px;font:inherit;
+    margin-bottom:10px}
+  textarea{min-height:120px;resize:vertical}
+  button{background:var(--accent);color:#04122a;border:0;border-radius:8px;
+    padding:10px 14px;font-weight:700;cursor:pointer;font:inherit}
+  button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  button:disabled{opacity:.5;cursor:wait}
+  .row{display:flex;gap:8px}
+  .hint{color:var(--muted);font-size:12px;margin-bottom:8px}
+  .gated{color:var(--muted);font-size:13px}
+  .gated .g{padding:6px 0;border-bottom:1px solid var(--line)}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    background:var(--panel);border:1px solid var(--line);padding:10px 18px;
+    border-radius:10px;opacity:0;transition:.25s;pointer-events:none}
+  .toast.show{opacity:1}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);
+    border-top-color:transparent;border-radius:50%;animation:r .7s linear infinite;
+    vertical-align:-2px}
+  @keyframes r{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Lens</h1>
+  <span class="sub">AI use-case discovery &amp; prioritization</span>
+  <span id="mode" class="badge mock">…</span>
+  <span class="sub" id="modehint"></span>
+</header>
+
+<div class="wrap">
+  <div class="kpis" id="kpis"></div>
+
+  <main>
+    <section class="panel">
+      <h2>Prioritized portfolio <span class="sub" id="rankhint"></span></h2>
+      <div id="ranked"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Value vs feasibility</h2>
+      <svg id="scatter" viewBox="0 0 600 260" preserveAspectRatio="none"></svg>
+      <div class="hint" style="margin-top:8px">
+        x = feasibility, y = base savings (log). Top-right green = quick wins.
+      </div>
+    </section>
+
+    <section class="panel" id="mergesPanel">
+      <h2>Overlap resolved (merges)</h2>
+      <div id="merges"></div>
+    </section>
+
+    <section class="panel" id="gatedPanel" style="display:none">
+      <h2>Gated out (no savings hypothesis)</h2>
+      <div class="gated" id="gated"></div>
+    </section>
+  </main>
+
+  <aside>
+    <section class="panel">
+      <h2>Add an interview</h2>
+      <div class="hint">Paste a messy interview note. It extracts, de-duplicates
+        against the existing use cases, and re-ranks the whole portfolio.</div>
+      <select id="fn"></select>
+      <input id="who" placeholder="Stakeholder name (optional)">
+      <textarea id="notes" placeholder="e.g. The team spends about 20 minutes per request manually pulling figures from three systems to build a status report, around 2,000 times a year..."></textarea>
+      <div class="row">
+        <button id="add">Add &amp; re-run</button>
+        <button id="example" class="ghost">Load example</button>
+        <button id="reset" class="ghost">Reset demo</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Export</h2>
+      <div class="hint">Take the current portfolio away as data.</div>
+      <div class="row">
+        <a href="/api/export.csv" download><button>Download CSV</button></a>
+        <a href="/api/export.json" download><button class="ghost">Download JSON</button></a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Interviews in model</h2>
+      <div id="ivs" class="gated"></div>
+    </section>
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const fmt = n => "$" + Math.round(n).toLocaleString();
+
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 2200);
+}
+
+function render(d){
+  // mode
+  const m = $("#mode"); m.textContent = d.mode.toUpperCase();
+  m.className = "badge " + (d.mode==="live"?"live":"mock");
+  $("#modehint").textContent = d.mode==="mock"
+    ? "deterministic fixtures + heuristic" : "Claude extraction + adjudication";
+
+  // kpis
+  const s = d.stats, t = d.totals;
+  $("#kpis").innerHTML = [
+    ["Interviews", s.interviews], ["Raw pain points", s.pain_points],
+    ["Canonical use cases", s.canonical], ["Cross-functional", s.cross_functional],
+  ].map(([l,n])=>`<div class="kpi"><div class="n">${n}</div><div class="l">${l}</div></div>`).join("")
+   + `<div class="kpi big"><div class="n">${fmt(t.base)}</div><div class="l">Sized opportunity / yr</div></div>`;
+
+  $("#rankhint").textContent = ` — ${d.ranked.length} ranked, click to expand`;
+
+  // ranked cards
+  $("#ranked").innerHTML = d.ranked.map(uc=>{
+    const qcls = uc.quadrant==="quick win" ? "qw"
+      : uc.quadrant.startsWith("roadmap") ? "rm" : "";
+    const flag = uc.needs_review ? `<span class="flag">review</span>` : "";
+    const xf = uc.cross_functional ? `<span class="xf">cross-function</span>` : "";
+    const prov = uc.provenance.map(p=>
+      `<div class="prov"><b>${p.pain_id}</b> · ${p.interview_id} · ${p.function}
+        — ${p.minutes}min × ${p.volume.toLocaleString()}/yr
+        ${p.match_confidence?`<span style="color:var(--muted)">(merge conf ${p.match_confidence})</span>`:""}
+        <br>${p.description}</div>`).join("");
+    return `<div class="uc" onclick="this.classList.toggle('open')">
+      <div class="top">
+        <span class="rank">#${uc.priority_rank}</span>
+        <span class="title">${uc.title}</span>
+        ${xf}${flag}
+        <span class="q ${qcls}">${uc.quadrant}</span>
+        <span class="rice">RICE ${uc.rice_score}</span>
+      </div>
+      <div class="meta">
+        <span><b class="sav">${fmt(uc.est_savings_base)}</b>/yr <span style="color:var(--muted)">(${fmt(uc.est_savings_low)}–${fmt(uc.est_savings_high)})</span></span>
+        <span>reach <b>${uc.reach}</b> fn</span>
+        <span>conf <b>${uc.confidence}</b></span>
+        <span>feasibility <b>${uc.feasibility_score}</b></span>
+        <span>~<b>${uc.effort_person_weeks}</b>wk</span>
+        <span>P&amp;L: <b>${uc.p_and_l_line}</b></span>
+      </div>
+      <div class="detail">
+        <div style="margin-bottom:6px">${uc.canonical_description}</div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:6px">
+          ${uc.category} / ${uc.ai_lever} · functions: ${uc.affected_function_names.join(", ")}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Provenance (${uc.provenance.length} pain point${uc.provenance.length>1?"s":""}):</div>
+        ${prov}
+      </div>
+    </div>`;
+  }).join("");
+
+  // merges
+  const merged = d.ranked.concat(d.gated).filter(u=>u.provenance.length>1);
+  $("#mergesPanel").style.display = merged.length? "block":"none";
+  $("#merges").innerHTML = merged.map(uc=>{
+    const tag = uc.cross_functional? `<span class="xf">cross-function</span>`:`<span class="q">same-function</span>`;
+    return `<div style="padding:7px 0;border-bottom:1px solid var(--line)">
+      ${tag} <b>${uc.title}</b><br>
+      <span style="color:var(--muted);font-size:12.5px">
+        ${uc.provenance.map(p=>p.pain_id+" ("+p.function+")").join("  +  ")}</span></div>`;
+  }).join("") || `<span class="gated">No overlaps merged yet.</span>`;
+
+  // gated
+  $("#gatedPanel").style.display = d.gated.length? "block":"none";
+  $("#gated").innerHTML = d.gated.map(uc=>
+    `<div class="g"><b>${uc.title}</b> — ${uc.canonical_description}</div>`).join("");
+
+  // 2x2
+  drawScatter(d.ranked);
+
+  // function dropdown + interview list
+  if(!$("#fn").dataset.filled){
+    $("#fn").innerHTML = d.function_options.map(f=>
+      `<option value="${f.function_id}">${f.name}</option>`).join("");
+    $("#fn").dataset.filled = "1";
+  }
+  $("#ivs").innerHTML = d.interview_list.map(iv=>
+    `<div class="g"><b>${iv.interview_id}</b> · ${iv.function} · ${iv.stakeholder}</div>`).join("");
+}
+
+function drawScatter(ranked){
+  const W=600,H=260,pad=34;
+  const max = Math.max(10000, ...ranked.map(u=>u.est_savings_base));
+  const ly = v => { // log scale
+    const lo=Math.log10(200), hi=Math.log10(max);
+    const f=(Math.log10(Math.max(200,v))-lo)/(hi-lo);
+    return H-pad - f*(H-2*pad);
+  };
+  const lx = f => pad + f*(W-2*pad);
+  let svg = `<line x1="${lx(0.6)}" y1="${pad}" x2="${lx(0.6)}" y2="${H-pad}" stroke="#2a3140" stroke-dasharray="4"/>`;
+  const midY=(pad+(H-pad))/2;
+  svg += `<line x1="${pad}" y1="${midY}" x2="${W-pad}" y2="${midY}" stroke="#2a3140" stroke-dasharray="4"/>`;
+  svg += `<text class="axis-l" x="${W-pad}" y="${H-10}" text-anchor="end">feasibility →</text>`;
+  svg += `<text class="axis-l" x="6" y="${pad+4}" >savings ↑</text>`;
+  svg += `<text class="axis-l" x="${W-pad-2}" y="${pad+12}" text-anchor="end" fill="#3fb950">quick wins</text>`;
+  ranked.forEach(u=>{
+    const x=lx(u.feasibility_score), y=ly(u.est_savings_base);
+    const c = u.quadrant==="quick win" ? "#3fb950" : u.quadrant.startsWith("roadmap")?"#4da3ff":"#8b97a7";
+    const r = u.cross_functional? 8:5;
+    svg += `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" fill-opacity="0.8" stroke="#0e1116"><title>${u.title} — ${fmt(u.est_savings_base)}/yr, feas ${u.feasibility_score}</title></circle>`;
+  });
+  $("#scatter").innerHTML = svg;
+}
+
+async function load(){
+  const r = await fetch("/api/portfolio");
+  render(await r.json());
+}
+async function addInterview(){
+  const notes = $("#notes").value.trim();
+  if(!notes){ toast("Paste a note first"); return; }
+  const btn=$("#add"); btn.disabled=true; const orig=btn.innerHTML;
+  btn.innerHTML='<span class="spin"></span> running…';
+  try{
+    const r = await fetch("/api/interview",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({function_id:$("#fn").value, raw_notes:notes, stakeholder:$("#who").value})});
+    const d = await r.json();
+    if(d.error){ toast("Error: "+d.error); }
+    else{ render(d); $("#notes").value=""; $("#who").value="";
+      toast("Added "+d.added_interview_id+" — portfolio re-ranked"); }
+  }catch(e){ toast("Request failed"); }
+  btn.disabled=false; btn.innerHTML=orig;
+}
+async function reset(){
+  const btn=$("#reset"); btn.disabled=true;
+  const r = await fetch("/api/reset",{method:"POST"}); render(await r.json());
+  btn.disabled=false; toast("Reset to base interviews");
+}
+const EXAMPLE = "Every week our analysts manually compile a status summary for leadership by pulling figures out of three different systems and stitching them together by hand. It takes about 35 minutes per report and we produce roughly 1,500 of these a year. It is repetitive and error-prone.";
+$("#example").onclick=()=>{
+  const fn=$("#fn"); // pick Finance if present, else first
+  const fin=[...fn.options].find(o=>/finance/i.test(o.text));
+  if(fin) fn.value=fin.value;
+  $("#who").value="Example Analyst";
+  $("#notes").value=EXAMPLE;
+  toast("Example loaded — it overlaps the status-summarization use case");
+};
+$("#add").onclick=addInterview;
+$("#reset").onclick=reset;
+load();
+</script>
+</body>
+</html>

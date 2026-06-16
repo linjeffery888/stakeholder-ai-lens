@@ -1,0 +1,170 @@
+{
+  "INT-014": [
+    {
+      "title": "Benefit verification status",
+      "description": "Coordinators manually compile benefit-verification status for each patient case from three separate systems (payer portal, EHR, copay assistance tool).",
+      "workflow": "Benefit verification before treatment scheduling",
+      "time_cost_per_occurrence_min": 30,
+      "est_annual_volume": 4000,
+      "severity": "high",
+      "ai_addressability": "high",
+      "category_tags": [
+        "status summarization",
+        "manual data entry"
+      ],
+      "ai_lever": "summarization"
+    },
+    {
+      "title": "Claim denial appeal letters",
+      "description": "Appeal letters for denied claims are written from scratch each time by copying and editing an old letter.",
+      "workflow": "Claim denial appeals",
+      "time_cost_per_occurrence_min": 45,
+      "est_annual_volume": 300,
+      "severity": "med",
+      "ai_addressability": "high",
+      "category_tags": [
+        "document or report generation"
+      ],
+      "ai_lever": "drafting"
+    },
+    {
+      "title": "Prior-auth status chasing",
+      "description": "Staff chase prior-authorization status by phone, sitting on hold with payers to learn if a case was approved.",
+      "workflow": "Prior-authorization follow-up",
+      "time_cost_per_occurrence_min": 15,
+      "est_annual_volume": 2000,
+      "severity": "med",
+      "ai_addressability": "med",
+      "category_tags": [
+        "scheduling and coordination"
+      ],
+      "ai_lever": "deflection"
+    }
+  ],
+  "INT-031": [
+    {
+      "title": "Order status summaries",
+      "description": "Schedulers hand-assemble a status summary for each open production order from the orchestration system, email threads, and shared sheets before the daily standup.",
+      "workflow": "Daily order status reporting",
+      "time_cost_per_occurrence_min": 25,
+      "est_annual_volume": 3000,
+      "severity": "high",
+      "ai_addressability": "high",
+      "category_tags": [
+        "status summarization",
+        "manual data entry"
+      ],
+      "ai_lever": "summarization"
+    },
+    {
+      "title": "Production reconciliation",
+      "description": "Planned versus actual order quantities are reconciled line by line between the orchestration system and the ERP every month.",
+      "workflow": "Monthly production reconciliation",
+      "time_cost_per_occurrence_min": 60,
+      "est_annual_volume": 240,
+      "severity": "med",
+      "ai_addressability": "high",
+      "category_tags": [
+        "reconciliation"
+      ],
+      "ai_lever": "reconciliation"
+    },
+    {
+      "title": "Work-instruction lookup",
+      "description": "Coordinators hunt through scattered SOPs to find the right work instruction when a line operator has a question.",
+      "workflow": "Work-instruction lookup",
+      "time_cost_per_occurrence_min": 10,
+      "est_annual_volume": 1500,
+      "severity": "low",
+      "ai_addressability": "med",
+      "category_tags": [
+        "search and retrieval"
+      ],
+      "ai_lever": "search and retrieval"
+    }
+  ],
+  "INT-022": [
+    {
+      "title": "Account reconciliation",
+      "description": "Analysts reconcile ERP balances to subledgers and spreadsheets at month-end, chasing down every variance for each account.",
+      "workflow": "Month-end account reconciliation",
+      "time_cost_per_occurrence_min": 90,
+      "est_annual_volume": 550,
+      "severity": "high",
+      "ai_addressability": "high",
+      "category_tags": [
+        "reconciliation"
+      ],
+      "ai_lever": "reconciliation"
+    },
+    {
+      "title": "Management reporting pack",
+      "description": "The monthly management reporting pack is built by copying numbers out of four or five different sources into a deck.",
+      "workflow": "Management reporting pack",
+      "time_cost_per_occurrence_min": 180,
+      "est_annual_volume": 12,
+      "severity": "med",
+      "ai_addressability": "med",
+      "category_tags": [
+        "document or report generation"
+      ],
+      "ai_lever": "summarization"
+    }
+  ],
+  "INT-008": [
+    {
+      "title": "Claim denial appeal letters",
+      "description": "Denial appeal letters are drafted by rewriting old letters for the new patient and specific denial reason, a blank-page effort each time.",
+      "workflow": "Claim denial appeals",
+      "time_cost_per_occurrence_min": 40,
+      "est_annual_volume": 300,
+      "severity": "med",
+      "ai_addressability": "high",
+      "category_tags": [
+        "document or report generation"
+      ],
+      "ai_lever": "drafting"
+    },
+    {
+      "title": "Coverage question research",
+      "description": "Coordinators dig through policy documents and SOPs to find the exact clause that answers a patient's coverage question.",
+      "workflow": "Coverage question research",
+      "time_cost_per_occurrence_min": 20,
+      "est_annual_volume": 1000,
+      "severity": "low",
+      "ai_addressability": "med",
+      "category_tags": [
+        "search and retrieval"
+      ],
+      "ai_lever": "search and retrieval"
+    }
+  ],
+  "INT-040": [
+    {
+      "title": "Vendor and SaaS spend review",
+      "description": "Vendor and SaaS spend is reviewed quarterly by going through invoices line by line to find duplicate tools, overlapping licenses, and unused subscriptions.",
+      "workflow": "Vendor and SaaS spend review",
+      "time_cost_per_occurrence_min": 240,
+      "est_annual_volume": 4,
+      "severity": "med",
+      "ai_addressability": "high",
+      "category_tags": [
+        "vendor and SaaS spend"
+      ],
+      "ai_lever": "spend analysis"
+    },
+    {
+      "title": "Contract summary memos",
+      "description": "Contract summary memos for leadership are drafted by pulling key terms, renewal dates, and pricing out of long PDF contracts into a one-pager.",
+      "workflow": "Contract summary memos",
+      "time_cost_per_occurrence_min": 60,
+      "est_annual_volume": 100,
+      "severity": "low",
+      "ai_addressability": "high",
+      "category_tags": [
+        "document or report generation"
+      ],
+      "ai_lever": "drafting"
+    }
+  ]
+}

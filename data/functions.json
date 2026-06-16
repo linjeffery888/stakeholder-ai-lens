@@ -1,0 +1,26 @@
+[
+  {
+    "function_id": "FN-patient-services",
+    "name": "Patient Services",
+    "description": "Coordinates benefit verification, scheduling, and patient onboarding before treatment.",
+    "headcount": 24,
+    "est_annual_cost_base": 2640000,
+    "avg_fully_loaded_hourly": 45
+  },
+  {
+    "function_id": "FN-mfg-coordination",
+    "name": "Manufacturing Coordination",
+    "description": "Schedules and tracks production orders through the orchestration system.",
+    "headcount": 18,
+    "est_annual_cost_base": 2160000,
+    "avg_fully_loaded_hourly": 48
+  },
+  {
+    "function_id": "FN-finance",
+    "name": "Finance",
+    "description": "Month-end close, reconciliation, vendor spend, and management reporting.",
+    "headcount": 14,
+    "est_annual_cost_base": 1820000,
+    "avg_fully_loaded_hourly": 52
+  }
+]

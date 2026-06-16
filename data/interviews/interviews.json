@@ -1,0 +1,52 @@
+[
+  {
+    "interview_id": "INT-014",
+    "function_id": "FN-patient-services",
+    "stakeholder": "Priya Shah",
+    "role": "Manager, Benefit Verification",
+    "seniority": "manager",
+    "date": "2026-05-12",
+    "status": "captured",
+    "raw_notes": "Honestly the biggest time sink is benefit verification. Before we can schedule a patient for treatment a coordinator has to pull the patient's status out of three different systems, the payer portal, our EHR, and the copay assistance tool, and basically hand-assemble a single picture of where that case stands. It's maybe half an hour per case and we run something like 4,000 cases a year. It's error prone too, if one system is stale the whole thing is wrong. Second thing, when a claim gets denied we write appeal letters more or less from scratch every time, people copy an old one and edit it, takes 45 min easy and we do hundreds a year. And we spend a stupid amount of time just chasing prior-auth status, calling payers, sitting on hold, to find out if something was approved. If I could stop one thing it would be the manual status compiling."
+  },
+  {
+    "interview_id": "INT-031",
+    "function_id": "FN-mfg-coordination",
+    "stakeholder": "Marco Reyes",
+    "role": "Manager, Production Scheduling",
+    "seniority": "manager",
+    "date": "2026-05-15",
+    "status": "captured",
+    "raw_notes": "Every morning before the standup the schedulers put together a status summary for each open order. The orchestration system has part of it, but the rest is buried in email threads and a couple of shared sheets, so they stitch it together by hand. Call it 25 minutes an order, and we've got around 3,000 orders moving through in a year. The other recurring headache is reconciliation, planned versus actual quantities never match cleanly between the orchestration system and the ERP, so someone goes line by line to figure out where the difference is. It's tedious and it's monthly. We also lose time hunting for the right work instruction when a line operator has a question, the SOPs are scattered."
+  },
+  {
+    "interview_id": "INT-022",
+    "function_id": "FN-finance",
+    "stakeholder": "Daniel Okafor",
+    "role": "Director, Controllership",
+    "seniority": "director",
+    "date": "2026-05-18",
+    "status": "captured",
+    "raw_notes": "Month-end close is where it hurts. The big one is account reconciliation, an analyst pulls balances from the ERP, ties them to subledgers and a pile of spreadsheets, and chases down every variance. A material account can be 90 minutes, and across the close we're doing 500 to 600 reconciliations. After that, building the management reporting pack is its own slog, we copy numbers out of four or five sources into a deck every month. Both of those are very manual and very repetitive. If reconciliation were faster the whole close would compress."
+  },
+  {
+    "interview_id": "INT-008",
+    "function_id": "FN-patient-services",
+    "stakeholder": "Lena Whitfield",
+    "role": "Senior Patient Coordinator",
+    "seniority": "ic",
+    "date": "2026-05-20",
+    "status": "captured",
+    "raw_notes": "The denial appeals are brutal. When insurance denies coverage I draft an appeal letter, I keep a few old ones around and rewrite them for the new patient and the specific denial reason, but it's still a blank-page feeling every time and it's at least 40 minutes a letter. We do a lot of these. The other thing that eats my day is digging through policy documents and SOPs to answer a patient's question about what their plan covers, the info exists but finding the exact clause takes forever."
+  },
+  {
+    "interview_id": "INT-040",
+    "function_id": "FN-finance",
+    "stakeholder": "Aisha Bello",
+    "role": "Manager, FP&A",
+    "seniority": "manager",
+    "date": "2026-05-22",
+    "status": "captured",
+    "raw_notes": "Two things from my side. One, vendor and SaaS spend review, every quarter I go through invoices line by line to find duplicate tools, overlapping licenses, stuff we forgot to cancel. It's all manual in spreadsheets and I'm sure we miss savings. Two, whenever a contract comes up I write a summary memo for leadership, pulling the key terms, renewal dates, and pricing out of a long PDF into a one-pager. That drafting is repetitive and slow, maybe an hour a memo."
+  }
+]
