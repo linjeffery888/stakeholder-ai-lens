@@ -394,7 +394,7 @@ a.dl button{width:100%}
             <div class="field"><label>Company name</label>
               <input id="orgName" placeholder="e.g. Acme Health">
               <button class="btn-ghost btn-sm" id="research" style="margin-top:8px">Research from web</button></div>
-            <div class="field"><label>Total headcount <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">(context only)</span></label><input id="orgHead" type="number" min="0" step="1"></div>
+            <div class="field"><label>Total headcount <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">(per-seat spend benchmark)</span></label><input id="orgHead" type="number" min="0" step="1"></div>
             <div class="field"><label>Addressable discretionary spend <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">— only what a vendor/SaaS tool could touch</span></label>
               <p class="hint" style="margin:0 0 8px">Software, cloud, discretionary vendors, contingent labor. <b>Not</b> total opex, SG&amp;A, R&amp;D, payroll, or COGS — those aren't addressable and would overstate the number.</p>
               <div id="spendLines"></div>
@@ -472,7 +472,7 @@ a.dl button{width:100%}
     <h3>How the Organization sizing works</h3>
     <p class="hint" style="margin-top:0"><b>Labor savings come from the interviews, not this panel.</b> Each use case's labor opportunity is computed from the time &times; frequency stakeholders actually reported. Those volumes already reflect the organization's real scale, so editing this panel does <b>not</b> change them. To estimate for a larger company, you'd feed in <i>its</i> interviews and the labor scales through the data itself.</p>
     <p class="hint"><b>This panel sizes only the top-down spend-rationalization track:</b> recoverable spend = addressable discretionary spend &times; waste rate &times; capture rate.</p>
-    <p class="hint"><b>Headcount is context, not a lever.</b> It does not drive labor. Its one use is as a per-seat benchmark for software/SaaS.</p>
+    <p class="hint"><b>Does headcount affect labor?</b> In the real world, yes &mdash; the labor opportunity grows with how many people perform a task. In this prototype that scaling already lives in the <i>interview-reported volumes</i> (time &times; frequency), so editing the headcount field here does not re-scale labor; a bigger company would surface bigger volumes through its own interviews. Headcount's one job in this panel is as a per-seat benchmark for software/SaaS spend.</p>
     <p class="hint" style="margin-bottom:6px"><b>Which spend scales with headcount?</b></p>
     <ul class="audit-list">
       <li><b>Scales fairly linearly:</b> per-seat software/SaaS and collaboration tools (~$8&ndash;12K per employee/yr).</li>
