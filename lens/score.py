@@ -16,9 +16,40 @@ gets no score and drops out of the ranking.
 
 from __future__ import annotations
 
+import re
+
 from .models import PainPoint, UseCase, Function
 
 ADDRESSABILITY = {"low": 0.0, "med": 0.5, "high": 1.0}
+
+# Pains an AI document/data tool genuinely cannot solve: headcount/capacity,
+# capex/physical equipment, biology, external-institution timelines, sole-source
+# markets, physical logistics. The extractor often over-scores these as "high"
+# addressability, so we gate them on the problem text, not the model's score.
+_NON_ADDRESSABLE = re.compile(
+    r"((at |)(max|maximum|full)\s*capacity|capacity (is )?maxed|"
+    r"insufficient[\w\s]{0,24}capacity|understaffed|staffing (gap|shortfall|shortage)|"
+    r"outpaces?[\w\s]*headcount|need (more|additional|to hire)|"
+    r"more (staff|people|coordinators|reviewers|headcount|heads|fte|shippers|freezers)|"
+    r"\bhir(e|ing)\b|\bcapex\b|capital expenditure|aging (equipment|incubator)|"
+    r"new hardware|instrument calibration|single[- ]source|sole supplier|"
+    r"negotiat\w* leverage|yield variab|living cells|\bIRB\b|institutional contract|"
+    r"external institution|\bflights?\b|\bweather\b|\bcustoms\b|grounded)",
+    re.I,
+)
+
+
+def _addressable(uc: UseCase, members: list) -> bool:
+    """False = gate it (not an AI savings hypothesis)."""
+    if members and all(m.ai_addressability == "low" for m in members):
+        return False
+    n_non = sum(1 for m in members if _NON_ADDRESSABLE.search(m.description or ""))
+    if members and n_non == len(members):
+        return False  # every contributing pain is non-addressable
+    if len(members) <= 2 and _NON_ADDRESSABLE.search(
+            (uc.canonical_description or "") + " " + (uc.title or "")):
+        return False  # a small cluster dominated by a non-addressable problem
+    return True
 
 # --- bounded RICE impact (textbook 0.25-3 scale), so a single large dollar
 # figure cannot dominate the ranking. Raw savings stay visible separately. ---
@@ -106,9 +137,10 @@ def score_portfolio(
     ranked, gated = [], []
     for uc in use_cases:
         members = [by_id[pid] for pid in uc.member_pain_ids]
-        # the gate
-        if uc.est_savings_base <= 0:
-            reason = "no savings hypothesis (gated out)"
+        # the gate: no savings hypothesis OR not AI-addressable
+        if uc.est_savings_base <= 0 or not _addressable(uc, members):
+            reason = ("not AI-addressable (gated out)"
+                      if uc.est_savings_base > 0 else "no savings hypothesis (gated out)")
             if reason not in uc.review_reasons:  # idempotent across recomputes
                 uc.review_reasons.append(reason)
             gated.append(uc)

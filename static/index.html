@@ -229,6 +229,27 @@ a.dl button{width:100%}
 .skel{height:64px;border-radius:var(--r-sm);background:linear-gradient(90deg,var(--surface-2),var(--line),var(--surface-2));
   background-size:200% 100%;animation:sh 1.3s infinite;margin-bottom:10px}
 @keyframes sh{to{background-position:-200% 0}}
+/* ---------- disclaimer banner + self-audit ---------- */
+.disclaimer{display:flex;align-items:center;gap:10px;max-width:1280px;margin:14px auto 0;
+  padding:9px 16px;background:#fbf3e2;border:1px solid #ecd9a8;border-radius:10px;
+  font-size:12.5px;line-height:1.45;color:#6b5836}
+.disclaimer .dz-ic{font-size:14px;flex:0 0 auto}
+.disclaimer b{color:#4f4127}
+.dz-link{margin-left:auto;flex:0 0 auto;font:inherit;font-weight:600;font-size:12px;
+  color:var(--accent-ink);background:none;border:none;cursor:pointer;white-space:nowrap;text-decoration:underline}
+.audit-list{margin:0 0 4px;padding-left:18px;font-size:12.5px;line-height:1.55;color:var(--ink-2)}
+.audit-list li{margin-bottom:6px}
+.audit-list b{color:var(--ink)}
+.modal-wrap{position:fixed;inset:0;z-index:90;background:rgba(20,22,18,.5);
+  display:none;align-items:flex-start;justify-content:center;padding:6vh 16px;overflow:auto}
+.modal-wrap.show{display:flex}
+.modal{position:relative;background:var(--surface);border:1px solid var(--line-2);
+  border-radius:var(--r);box-shadow:var(--shadow-lg);max-width:620px;width:100%;padding:24px 26px}
+.modal h3{margin:0 0 12px;font-size:17px;font-weight:650;color:var(--ink);padding-right:24px}
+.modal .hint{font-size:13px;line-height:1.55}
+.modal-x{position:absolute;top:14px;right:16px;border:none;background:none;color:var(--muted);
+  font-size:20px;line-height:1;cursor:pointer}
+.modal-x:hover{color:var(--ink)}
 /* ---------- guided tour ---------- */
 .tour-btn{font:inherit;font-size:12.5px;font-weight:600;color:var(--accent-ink);
   background:var(--accent-soft);border:1px solid #bfe0d4;border-radius:999px;
@@ -264,6 +285,12 @@ a.dl button{width:100%}
   <button id="tourBtn" class="tour-btn" title="Take a quick tour">? Tour</button>
   <span id="mode" class="pill mock"><span class="dot"></span><span class="t">—</span></span>
 </div></div>
+
+<div class="disclaimer">
+  <span class="dz-ic">&#9888;</span>
+  <span><b>Illustrative prototype.</b> Built on <b>100 synthetic interviews</b> generated to be realistic for a commercial cell-therapy company &mdash; <b>not Iovance internal data</b>. The pipeline and methodology are real; the dollar figures are estimates, not findings or commitments.</span>
+  <button id="dzMore" class="dz-link">Read the limitations &rarr;</button>
+</div>
 
 <div class="shell">
   <div class="eyebrow">Portfolio overview</div>
@@ -388,6 +415,25 @@ a.dl button{width:100%}
 
 <div id="busy"><div class="box"><span class="spin"></span><span id="busytxt">Running Claude extraction…</span></div></div>
 <div class="toast" id="toast"></div>
+
+<div id="auditModal" class="modal-wrap">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-x" id="auditX" title="Close">&times;</button>
+    <h3>About this prototype &mdash; methodology &amp; honest limitations</h3>
+    <p class="hint" style="margin-top:0"><b>What this is.</b> A working prototype of an AI use-case discovery &amp; prioritization pipeline, built for the AI Strategy Associate diagnostic. It ingests stakeholder interviews, extracts pain points, de-duplicates them into canonical use cases, enforces a savings-hypothesis gate, and ranks a prioritized portfolio with full provenance.</p>
+    <p class="hint"><b>What is real vs. illustrative.</b> <u>Real:</u> the pipeline itself &mdash; extraction, semantic de-duplication, the savings model, the gate, bounded RICE scoring, the labor/spend tracks, and traceable provenance. Point it at real interviews and it runs. <u>Illustrative:</u> the 100 interviews are <b>synthetic</b>, written to be realistic for a commercial cell-therapy company; they are <b>not Iovance internal data</b>. Organization spend figures are web-researched <i>public</i> estimates, used only to size the top-down spend track.</p>
+    <p class="hint" style="margin-bottom:6px"><b>Known constraints &amp; gaps (self-audit).</b></p>
+    <ul class="audit-list">
+      <li><b>Savings are unvalidated estimates.</b> Confidence is capped at 0.5 by design &mdash; nothing here has been proven with a controlled human-vs-AI comparison, which is the required next step before any number is committed.</li>
+      <li><b>Time and volume per task are estimates</b> pulled from the synthetic transcripts, not measured. On real interviews the figures would move materially.</li>
+      <li><b>De-duplication is strong but imperfect.</b> A live model clusters the pain points and a deterministic second pass merges residual duplicates; low-confidence merges are flagged for human review rather than trusted. Some over/under-merge can remain.</li>
+      <li><b>The spend track is top-down</b> (addressable spend &times; waste &times; capture) &mdash; directional, pending a real spend/SaaS audit, and deliberately kept out of the headline number.</li>
+      <li><b>Net savings net out an assumed build + run cost.</b> Precise per-use-case total cost of ownership is a post-selection exercise, not done here.</li>
+      <li><b>The gate</b> catches clear non-addressable problems (headcount, capex, external timelines) but is not exhaustive.</li>
+    </ul>
+    <p class="hint" style="margin-bottom:0"><b>Bottom line.</b> This demonstrates the method and the working tool. Run on Iovance's actual stakeholder interviews, the structure holds and the numbers become the company's own.</p>
+  </div>
+</div>
 
 <div id="tourSpot"></div>
 <div id="tourBubble">
@@ -666,6 +712,7 @@ let _rT; window.addEventListener("resize",()=>{clearTimeout(_rT);_rT=setTimeout(
 /* ---------- guided tour ---------- */
 const TOUR_STEPS=[
   {title:"Welcome to Lens",body:"A 45-second tour of how this turns stakeholder interviews into a prioritized, savings-mapped portfolio. You can <b>Skip</b> anytime."},
+  {sel:".disclaimer",title:"First: this is a prototype on synthetic data",body:"The 100 interviews are <b>synthetic</b> — realistic for a commercial cell-therapy company, but <b>not Iovance internal data</b>. The pipeline is real; the dollar figures are illustrative estimates, not findings. Click <b>“Read the limitations”</b> on this banner for the full methodology + a candid self-audit."},
   {sel:"#kpis",title:"The headline number",body:"Net annual opportunity — <b>bottoms-up labor savings</b>, already <b>net</b> of an estimated build + run cost. The top-down spend opportunity is tracked separately and never blended into this number."},
   {sel:"#ranked",card:true,title:"Prioritized portfolio",body:"Use cases ranked by a bounded RICE score. <b>Click any row to expand it</b> — you'll see which interviews raised it (provenance) and the full savings math."},
   {sel:"#spendPanel",card:true,title:"Spend analysis — read this",body:"This is <b>top-down</b>: sized as your addressable spend × waste% × capture%, <b>not</b> from interview evidence. All spend pains are pooled into one line, flagged <i>pending audit</i>, and kept out of the headline. Treat it as directional until a real spend audit."},
@@ -882,6 +929,12 @@ async function upload(){
 }
 $("#upBtn").onclick=upload;
 $("#upClear").onclick=reset;
+
+function auditModal(open){ $("#auditModal").classList.toggle("show",open); }
+$("#dzMore").onclick=()=>auditModal(true);
+$("#auditX").onclick=()=>auditModal(false);
+$("#auditModal").onclick=e=>{ if(e.target===$("#auditModal")) auditModal(false); };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") auditModal(false); });
 load();
 </script>
 </body>

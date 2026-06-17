@@ -22,6 +22,7 @@ doc is tuned for embeddings; here everything below AUTO_MERGE goes to step 3.
 
 from __future__ import annotations
 
+import re
 from difflib import SequenceMatcher
 
 from .models import PainPoint, UseCase
@@ -196,6 +197,11 @@ def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM,
         if progress and (idx % 5 == 0 or idx == total):
             progress("dedup", idx, total)
 
+    # Second pass: deterministically merge true duplicate use cases the live
+    # adjudicator split on wording/function (e.g. four "batch record review"
+    # clusters, three "prior auth status" clusters). No LLM calls.
+    _consolidate(use_cases, members)
+
     # prevalence = number of distinct interviews that raised the use case
     for uc in use_cases:
         interviews = {members_pp.interview_id for members_pp in members[uc.use_case_id]}
@@ -210,3 +216,64 @@ def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM,
     cache["spend_uc_id"] = spend_uc_id
 
     return use_cases
+
+
+_STOP = {"and", "the", "for", "manual", "manually", "across", "from", "into",
+         "with", "of", "to", "a", "in", "per", "each", "review", "tracking"}
+
+
+def _toks(s: str) -> set:
+    s = re.sub(r"[^a-z0-9 ]", " ", (s or "").lower())
+    return {t for t in s.split() if len(t) > 2 and t not in _STOP}
+
+
+def _overlap(a: set, b: set) -> float:
+    return len(a & b) / min(len(a), len(b)) if a and b else 0.0
+
+
+def _is_duplicate(a: UseCase, b: UseCase, rep_a: PainPoint, rep_b: PainPoint) -> bool:
+    """True if a and b are the same problem stated differently. Tuned to merge
+    genuine duplicates while avoiding the over-merge of distinct work."""
+    ta, tb = _toks(a.title), _toks(b.title)
+    oc = _overlap(ta, tb)
+    ds = SequenceMatcher(None, (rep_a.description or "").lower(),
+                         (rep_b.description or "").lower()).ratio()
+    ts = SequenceMatcher(None, (a.title or "").lower(), (b.title or "").lower()).ratio()
+    if oc >= 0.6:
+        return True
+    if oc >= 0.45 and ds >= 0.45:
+        return True
+    if max(ds, ts) >= 0.62:
+        return True
+    return False
+
+
+def _consolidate(use_cases: list, members: dict) -> None:
+    """Merge duplicate use cases in place. Skips the pooled spend use case."""
+    changed = True
+    while changed:
+        changed = False
+        for i in range(len(use_cases)):
+            a = use_cases[i]
+            if a.ai_lever in SPEND_LEVERS:
+                continue
+            for j in range(i + 1, len(use_cases)):
+                b = use_cases[j]
+                if b.ai_lever in SPEND_LEVERS:
+                    continue
+                if _is_duplicate(a, b, members[a.use_case_id][0], members[b.use_case_id][0]):
+                    members[a.use_case_id].extend(members[b.use_case_id])
+                    a.member_pain_ids.extend(b.member_pain_ids)
+                    for f in b.affected_functions:
+                        if f not in a.affected_functions:
+                            a.affected_functions.append(f)
+                    a.cross_functional = len(a.affected_functions) > 1
+                    a.needs_review = a.needs_review or b.needs_review
+                    for pp in members[b.use_case_id]:
+                        pp.use_case_id = a.use_case_id
+                    del members[b.use_case_id]
+                    use_cases.pop(j)
+                    changed = True
+                    break
+            if changed:
+                break

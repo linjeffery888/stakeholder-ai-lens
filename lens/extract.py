@@ -24,6 +24,22 @@ def _coerce_enum(value: str, allowed: list, default: str) -> str:
     return value if value in allowed else default
 
 
+# A single human task type rarely recurs more than ~5,000x/yr (~20/workday),
+# and one extracted pain should not imply more than a few FTE of effort.
+MAX_VOLUME = 5000.0
+MAX_HOURS_YEAR = 6000.0   # ~3 FTE on one task; above this is an extraction error
+
+
+def _clamp_volume(minutes: float, volume: float) -> float:
+    """Cap implausible annual volumes so an LLM mis-read (e.g. 7,200 month-end
+    reconciliations/yr) cannot inflate savings."""
+    volume = min(max(volume, 0.0), MAX_VOLUME)
+    if minutes > 0:
+        max_by_hours = MAX_HOURS_YEAR / (minutes / 60.0)
+        volume = min(volume, max_by_hours)
+    return round(volume)
+
+
 def extract_interview(interview: Interview, llm: LLM) -> list[PainPoint]:
     taxonomy = {"categories": CATEGORIES, "levers": LEVERS}
     raw = llm.extract_pain_points(
@@ -47,7 +63,9 @@ def extract_interview(interview: Interview, llm: LLM) -> list[PainPoint]:
             title=rec.get("title", "").strip(),
             workflow=rec.get("workflow", "").strip(),
             time_cost_per_occurrence_min=float(rec.get("time_cost_per_occurrence_min", 0) or 0),
-            est_annual_volume=float(rec.get("est_annual_volume", 0) or 0),
+            est_annual_volume=_clamp_volume(
+                float(rec.get("time_cost_per_occurrence_min", 0) or 0),
+                float(rec.get("est_annual_volume", 0) or 0)),
             severity=_coerce_enum(rec.get("severity", "med"), ["low", "med", "high"], "med"),
             ai_addressability=_coerce_enum(
                 rec.get("ai_addressability", "med"), ["low", "med", "high"], "med"
