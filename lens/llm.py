@@ -12,11 +12,23 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 from pathlib import Path
 
 MODEL = "claude-haiku-4-5"
 _ROOT = Path(__file__).resolve().parent.parent
 _DATA = _ROOT / "data"
+
+
+def _retryable(e) -> bool:
+    """Transient API errors worth retrying: overload (529), rate limit (429),
+    server errors (5xx), and connection/timeout issues."""
+    status = getattr(e, "status_code", None)
+    if status in (408, 429, 500, 502, 503, 504, 529):
+        return True
+    name = type(e).__name__.lower()
+    return any(k in name for k in ("overload", "ratelimit", "timeout",
+                                   "connection", "apistatus", "internalserver"))
 
 
 def _load_dotenv() -> None:
@@ -94,13 +106,22 @@ class LLM:
         return self._client
 
     def _call(self, system: str, user: str, max_tokens: int = 2000) -> str:
-        msg = self._client_or_init().messages.create(
-            model=MODEL,
-            max_tokens=max_tokens,
-            system=system,
-            messages=[{"role": "user", "content": user}],
-        )
-        return msg.content[0].text
+        last = None
+        for attempt in range(4):  # retry transient API errors (overload/rate limit)
+            try:
+                msg = self._client_or_init().messages.create(
+                    model=MODEL,
+                    max_tokens=max_tokens,
+                    system=system,
+                    messages=[{"role": "user", "content": user}],
+                )
+                return msg.content[0].text
+            except Exception as e:
+                last = e
+                if not _retryable(e) or attempt == 3:
+                    raise
+                time.sleep(1.5 * (2 ** attempt))  # 1.5s, 3s, 6s backoff
+        raise last
 
     # ---- Stage 2: extraction ----
     def extract_pain_points(self, interview: dict, taxonomy: dict) -> list:

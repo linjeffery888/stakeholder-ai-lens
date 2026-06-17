@@ -215,45 +215,70 @@ class Session:
         threading.Thread(target=self._run_upload, args=(tmpdir,), daemon=True).start()
         return True
 
+    def _recompute_and_finish(self, summary: dict):
+        """Shared by upload + manual-add jobs: recompute with progress, persist."""
+        with self.lock:
+            interviews = list(self.interviews)
+            functions = dict(self.functions)
+            org = self.org
+            pp_cache = self.pp_cache
+        llm = LLM(mode=self.mode)
+
+        def cb(stage, done, total):
+            self._set_progress(active=True, stage=stage, done=done, total=total)
+
+        result = run_pipeline(interviews, functions, llm,
+                              pp_cache=pp_cache, org=org, progress=cb,
+                              dedup_cache=self.dedup_cache)
+        result["interview_list"] = [
+            {"interview_id": iv.interview_id,
+             "function": functions[iv.function_id].name,
+             "stakeholder": iv.stakeholder}
+            for iv in interviews
+        ]
+        result["function_options"] = [
+            {"function_id": fid, "name": f.name} for fid, f in functions.items()
+        ]
+        with self.lock:
+            self.last_result = result
+            self.dirty = False
+            OUT = ROOT / "out"
+            OUT.mkdir(exist_ok=True)
+            (OUT / "last_portfolio.json").write_text(json.dumps(result))
+        self._set_progress(active=False, stage="done", summary=summary)
+
     def _run_upload(self, tmpdir: str):
         try:
             summary = self.ingest_path(tmpdir)  # quick, locked; sets dirty
             if summary.get("ingested", 0) == 0:
                 self._set_progress(active=False, stage="done", summary=summary)
                 return
-            with self.lock:
-                interviews = list(self.interviews)
-                functions = dict(self.functions)
-                org = self.org
-                pp_cache = self.pp_cache
-            llm = LLM(mode=self.mode)
-
-            def cb(stage, done, total):
-                self._set_progress(active=True, stage=stage, done=done, total=total)
-
-            result = run_pipeline(interviews, functions, llm,
-                                  pp_cache=pp_cache, org=org, progress=cb,
-                                  dedup_cache=self.dedup_cache)
-            result["interview_list"] = [
-                {"interview_id": iv.interview_id,
-                 "function": functions[iv.function_id].name,
-                 "stakeholder": iv.stakeholder}
-                for iv in interviews
-            ]
-            result["function_options"] = [
-                {"function_id": fid, "name": f.name} for fid, f in functions.items()
-            ]
-            with self.lock:
-                self.last_result = result
-                self.dirty = False
-                OUT = ROOT / "out"
-                OUT.mkdir(exist_ok=True)
-                (OUT / "last_portfolio.json").write_text(json.dumps(result))
-            self._set_progress(active=False, stage="done", summary=summary)
+            self._recompute_and_finish(summary)
         except Exception as e:
             self._set_progress(active=False, stage="error", error=str(e))
         finally:
             shutil.rmtree(tmpdir, ignore_errors=True)
+
+    def start_add_job(self, function_id, raw_notes, stakeholder, role) -> bool:
+        """Background job for a single pasted interview, with live progress."""
+        with self._plock:
+            if self.progress.get("active"):
+                return False
+            self.progress = {"active": True, "stage": "reading", "done": 0,
+                             "total": 0, "error": None, "summary": None}
+
+        def run():
+            try:
+                self.snapshot_mode = False
+                iid = self.add_interview(function_id, raw_notes, stakeholder, role)
+                self._recompute_and_finish(
+                    {"ingested": 1, "added_interview_id": iid,
+                     "total_interviews": len(self.interviews)})
+            except Exception as e:
+                self._set_progress(active=False, stage="error", error=str(e))
+
+        threading.Thread(target=run, daemon=True).start()
+        return True
 
     def set_org(self, fields: dict):
         with self.lock:
@@ -460,14 +485,13 @@ class Handler(BaseHTTPRequestHandler):
             fid = payload.get("function_id")
             if not notes or fid not in SESSION.functions:
                 return self._json(400, {"error": "need raw_notes and a valid function_id"})
-            try:
-                iid = SESSION.add_interview(
-                    fid, notes, payload.get("stakeholder", ""), payload.get("role", ""))
-                result = SESSION.portfolio()
-                result["added_interview_id"] = iid
-                return self._json(200, result)
-            except Exception as e:
-                return self._json(500, {"error": str(e)})
+            if SESSION.get_progress().get("active"):
+                return self._json(409, {"error": "a run is already in progress"})
+            # background job + progress (same as upload), so the UI shows a
+            # scoped progress bar and a long live run can't time out the request
+            SESSION.start_add_job(fid, notes, payload.get("stakeholder", ""),
+                                  payload.get("role", ""))
+            return self._json(202, {"started": True})
 
         if self.path == "/api/org":
             try:

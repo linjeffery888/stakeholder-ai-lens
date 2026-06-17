@@ -392,9 +392,13 @@ a.dl button{width:100%}
           <div class="field"><label>Interview note</label>
             <textarea id="notes" placeholder="The team spends about 20 minutes per request manually pulling figures from three systems to build a status report, around 2,000 times a year..."></textarea></div>
           <div class="btns">
-            <button class="btn-primary" id="add">Add &amp; re-run</button>
+            <button class="btn-primary" id="add">Add &amp; evaluate</button>
             <button class="btn-ghost" id="example">Load example</button>
             <button class="btn-ghost" id="reset">Reset</button>
+          </div>
+          <div id="addStatus" class="up-status">
+            <div class="up-bar"><i></i></div>
+            <div class="up-txt" id="addTxt"></div>
           </div>
         </div>
       </section>
@@ -778,15 +782,22 @@ async function addInterview(){
   const notes=$("#notes").value.trim();
   if(!notes){toast("Paste a note first");return;}
   const btn=$("#add"); btn.disabled=true; const o=btn.innerHTML; btn.innerHTML='<span class="spin"></span>running';
-  busy(true,"Extracting, de-duplicating, re-ranking…");
+  const status=$("#addStatus"), txt=$("#addTxt");
+  status.classList.add("show"); setBar(0,false,status);
+  const t0=Date.now();
+  txt.innerHTML="<b>Submitting…</b>";
   try{
     const r=await fetch("/api/interview",{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({function_id:$("#fn").value,raw_notes:notes,stakeholder:$("#who").value})});
+    const ct=r.headers.get("content-type")||"";
+    if(!ct.includes("application/json")){const t=await r.text();throw new Error("server returned "+r.status+": "+t.slice(0,120));}
     const d=await r.json();
-    if(d.error) toast("Error: "+d.error);
-    else{render(d);$("#notes").value="";$("#who").value="";toast("Added "+d.added_interview_id+" · portfolio re-ranked");}
-  }catch(e){toast("Request failed");}
-  busy(false); btn.disabled=false; btn.innerHTML=o;
+    if(d.error){toast("Error: "+d.error);return;}
+    const {final,summary,elapsed}=await trackJob(status,txt,t0);
+    render(final); $("#notes").value=""; $("#who").value="";
+    toast("Added "+(summary.added_interview_id||"interview")+" · evaluated in "+elapsed);
+  }catch(e){console.error("add failed:",e);toast("Add failed: "+(e&&e.message?e.message:e));}
+  finally{status.classList.remove("show"); txt.innerHTML=""; setBar(0,false,status); btn.disabled=false; btn.innerHTML=o;}
 }
 async function reset(){
   if(!confirm("Clear all interviews and the portfolio? This empties the system so you can upload your own set.")) return;
@@ -881,58 +892,57 @@ function readFileB64(file){
 }
 function fmtElapsed(s){const m=Math.floor(s/60),ss=s%60;return m?`${m}m ${ss}s`:`${ss}s`;}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-function setBar(pct,determinate){
-  const fill=$("#upStatus .up-bar > i");
+function setBar(pct,determinate,root){
+  const fill=(root||$("#upStatus")).querySelector(".up-bar > i");
+  if(!fill) return;
   if(determinate){fill.style.animation="none";fill.style.width=Math.max(3,Math.min(100,pct))+"%";fill.style.left="0";}
   else{fill.style.animation="";fill.style.width="";fill.style.left="";}
+}
+const JOB_STAGE={extract:"Extracting pain points",dedup:"De-duplicating & resolving overlap",reading:"Reading"};
+// poll a running background job, updating a scoped progress bar; returns the portfolio
+async function trackJob(statusEl, txtEl, t0){
+  const el=()=>fmtElapsed(Math.round((Date.now()-t0)/1000));
+  while(true){
+    await sleep(600);
+    let p; try{ p=await (await fetch("/api/progress")).json(); }catch(e){ continue; }
+    if(p.stage==="error") throw new Error(p.error||"run failed");
+    if(!p.active && p.stage==="done") break;
+    const label=JOB_STAGE[p.stage]||p.stage;
+    if(p.total>0){const pct=Math.round(p.done/p.total*100); setBar(pct,true,statusEl);
+      txtEl.innerHTML=`<b>${label}…</b> ${p.done} of ${p.total} (${pct}%) · ${el()}`;}
+    else{setBar(0,false,statusEl); txtEl.innerHTML=`<b>${label}…</b> ${el()}`;}
+  }
+  setBar(100,true,statusEl);
+  const final=await (await fetch("/api/portfolio")).json();
+  const prog=await (await fetch("/api/progress")).json();
+  return {final, summary:prog.summary||{}, elapsed:el()};
 }
 async function upload(){
   const ok=selectedUploads();
   if(!ok.length){toast("Pick at least one .txt / .md / .docx / .csv file");return;}
   const btn=$("#upBtn"); btn.disabled=true; const o=btn.innerHTML; btn.innerHTML='<span class="spin"></span>uploading';
   const status=$("#upStatus"), txt=$("#upTxt");
-  status.classList.add("show"); setBar(0,false);
+  status.classList.add("show"); setBar(0,false,status);
   const t0=Date.now(); const n=ok.length;
-  const el=()=>fmtElapsed(Math.round((Date.now()-t0)/1000));
   txt.innerHTML=`<b>Reading ${n} file${n>1?"s":""}…</b>`;
   try{
     const files=await Promise.all(ok.map(readFileB64));
-    txt.innerHTML=`<b>Uploading ${n} file${n>1?"s":""}…</b> ${el()}`;
+    txt.innerHTML=`<b>Uploading ${n} file${n>1?"s":""}…</b>`;
     const r=await fetch("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({files})});
     if(r.status===404){toast("Upload endpoint missing — restart the server (python app.py)");return;}
     const ct=r.headers.get("content-type")||"";
     if(!ct.includes("application/json")){const t=await r.text();throw new Error("server returned "+r.status+": "+t.slice(0,120));}
     const d=await r.json();
     if(d.error){toast("Error: "+d.error);return;}
-    // poll progress until the background job finishes
-    const STAGE={extract:"Extracting pain points",dedup:"De-duplicating & resolving overlap",reading:"Reading files"};
-    while(true){
-      await sleep(600);
-      let p; try{ p=await (await fetch("/api/progress")).json(); }catch(e){ continue; }
-      const label=STAGE[p.stage]||p.stage;
-      if(p.stage==="error"){throw new Error(p.error||"run failed");}
-      if(!p.active && p.stage==="done") break;
-      if(p.total>0){
-        const pct=Math.round(p.done/p.total*100);
-        setBar(pct,true);
-        txt.innerHTML=`<b>${label}…</b> ${p.done} of ${p.total} (${pct}%) · ${el()}`;
-      }else{
-        setBar(0,false);
-        txt.innerHTML=`<b>${label}…</b> ${el()}`;
-      }
-    }
-    setBar(100,true);
-    const final=await (await fetch("/api/portfolio")).json();
+    const {final,summary,elapsed}=await trackJob(status,txt,t0);
     render(final);
     $("#upFiles").value=""; $("#upDir").value=""; refreshUpPick();
-    const prog=await (await fetch("/api/progress")).json();
-    const s=prog.summary||{};
-    let msg="Ingested "+(s.ingested||0)+" interview(s)";
-    if(s.added_function_ids&&s.added_function_ids.length) msg+=" · "+s.added_function_ids.length+" new function(s)";
-    if(s.skipped&&s.skipped.length) msg+=" · "+s.skipped.length+" skipped";
-    toast(msg+" · re-ranked in "+el());
+    let msg="Ingested "+(summary.ingested||0)+" interview(s)";
+    if(summary.added_function_ids&&summary.added_function_ids.length) msg+=" · "+summary.added_function_ids.length+" new function(s)";
+    if(summary.skipped&&summary.skipped.length) msg+=" · "+summary.skipped.length+" skipped";
+    toast(msg+" · re-ranked in "+elapsed);
   }catch(e){console.error("upload failed:",e);toast("Upload failed: "+(e&&e.message?e.message:e));}
-  finally{status.classList.remove("show"); txt.innerHTML=""; setBar(0,false); btn.disabled=false; btn.innerHTML=o;}
+  finally{status.classList.remove("show"); txt.innerHTML=""; setBar(0,false,status); btn.disabled=false; btn.innerHTML=o;}
 }
 $("#upBtn").onclick=upload;
 $("#upClear").onclick=reset;
