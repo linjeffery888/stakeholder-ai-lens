@@ -81,6 +81,10 @@ class Session:
                 self.last_result = snap
                 self.dirty = False
                 self.snapshot_mode = True
+                # rebuild extraction + dedup caches so a later org change (or
+                # single add) re-runs ONLY the fast deterministic sizing/scoring,
+                # never a full live re-extraction + re-dedup
+                self._rebuild_caches_from_snapshot(snap)
             elif self.transcripts:
                 res = ingest(self.transcripts, self.functions)
                 self.functions = res.functions
@@ -120,6 +124,37 @@ class Session:
             except Exception:
                 return None
         return None
+
+    def _rebuild_caches_from_snapshot(self, snap):
+        """Reconstruct pp_cache + dedup_cache from a baked-in snapshot so that
+        org/interview changes recompute incrementally (sizing + scoring only),
+        with no LLM extraction or de-duplication."""
+        import dataclasses
+        from lens.models import PainPoint, UseCase
+        pf = {f.name for f in dataclasses.fields(PainPoint)}
+        uf = {f.name for f in dataclasses.fields(UseCase)}
+        pp_by_id, pp_cache = {}, {}
+        for p in snap.get("pain_points", []):
+            pp = PainPoint(**{k: v for k, v in p.items() if k in pf})
+            pp_by_id[pp.pain_id] = pp
+            pp_cache.setdefault(pp.interview_id, []).append(pp)
+        use_cases, members, assigned, maxn, spend_id = [], {}, set(), 0, None
+        for u in snap.get("ranked", []) + snap.get("gated", []):
+            uc = UseCase(**{k: v for k, v in u.items() if k in uf})
+            use_cases.append(uc)
+            members[uc.use_case_id] = [pp_by_id[pid] for pid in uc.member_pain_ids
+                                       if pid in pp_by_id]
+            assigned.update(uc.member_pain_ids)
+            try:
+                maxn = max(maxn, int(uc.use_case_id.split("-")[-1]))
+            except (ValueError, IndexError):
+                pass
+            if getattr(uc, "track", "labor") == "spend":
+                spend_id = uc.use_case_id
+        self.pp_cache = pp_cache
+        self.dedup_cache = {"use_cases": use_cases, "members": members,
+                            "assigned": assigned, "uc_counter": maxn,
+                            "spend_uc_id": spend_id}
 
     def _org_from_snapshot(self, snap):
         o = snap.get("org") or {}
