@@ -246,12 +246,17 @@ a.dl button{width:100%}
 .audit-list li{margin-bottom:6px}
 .audit-list b{color:var(--ink)}
 #orgCard .hd{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.hd-actions{display:flex;gap:6px;align-items:center;flex:0 0 auto}
-.hd-actions .btn-sm{white-space:nowrap}
 .icon-btn{font:inherit;font-size:14px;line-height:1;width:28px;height:28px;border-radius:50%;
   border:1px solid var(--line-2);background:var(--surface);color:var(--muted);cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
 .icon-btn:hover{color:var(--ink);border-color:var(--line)}
+.org-summary{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:11px 13px;margin-bottom:10px;font-size:12.5px}
+.org-summary .os-co{font-weight:650;color:var(--ink);margin-bottom:7px}
+.org-summary .os-row{display:flex;justify-content:space-between;gap:10px;color:var(--muted);padding:3px 0}
+.org-summary .os-row b{color:var(--ink-2);font-weight:600}
+.org-summary .os-row.spend b{color:var(--accent-ink)}
+.org-resize{width:100%;justify-content:center;text-align:center}
 .hd-sub{font-size:11px;font-weight:450;color:var(--faint);text-transform:none;letter-spacing:0;margin-left:6px}
 .info-note{background:#fbf3e2;border:1px solid #ecd9a8;border-radius:8px;padding:9px 12px;
   font-size:12px;line-height:1.5;color:#6b5836;margin-bottom:12px}
@@ -378,23 +383,25 @@ a.dl button{width:100%}
       </section>
 
       <section class="card" id="orgCard">
-        <div class="hd"><h2>Organization</h2>
-          <span class="hd-actions">
-            <button class="icon-btn" id="orgInfo" title="How the sizing works">&#9432;</button>
-            <button class="btn-ghost btn-sm" id="orgToggle">Edit</button></span></div>
-        <div class="bd" id="orgBody" style="display:none">
-          <div class="info-note">These demo interviews reflect <b>Iovance's</b> org size. The <b>labor</b> opportunity is interview-bound — it does <b>not</b> scale with company size (a larger company would mean more interviews, not bigger numbers on these same ones). Changing the company only re-sizes the <b>top-down spend</b> track, and even that is a rough extrapolation, not directly proportional.</div>
-          <p class="hint">Headcount is context only (it drives nothing in labor). Edit the addressable spend directly, or research from a company name. <span id="orgConf"></span></p>
-          <div class="field"><label>Company name</label>
-            <input id="orgName" placeholder="e.g. Acme Health">
-            <button class="btn-ghost btn-sm" id="research" style="margin-top:8px">Research from web</button></div>
-          <div class="field"><label>Total headcount <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">(context only)</span></label><input id="orgHead" type="number" min="0" step="1"></div>
-          <div class="field"><label>Addressable discretionary spend <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">— only what a vendor/SaaS tool could touch</span></label>
-            <p class="hint" style="margin:0 0 8px">Software, cloud, discretionary vendors, contingent labor. <b>Not</b> total opex, SG&amp;A, R&amp;D, payroll, or COGS — those aren't addressable and would overstate the number.</p>
-            <div id="spendLines"></div>
-            <button class="btn-ghost btn-sm" id="addLine" type="button">+ Add line</button></div>
-          <div id="orgNote"></div>
-          <div class="btns"><button class="btn-primary" id="orgApply">Apply &amp; re-size</button></div>
+        <div class="hd"><h2>Organization &amp; spend sizing</h2>
+          <button class="icon-btn" id="orgInfo" title="How the sizing works">&#9432;</button></div>
+        <div class="bd">
+          <p class="hint" style="margin-top:0">Re-size the <b>top-down spend track</b> for a chosen company. Labor savings come from the interviews and don't change here.</p>
+          <div id="orgSummary" class="org-summary"></div>
+          <button class="btn-ghost org-resize" id="orgToggle">&#8645; Re-size for another company</button>
+          <div id="orgBody" style="display:none">
+            <div class="info-note" style="margin-top:14px">Changing the company only re-sizes the <b>top-down spend</b> track (a rough extrapolation, not directly proportional). The labor portfolio stays tied to the interviews. <span id="orgConf"></span></div>
+            <div class="field"><label>Company name</label>
+              <input id="orgName" placeholder="e.g. Acme Health">
+              <button class="btn-ghost btn-sm" id="research" style="margin-top:8px">Research from web</button></div>
+            <div class="field"><label>Total headcount <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">(context only)</span></label><input id="orgHead" type="number" min="0" step="1"></div>
+            <div class="field"><label>Addressable discretionary spend <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">— only what a vendor/SaaS tool could touch</span></label>
+              <p class="hint" style="margin:0 0 8px">Software, cloud, discretionary vendors, contingent labor. <b>Not</b> total opex, SG&amp;A, R&amp;D, payroll, or COGS — those aren't addressable and would overstate the number.</p>
+              <div id="spendLines"></div>
+              <button class="btn-ghost btn-sm" id="addLine" type="button">+ Add line</button></div>
+            <div id="orgNote"></div>
+            <div class="btns"><button class="btn-primary" id="orgApply">Apply &amp; re-size</button></div>
+          </div>
         </div>
       </section>
 
@@ -564,7 +571,15 @@ function render(d){
       $("#orgName").dataset.filled="1";
     }
     $("#orgConf").textContent = d.org.source==="researched"
-      ? `researched · conf ${d.org.confidence}` : "";
+      ? `· researched estimate, conf ${d.org.confidence}` : "";
+    // collapsed summary: current company + addressable spend + resulting spend track
+    const addr=(d.org.spend_lines||[]).reduce((s,l)=>s+(+l.annual_spend||0),0);
+    const spendNet=(d.totals&&d.totals.spend)?d.totals.spend.net_base:0;
+    const hc=d.org.total_headcount?` · ${(+d.org.total_headcount).toLocaleString()} employees`:"";
+    $("#orgSummary").innerHTML=`
+      <div class="os-co">${esc(d.org.company_name||"—")}${hc}</div>
+      <div class="os-row"><span>Addressable discretionary spend</span><b>${usdC(addr)}</b></div>
+      <div class="os-row spend"><span>Spend track (net / yr)</span><b>${usdC(spendNet)}</b></div>`;
   }
   $("#ivcount").textContent = d.interview_list.length;
   $("#ivs").innerHTML = d.interview_list.map(iv=>
@@ -900,7 +915,11 @@ async function applyOrg(){
   }catch(e){toast("Apply failed");}
   busy(false);
 }
-function setOrgOpen(open){ $("#orgBody").style.display=open?"block":"none"; $("#orgToggle").textContent=open?"Hide":"Edit"; }
+function setOrgOpen(open){
+  $("#orgBody").style.display=open?"block":"none";
+  $("#orgSummary").style.display=open?"none":"block";
+  $("#orgToggle").innerHTML=open?"Hide":"&#8645; Re-size for another company";
+}
 $("#orgToggle").onclick=()=>setOrgOpen($("#orgBody").style.display==="none");
 function orgInfoModal(open){ $("#orgInfoModal").classList.toggle("show",open); }
 $("#orgInfo").onclick=()=>orgInfoModal(true);
