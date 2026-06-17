@@ -373,6 +373,7 @@ a.dl button{width:100%}
           <div id="upPick" class="hint" style="margin:2px 0 8px"></div>
           <div class="btns">
             <button class="btn-primary" id="upBtn">Upload &amp; analyze</button>
+            <button class="btn-ghost" id="loadDemo" type="button" title="Restore the baked-in 100-interview Iovance demo (instant, no recompute)">Load Iovance demo</button>
             <button class="btn-ghost" id="upClear" type="button" title="Clear all interviews and the portfolio">Clear all</button>
           </div>
           <div id="upStatus" class="up-status">
@@ -1003,6 +1004,19 @@ async function upload(){
 }
 $("#upBtn").onclick=upload;
 $("#upClear").onclick=reset;
+async function loadDemo(){
+  const btn=$("#loadDemo"); btn.disabled=true; const o=btn.innerHTML; btn.innerHTML='<span class="spin"></span>loading';
+  try{
+    const r=await fetch("/api/load-demo",{method:"POST"});
+    const d=await r.json();
+    if(d.error){toast("Error: "+d.error);return;}
+    $("#orgName").dataset.filled=""; $("#orgNote").innerHTML=""; LAST_RESEARCH=null;
+    render(d);
+    toast("Iovance demo restored · "+(d.stats?d.stats.interviews:100)+" interviews");
+  }catch(e){toast("Failed to load demo");}
+  finally{btn.disabled=false; btn.innerHTML=o;}
+}
+$("#loadDemo").onclick=loadDemo;
 
 function auditModal(open){ $("#auditModal").classList.toggle("show",open); }
 $("#dzMore").onclick=()=>auditModal(true);

@@ -112,6 +112,13 @@ class Session:
             self.dirty = True
             self.snapshot_mode = False
 
+    def load_demo(self):
+        """Restore the baked-in showcase instantly (re-boot from the snapshot,
+        no recompute). Lets the user Clear all to experiment, then bring the
+        Iovance demo back without re-running the pipeline."""
+        self._boot()
+        return self.last_result
+
     def _load_snapshot(self):
         if not self.snapshot_path:
             return None
@@ -559,6 +566,13 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/api/reset":
             SESSION.reset()
             return self._json(200, SESSION.portfolio())
+
+        if self.path == "/api/load-demo":
+            try:
+                result = SESSION.load_demo() or SESSION.portfolio()
+                return self._json(200, result)
+            except Exception as e:
+                return self._json(500, {"error": str(e)})
 
         return self._send(404, "not found", "text/plain")
 
