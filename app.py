@@ -525,16 +525,12 @@ class Handler(BaseHTTPRequestHandler):
             if not written:
                 shutil.rmtree(tmp, ignore_errors=True)
                 return self._json(400, {"error": "no readable files in upload"})
-            # if we're showing the baked-in showcase, clear it first so the
-            # user's own files are analyzed fresh and fast (not a full recompute
-            # on top of the 100 demo interviews)
-            replaced_showcase = SESSION.snapshot_mode
-            if SESSION.snapshot_mode:
-                SESSION.reset()
-            # run ingest + recompute in the background; client polls /api/progress
+            # Append to the existing set and evaluate ONLY the new interviews
+            # (incremental: cached extraction + dedup make this fast while
+            # keeping prior data). Use "Clear all" to start from scratch.
+            SESSION.snapshot_mode = False
             SESSION.start_upload_job(tmp)
-            return self._json(202, {"started": True, "files": written,
-                                    "replaced_showcase": replaced_showcase})
+            return self._json(202, {"started": True, "files": written})
 
         if self.path == "/api/reset":
             SESSION.reset()
