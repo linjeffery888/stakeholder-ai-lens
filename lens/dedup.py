@@ -26,10 +26,23 @@ from difflib import SequenceMatcher
 
 from .models import PainPoint, UseCase
 from .llm import LLM
+from .savings import SPEND_LEVERS
 
 AUTO_MERGE = 0.90       # at/above this lexical sim, merge without adjudication
 ACCEPT_MERGE = 0.55     # below this adjudication confidence, do not merge
 REVIEW_BELOW = 0.75     # merges accepted under this confidence go to review
+
+# The spend lever is sized off ONE organization spend pool, so every
+# spend-levered pain belongs to a SINGLE pooled use case. Fragmenting it into
+# several use cases produces identical, double-counted dollar figures. We route
+# all spend pains into one canonical here (also skips an LLM call).
+SPEND_POOL_TITLE = "Vendor & SaaS spend rationalization (pooled)"
+SPEND_POOL_DESC = (
+    "Pooled opportunity: review and rationalize organization spend (vendors, "
+    "SaaS, licenses, contracts) to recover waste and consolidate. Sized once "
+    "off the org spend pool, not per pain point, so it is never double counted. "
+    "Contributing pains are listed as provenance."
+)
 
 
 def _sim(a: str, b: str) -> float:
@@ -69,6 +82,7 @@ def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM,
     assigned = cache.get("assigned")
     if assigned is None:
         assigned = set()
+    spend_uc_id = cache.get("spend_uc_id")
 
     # only adjudicate pain points we have not clustered before
     todo = [pp for pp in pain_points if pp.pain_id not in assigned]
@@ -76,6 +90,38 @@ def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM,
     if progress:
         progress("dedup", 0, total)
     for idx, pp in enumerate(todo, 1):
+        # Spend lever -> the single pooled spend use case (no adjudication).
+        if pp.ai_lever in SPEND_LEVERS:
+            if spend_uc_id is None:
+                uc_counter += 1
+                spend_uc = UseCase(
+                    use_case_id=f"UC-{uc_counter:03d}",
+                    title=SPEND_POOL_TITLE,
+                    canonical_description=SPEND_POOL_DESC,
+                    category=_primary_category(pp),
+                    ai_lever=pp.ai_lever,
+                    member_pain_ids=[pp.pain_id],
+                    affected_functions=[pp.function_id],
+                    cross_functional=False,
+                )
+                use_cases.append(spend_uc)
+                members[spend_uc.use_case_id] = [pp]
+                spend_uc_id = spend_uc.use_case_id
+            else:
+                spend_uc = next(u for u in use_cases if u.use_case_id == spend_uc_id)
+                members[spend_uc_id].append(pp)
+                spend_uc.member_pain_ids.append(pp.pain_id)
+                if pp.function_id not in spend_uc.affected_functions:
+                    spend_uc.affected_functions.append(pp.function_id)
+                spend_uc.cross_functional = len(spend_uc.affected_functions) > 1
+            pp.use_case_id = spend_uc_id
+            pp.match_confidence = 1.0
+            pp.status = "matched"
+            assigned.add(pp.pain_id)
+            if progress and (idx % 5 == 0 or idx == total):
+                progress("dedup", idx, total)
+            continue
+
         best_uc, best_conf, best_reason = None, 0.0, ""
 
         # Step 2: cheap lexical auto-merge for near-identical wording.
@@ -161,5 +207,6 @@ def deduplicate(pain_points: list[PainPoint], functions: dict, llm: LLM,
     cache["members"] = members
     cache["uc_counter"] = uc_counter
     cache["assigned"] = assigned
+    cache["spend_uc_id"] = spend_uc_id
 
     return use_cases
