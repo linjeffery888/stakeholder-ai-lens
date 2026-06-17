@@ -8,7 +8,9 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: python app.py --host 0.0.0.0
+    # serve the baked-in 100-interview showcase instantly; the underlying
+    # transcripts back the interview list, and uploads start a fresh session
+    startCommand: python app.py --host 0.0.0.0 --transcripts transcripts/ --snapshot data/snapshot.json
     envVars:
       # Real Claude extraction. Paste your key in the Render dashboard.
       - key: ANTHROPIC_API_KEY

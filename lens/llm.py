@@ -148,16 +148,23 @@ class LLM:
         if self.mode == "mock":
             return self._mock_research(name)
         system = (
-            "You research a company's size and spending for a cost-savings "
-            "estimate. Return ONLY JSON: {\"total_headcount\": int, "
+            "You research a company's size and its ADDRESSABLE DISCRETIONARY "
+            "SPEND for an AI cost-savings estimate. Return ONLY JSON: "
+            "{\"total_headcount\": int, "
             "\"spend_lines\": [{\"label\": str, \"annual_spend\": int_USD}], "
             "\"rationale\": str, \"sources\": [{\"title\":str,\"url\":str}], "
-            "\"confidence\": 0-1}. Find current headcount. Break annual spend into "
-            "a few addressable categories (e.g. 'SaaS & software', 'Contingent "
-            "labor / vendors', 'Cloud infrastructure') with a USD estimate each; a "
-            "common benchmark for software is $7,000-$12,000 per employee/yr if no "
-            "figure is found. For private companies data is uncertain, so lower the "
-            "confidence and say so in the rationale. Estimate, never invent precision."
+            "\"confidence\": 0-1}. Find current headcount.\n"
+            "CRITICAL: spend_lines must be ONLY the discretionary spend a software/"
+            "vendor-rationalization tool could realistically touch: SaaS & software, "
+            "cloud infrastructure, discretionary/professional-services vendors, "
+            "contingent labor, subscriptions. A common benchmark for software is "
+            "$7,000-$12,000 per employee/yr if no figure is found.\n"
+            "DO NOT include total operating expense, total SG&A, R&D / clinical-trial "
+            "costs, payroll/salaries, or COGS/manufacturing materials. Those are NOT "
+            "addressable by spend rationalization and would massively overstate the "
+            "opportunity. This is the addressable pool, not the P&L.\n"
+            "For private companies data is uncertain, so lower the confidence and say "
+            "so in the rationale. Estimate, never invent precision."
         )
         try:
             msg = self._client_or_init().messages.create(

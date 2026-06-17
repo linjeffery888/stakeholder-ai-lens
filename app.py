@@ -46,35 +46,89 @@ class Session:
     """In-memory state for the dashboard. Single shared session for the demo."""
 
     def __init__(self, mode: str, transcripts: str | None = None,
-                 load_cache: bool = False):
+                 load_cache: bool = False, snapshot: str | None = None):
         self.mode = mode
         self.functions = load_functions()
         self.transcripts = transcripts
         self.load_cache = load_cache
+        self.snapshot_path = snapshot
+        self.snapshot_mode = False
         self.lock = threading.Lock()
         self._plock = threading.Lock()
         self.progress = {"active": False, "stage": "idle", "done": 0, "total": 0,
                          "error": None, "summary": None}
-        self.reset()
+        self._boot()
 
-    def reset(self):
+    def _boot(self):
+        """Initial load. Prefer a baked-in snapshot (served instantly as a
+        showcase), else transcripts, else the small demo set."""
         with self.lock:
             self.functions = load_functions()
-            if self.transcripts:
+            self.pp_cache = {}
+            self.dedup_cache = {}
+            self._next = 100
+            snap = self._load_snapshot()
+            if snap is not None:
+                # showcase: load the underlying interviews so the list is
+                # consistent, serve the precomputed portfolio instantly
+                if self.transcripts:
+                    res = ingest(self.transcripts, self.functions)
+                    self.functions = res.functions
+                    self.interviews = res.interviews
+                else:
+                    self.interviews = load_base_interviews()
+                self.org = self._org_from_snapshot(snap)
+                self.last_result = snap
+                self.dirty = False
+                self.snapshot_mode = True
+            elif self.transcripts:
                 res = ingest(self.transcripts, self.functions)
                 self.functions = res.functions
                 self.interviews = res.interviews
+                self.org = default_org(self.functions)
+                self.last_result = self._load_cached_result() if self.load_cache else None
+                self.dirty = self.last_result is None
             else:
                 self.interviews = load_base_interviews()
+                self.org = default_org(self.functions)
+                self.last_result = None
+                self.dirty = True
+
+    def reset(self):
+        """User-facing 'Clear': empty the working set so new uploads start
+        fresh and fast (not the slow full-corpus recompute)."""
+        with self.lock:
+            self.functions = load_functions()
+            self.interviews = []
             self.pp_cache = {}
-            self.dedup_cache = {}   # incremental dedup state across recomputes
+            self.dedup_cache = {}
             self._next = 100
             self.org = default_org(self.functions)
-            # dirty = the portfolio needs (re)computing. A cached result is
-            # served as-is until an interview/org change marks it dirty, so a
-            # page load never re-runs the expensive live dedup pass.
-            self.last_result = self._load_cached_result() if self.load_cache else None
-            self.dirty = self.last_result is None
+            self.last_result = None
+            self.dirty = True
+            self.snapshot_mode = False
+
+    def _load_snapshot(self):
+        if not self.snapshot_path:
+            return None
+        p = Path(self.snapshot_path)
+        if not p.is_absolute():
+            p = ROOT / self.snapshot_path
+        if p.exists():
+            try:
+                return json.loads(p.read_text())
+            except Exception:
+                return None
+        return None
+
+    def _org_from_snapshot(self, snap):
+        o = snap.get("org") or {}
+        try:
+            fields = {"company_name", "total_headcount", "spend_lines",
+                      "source", "confidence", "notes"}
+            return Organization(**{k: v for k, v in o.items() if k in fields})
+        except Exception:
+            return default_org(self.functions)
 
     def _load_cached_result(self):
         f = ROOT / "out" / "last_portfolio.json"
@@ -436,9 +490,16 @@ class Handler(BaseHTTPRequestHandler):
             if not written:
                 shutil.rmtree(tmp, ignore_errors=True)
                 return self._json(400, {"error": "no readable files in upload"})
+            # if we're showing the baked-in showcase, clear it first so the
+            # user's own files are analyzed fresh and fast (not a full recompute
+            # on top of the 100 demo interviews)
+            replaced_showcase = SESSION.snapshot_mode
+            if SESSION.snapshot_mode:
+                SESSION.reset()
             # run ingest + recompute in the background; client polls /api/progress
             SESSION.start_upload_job(tmp)
-            return self._json(202, {"started": True, "files": written})
+            return self._json(202, {"started": True, "files": written,
+                                    "replaced_showcase": replaced_showcase})
 
         if self.path == "/api/reset":
             SESSION.reset()
@@ -462,11 +523,16 @@ def main():
     ap.add_argument("--load-cache", action="store_true",
                     help="serve the last saved portfolio (out/last_portfolio.json) "
                          "instantly on startup instead of recomputing")
+    ap.add_argument("--snapshot", metavar="PATH",
+                    default=os.environ.get("LENS_SNAPSHOT"),
+                    help="serve a baked-in portfolio JSON instantly as a showcase "
+                         "(e.g. data/snapshot.json); uploads start a fresh session")
     args = ap.parse_args()
     mode = "mock" if args.mock else "live" if args.live else os.environ.get("LENS_MODE", "auto")
     resolved = resolve_mode(mode)
     SESSION = Session(mode=mode, transcripts=args.transcripts,
-                      load_cache=args.load_cache or os.environ.get("LENS_LOAD_CACHE") == "1")
+                      load_cache=args.load_cache or os.environ.get("LENS_LOAD_CACHE") == "1",
+                      snapshot=args.snapshot)
     if args.transcripts:
         print(f"  Loaded {len(SESSION.interviews)} interviews from {args.transcripts}")
 

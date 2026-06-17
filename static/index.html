@@ -229,6 +229,28 @@ a.dl button{width:100%}
 .skel{height:64px;border-radius:var(--r-sm);background:linear-gradient(90deg,var(--surface-2),var(--line),var(--surface-2));
   background-size:200% 100%;animation:sh 1.3s infinite;margin-bottom:10px}
 @keyframes sh{to{background-position:-200% 0}}
+/* ---------- guided tour ---------- */
+.tour-btn{font:inherit;font-size:12.5px;font-weight:600;color:var(--accent-ink);
+  background:var(--accent-soft);border:1px solid #bfe0d4;border-radius:999px;
+  padding:5px 12px;margin-right:10px;cursor:pointer;transition:.15s}
+.tour-btn:hover{background:#d3e8df}
+#tourSpot{position:fixed;z-index:80;border-radius:10px;pointer-events:none;
+  box-shadow:0 0 0 9999px rgba(20,22,18,.62);transition:all .28s cubic-bezier(.4,0,.2,1);display:none}
+#tourSpot.show{display:block}
+#tourBubble{position:fixed;z-index:81;max-width:330px;background:var(--surface);
+  border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow-lg);
+  padding:16px 18px;display:none;font-size:13.5px;line-height:1.5}
+#tourBubble.show{display:block}
+#tourBubble h4{margin:0 0 6px;font-size:15px;font-weight:650;color:var(--ink)}
+#tourBubble p{margin:0;color:var(--ink-2)}
+#tourBubble .tour-foot{display:flex;align-items:center;gap:8px;margin-top:14px}
+#tourBubble .tour-step{font-size:11.5px;color:var(--faint);margin-right:auto}
+#tourBubble .tour-x{position:absolute;top:10px;right:12px;border:none;background:none;
+  color:var(--faint);font-size:16px;cursor:pointer;line-height:1}
+#tourBubble button.tb{font:inherit;font-size:12.5px;font-weight:600;border-radius:999px;
+  padding:6px 13px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2)}
+#tourBubble button.tb.primary{background:var(--accent);color:#fff;border-color:var(--accent-ink)}
+#tourBubble button.tb.skip{border:none;background:none;color:var(--faint);padding:6px 4px}
 </style>
 </head>
 <body>
@@ -239,6 +261,7 @@ a.dl button{width:100%}
     <span class="tag">AI use-case discovery &amp; prioritization</span>
   </div>
   <span class="spacer"></span>
+  <button id="tourBtn" class="tour-btn" title="Take a quick tour">? Tour</button>
   <span id="mode" class="pill mock"><span class="dot"></span><span class="t">—</span></span>
 </div></div>
 
@@ -294,14 +317,15 @@ a.dl button{width:100%}
       <section class="card">
         <div class="hd"><h2>Upload transcripts</h2></div>
         <div class="bd">
-          <p class="hint">Upload interview files (<code>.txt</code>, <code>.md</code>, <code>.docx</code>, <code>.csv</code>) or a whole folder. Lens extracts pain points from each, de-duplicates across all of them, and re-ranks the portfolio. A CSV bulk file needs a <code>raw_notes</code> column.</p>
+          <p class="hint">Upload your own interview files (<code>.txt</code>, <code>.md</code>, <code>.docx</code>, <code>.csv</code>) or a whole folder. Lens extracts pain points, de-duplicates across them, and ranks a portfolio. A CSV bulk file needs a <code>raw_notes</code> column. <b>Uploading starts a fresh analysis of your files</b> (the demo set is cleared).</p>
           <div class="field"><label>Choose files</label>
             <input id="upFiles" type="file" multiple accept=".txt,.md,.text,.docx,.csv,text/plain,text/csv"></div>
           <div class="field"><label>…or a folder</label>
             <input id="upDir" type="file" multiple webkitdirectory directory></div>
           <div id="upPick" class="hint" style="margin:2px 0 8px"></div>
           <div class="btns">
-            <button class="btn-primary" id="upBtn">Upload &amp; re-run</button>
+            <button class="btn-primary" id="upBtn">Upload &amp; analyze</button>
+            <button class="btn-ghost" id="upClear" type="button" title="Clear all interviews and the portfolio">Clear all</button>
           </div>
           <div id="upStatus" class="up-status">
             <div class="up-bar"><i></i></div>
@@ -313,12 +337,13 @@ a.dl button{width:100%}
       <section class="card">
         <div class="hd"><h2>Organization</h2><span class="note" id="orgConf"></span></div>
         <div class="bd">
-          <p class="hint">Drives savings that scale with org size, like SaaS/vendor spend. Edit directly, or research from a company name.</p>
+          <p class="hint">Sizes the spend-rationalization track. Headcount drives nothing in labor savings (those are per-function, bottoms-up); it's only a fallback software-spend proxy. Edit directly, or research from a company name.</p>
           <div class="field"><label>Company name</label>
             <input id="orgName" placeholder="e.g. Acme Health">
             <button class="btn-ghost btn-sm" id="research" style="margin-top:8px">Research from web</button></div>
           <div class="field"><label>Total headcount</label><input id="orgHead" type="number" min="0" step="1"></div>
-          <div class="field"><label>Annual spend by area <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">— add any function or category</span></label>
+          <div class="field"><label>Addressable discretionary spend <span style="text-transform:none;letter-spacing:0;color:var(--faint);font-weight:400">— only what a vendor/SaaS tool could touch</span></label>
+            <p class="hint" style="margin:0 0 8px">Software, cloud, discretionary vendors, contingent labor. <b>Not</b> total opex, SG&amp;A, R&amp;D, payroll, or COGS — those aren't addressable and would overstate the number.</p>
             <div id="spendLines"></div>
             <button class="btn-ghost btn-sm" id="addLine" type="button">+ Add line</button></div>
           <div id="orgNote"></div>
@@ -363,6 +388,19 @@ a.dl button{width:100%}
 
 <div id="busy"><div class="box"><span class="spin"></span><span id="busytxt">Running Claude extraction…</span></div></div>
 <div class="toast" id="toast"></div>
+
+<div id="tourSpot"></div>
+<div id="tourBubble">
+  <button class="tour-x" id="tourClose" title="Close">×</button>
+  <h4 id="tourTitle"></h4>
+  <p id="tourBody"></p>
+  <div class="tour-foot">
+    <span class="tour-step" id="tourStep"></span>
+    <button class="tb skip" id="tourSkip">Skip</button>
+    <button class="tb" id="tourBack">Back</button>
+    <button class="tb primary" id="tourNext">Next</button>
+  </div>
+</div>
 
 <script>
 const $ = s => document.querySelector(s);
@@ -621,8 +659,68 @@ async function load(){
   try{ const r=await fetch("/api/portfolio"); render(await r.json()); }
   catch(e){ toast("Failed to load"); }
   busy(false);
+  if(!localStorage.getItem("lens_tour_v1")) setTimeout(startTour, 600);
 }
 let _rT; window.addEventListener("resize",()=>{clearTimeout(_rT);_rT=setTimeout(drawScatter,80);});
+
+/* ---------- guided tour ---------- */
+const TOUR_STEPS=[
+  {title:"Welcome to Lens",body:"A 45-second tour of how this turns stakeholder interviews into a prioritized, savings-mapped portfolio. You can <b>Skip</b> anytime."},
+  {sel:"#kpis",title:"The headline number",body:"Net annual opportunity — <b>bottoms-up labor savings</b>, already <b>net</b> of an estimated build + run cost. The top-down spend opportunity is tracked separately and never blended into this number."},
+  {sel:"#ranked",card:true,title:"Prioritized portfolio",body:"Use cases ranked by a bounded RICE score. <b>Click any row to expand it</b> — you'll see which interviews raised it (provenance) and the full savings math."},
+  {sel:"#spendPanel",card:true,title:"Spend analysis — read this",body:"This is <b>top-down</b>: sized as your addressable spend × waste% × capture%, <b>not</b> from interview evidence. All spend pains are pooled into one line, flagged <i>pending audit</i>, and kept out of the headline. Treat it as directional until a real spend audit."},
+  {sel:"#scatterWrap",card:true,title:"Value × feasibility",body:"Where each use case lands. Top-right = quick wins (high value, high feasibility). The spend outlier is excluded so it doesn't distort the axes."},
+  {sel:"#mergesPanel",card:true,title:"Overlap resolved",body:"The de-duplication engine: the same problem raised in different departments is merged into one use case, so savings are <b>never double-counted</b> and cross-functional reach becomes a priority signal."},
+  {sel:"#gatedPanel",card:true,title:"The gate",body:"No savings hypothesis = cannot be prioritized. Things like “we just need more headcount” land here, on purpose."},
+  {sel:"#upBtn",card:true,title:"Upload your own interviews",body:"Drop in your own <code>.txt</code>/<code>.docx</code>/<code>.csv</code> files (or a folder) and it runs a fresh live analysis. <b>Clear all</b> empties the system first."},
+  {sel:"#orgHead",card:true,title:"Organization data — read this",body:"Headcount drives <b>nothing</b> in labor savings (those are per-function, per-task). It's only a fallback software-spend proxy. <b>Addressable discretionary spend</b> = software, cloud, discretionary vendors — <b>not</b> total opex / SG&A / R&D, which would massively overstate the spend opportunity. This sizes only the spend track. “Research from web” can estimate these for you to confirm."},
+  {sel:".dl",card:true,title:"Take it as data",body:"Download the whole portfolio as CSV or JSON to drop into your own model."},
+  {title:"That's it",body:"Re-open this anytime with the <b>? Tour</b> button up top. Now go explore — click a use case row to see the provenance and savings breakdown."},
+];
+let TOUR=[], tourI=0;
+function tourResolve(st){ if(!st.sel) return null; let e=document.querySelector(st.sel); if(e&&st.card) e=e.closest(".card")||e; return e; }
+function placeTour(){
+  const st=TOUR[tourI], spot=$("#tourSpot"), bub=$("#tourBubble");
+  const el=tourResolve(st);
+  if(!el){ spot.classList.remove("show"); bub.style.left="50%"; bub.style.top="50%"; bub.style.transform="translate(-50%,-50%)"; return; }
+  bub.style.transform="";
+  const pad=8, r=el.getBoundingClientRect();
+  spot.classList.add("show");
+  spot.style.top=(r.top-pad)+"px"; spot.style.left=(r.left-pad)+"px";
+  spot.style.width=(r.width+pad*2)+"px"; spot.style.height=(r.height+pad*2)+"px";
+  const bw=bub.offsetWidth||330, bh=bub.offsetHeight||170, vw=innerWidth, vh=innerHeight, gap=14;
+  let top=r.bottom+gap; if(top+bh>vh-10) top=r.top-gap-bh; if(top<10) top=10;
+  let left=Math.min(Math.max(10,r.left), vw-bw-10);
+  bub.style.left=left+"px"; bub.style.top=top+"px";
+}
+function showTour(i){
+  tourI=i; const st=TOUR[i];
+  $("#tourTitle").innerHTML=st.title; $("#tourBody").innerHTML=st.body;
+  $("#tourStep").textContent=`${i+1} / ${TOUR.length}`;
+  $("#tourBack").style.visibility=i===0?"hidden":"visible";
+  $("#tourNext").textContent=i===TOUR.length-1?"Done":"Next";
+  $("#tourBubble").classList.add("show");
+  const el=tourResolve(st);
+  if(el) el.scrollIntoView({behavior:"smooth",block:"center"});
+  setTimeout(placeTour, el?320:0);
+}
+function startTour(){
+  TOUR=TOUR_STEPS.filter(s=>{ if(!s.sel) return true; const e=document.querySelector(s.sel); return e && e.offsetParent!==null; });
+  if(!TOUR.length) return;
+  showTour(0);
+}
+function endTour(){
+  $("#tourSpot").classList.remove("show"); $("#tourBubble").classList.remove("show");
+  localStorage.setItem("lens_tour_v1","1");
+}
+$("#tourNext").onclick=()=>{ tourI<TOUR.length-1 ? showTour(tourI+1) : endTour(); };
+$("#tourBack").onclick=()=>{ if(tourI>0) showTour(tourI-1); };
+$("#tourSkip").onclick=endTour; $("#tourClose").onclick=endTour;
+$("#tourBtn").onclick=()=>{ localStorage.removeItem("lens_tour_v1"); startTour(); };
+let _tr; window.addEventListener("resize",()=>{ if($("#tourBubble").classList.contains("show")){clearTimeout(_tr);_tr=setTimeout(placeTour,80);} });
+window.addEventListener("scroll",()=>{ if($("#tourBubble").classList.contains("show")) placeTour(); }, true);
+document.addEventListener("keydown",e=>{ if(!$("#tourBubble").classList.contains("show")) return;
+  if(e.key==="Escape") endTour(); else if(e.key==="ArrowRight"||e.key==="Enter") $("#tourNext").click(); else if(e.key==="ArrowLeft") $("#tourBack").click(); });
 
 async function addInterview(){
   const notes=$("#notes").value.trim();
@@ -639,11 +737,12 @@ async function addInterview(){
   busy(false); btn.disabled=false; btn.innerHTML=o;
 }
 async function reset(){
-  busy(true,"Resetting…");
+  if(!confirm("Clear all interviews and the portfolio? This empties the system so you can upload your own set.")) return;
+  busy(true,"Clearing…");
   try{const r=await fetch("/api/reset",{method:"POST"});
     $("#orgName").dataset.filled=""; $("#orgNote").innerHTML=""; LAST_RESEARCH=null;
-    render(await r.json());toast("Reset to base interviews");}
-  catch(e){toast("Reset failed");}
+    render(await r.json());toast("Cleared · upload your own interviews to analyze");}
+  catch(e){toast("Clear failed");}
   busy(false);
 }
 
@@ -655,7 +754,7 @@ $("#example").onclick=()=>{
 };
 function spendRowHTML(label,amt){
   return `<div class="spend-row">
-    <input class="sl-label" placeholder="e.g. SaaS & software, Procurement" value="${(label||"").replace(/"/g,'&quot;')}">
+    <input class="sl-label" placeholder="e.g. SaaS & software, Cloud, Discretionary vendors" value="${(label||"").replace(/"/g,'&quot;')}">
     <input class="sl-amt" type="number" min="0" step="1000" placeholder="annual $" value="${amt!=null?Math.round(amt):''}">
     <button class="sl-del" type="button" title="remove">×</button></div>`;
 }
@@ -782,6 +881,7 @@ async function upload(){
   finally{status.classList.remove("show"); txt.innerHTML=""; setBar(0,false); btn.disabled=false; btn.innerHTML=o;}
 }
 $("#upBtn").onclick=upload;
+$("#upClear").onclick=reset;
 load();
 </script>
 </body>
