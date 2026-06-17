@@ -55,8 +55,12 @@ body{margin:0;background:var(--paper);color:var(--ink);font:450 14px/1.55 var(--
 .eyebrow{font-size:11px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--faint)}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) 348px;gap:24px;margin-top:22px;align-items:start}
 @media(max-width:1040px){.grid{grid-template-columns:1fr}}
-aside{position:sticky;top:84px;display:flex;flex-direction:column;gap:18px}
-@media(max-width:1040px){aside{position:static}}
+aside{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);
+  overflow-y:auto;overscroll-behavior:contain;padding-right:4px;
+  display:flex;flex-direction:column;gap:18px}
+aside::-webkit-scrollbar{width:8px}
+aside::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px}
+@media(max-width:1040px){aside{position:static;max-height:none;overflow:visible}}
 main{min-width:0;display:flex;flex-direction:column;gap:24px}
 
 /* ---------- KPIs ---------- */
@@ -196,6 +200,7 @@ button:active{transform:translateY(1px)}
 .btn-ghost:hover{background:var(--surface-2);border-color:var(--muted)}
 button:disabled{opacity:.55;cursor:wait}
 .hint{color:var(--muted);font-size:12px;margin:-2px 0 12px;line-height:1.45}
+#ivs{max-height:320px;overflow-y:auto;overscroll-behavior:contain}
 .iv{display:flex;align-items:center;gap:9px;padding:8px 0;font-size:12.5px;color:var(--ink-2)}
 .iv + .iv{border-top:1px solid var(--line)}
 .iv .id{font-family:var(--mono);font-size:11px;color:var(--accent-ink);background:var(--accent-soft);
