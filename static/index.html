@@ -373,7 +373,9 @@ a.dl button{width:100%}
 
       <section class="card" id="orgCard">
         <div class="hd"><h2>Organization <span class="hd-sub">sizes the spend track only</span></h2>
-          <button class="btn-ghost btn-sm" id="orgToggle">Re-size for another company</button></div>
+          <span style="display:flex;gap:6px;align-items:center">
+            <button class="btn-ghost btn-sm" id="orgInfo" title="How this works">&#9432; How it works</button>
+            <button class="btn-ghost btn-sm" id="orgToggle">Edit / re-size</button></span></div>
         <div class="bd" id="orgBody" style="display:none">
           <div class="info-note">These demo interviews reflect <b>Iovance's</b> org size. The <b>labor</b> opportunity is interview-bound — it does <b>not</b> scale with company size (a larger company would mean more interviews, not bigger numbers on these same ones). Changing the company only re-sizes the <b>top-down spend</b> track, and even that is a rough extrapolation, not directly proportional.</div>
           <p class="hint">Headcount is context only (it drives nothing in labor). Edit the addressable spend directly, or research from a company name. <span id="orgConf"></span></p>
@@ -448,6 +450,23 @@ a.dl button{width:100%}
       <li><b>The gate</b> catches clear non-addressable problems (headcount, capex, external timelines) but is not exhaustive.</li>
     </ul>
     <p class="hint" style="margin-bottom:0"><b>Bottom line.</b> This demonstrates the method and the working tool. Run on Iovance's actual stakeholder interviews, the structure holds and the numbers become the company's own.</p>
+  </div>
+</div>
+
+<div id="orgInfoModal" class="modal-wrap">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-x" id="orgInfoX" title="Close">&times;</button>
+    <h3>How the Organization sizing works</h3>
+    <p class="hint" style="margin-top:0"><b>Labor savings come from the interviews, not this panel.</b> Each use case's labor opportunity is computed from the time &times; frequency stakeholders actually reported. Those volumes already reflect the organization's real scale, so editing this panel does <b>not</b> change them. To estimate for a larger company, you'd feed in <i>its</i> interviews and the labor scales through the data itself.</p>
+    <p class="hint"><b>This panel sizes only the top-down spend-rationalization track:</b> recoverable spend = addressable discretionary spend &times; waste rate &times; capture rate.</p>
+    <p class="hint"><b>Headcount is context, not a lever.</b> It does not drive labor. Its one use is as a per-seat benchmark for software/SaaS.</p>
+    <p class="hint" style="margin-bottom:6px"><b>Which spend scales with headcount?</b></p>
+    <ul class="audit-list">
+      <li><b>Scales fairly linearly:</b> per-seat software/SaaS and collaboration tools (~$8&ndash;12K per employee/yr).</li>
+      <li><b>Scales loosely:</b> cloud infrastructure, discretionary vendors, professional services, contingent labor.</li>
+      <li><b>Does NOT scale this way (and is excluded):</b> manufacturing materials, COGS, R&amp;D / clinical-trial costs, and payroll &mdash; none are addressable by spend rationalization.</li>
+    </ul>
+    <p class="hint" style="margin-bottom:0"><b>So to model another company:</b> edit the addressable discretionary spend (or research it). The spend track resizes; the labor portfolio stays tied to the interviews.</p>
   </div>
 </div>
 
@@ -875,8 +894,12 @@ async function applyOrg(){
   }catch(e){toast("Apply failed");}
   busy(false);
 }
-function setOrgOpen(open){ $("#orgBody").style.display=open?"block":"none"; $("#orgToggle").textContent=open?"Hide":"Re-size for another company"; }
+function setOrgOpen(open){ $("#orgBody").style.display=open?"block":"none"; $("#orgToggle").textContent=open?"Hide":"Edit / re-size"; }
 $("#orgToggle").onclick=()=>setOrgOpen($("#orgBody").style.display==="none");
+function orgInfoModal(open){ $("#orgInfoModal").classList.toggle("show",open); }
+$("#orgInfo").onclick=()=>orgInfoModal(true);
+$("#orgInfoX").onclick=()=>orgInfoModal(false);
+$("#orgInfoModal").onclick=e=>{ if(e.target===$("#orgInfoModal")) orgInfoModal(false); };
 $("#research").onclick=research; $("#orgApply").onclick=applyOrg;
 $("#add").onclick=addInterview; $("#reset").onclick=reset;
 
@@ -960,7 +983,7 @@ function auditModal(open){ $("#auditModal").classList.toggle("show",open); }
 $("#dzMore").onclick=()=>auditModal(true);
 $("#auditX").onclick=()=>auditModal(false);
 $("#auditModal").onclick=e=>{ if(e.target===$("#auditModal")) auditModal(false); };
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") auditModal(false); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ auditModal(false); orgInfoModal(false); } });
 load();
 </script>
 </body>
